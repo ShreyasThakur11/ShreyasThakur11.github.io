@@ -47,21 +47,25 @@ body {
 
 nav {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding: 2rem 5%;
+  padding: 1.5rem 5%;
+  background: rgba(15, 23, 42, 0.8);
   backdrop-filter: blur(10px);
   position: sticky;
   top: 0;
   z-index: 100;
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .logo {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--primary-color);
   text-decoration: none;
-  letter-spacing: -0.05em;
+  font-family: 'Courier New', Courier, monospace;
+  margin-bottom: 1rem;
 }
 
 .nav-links {
@@ -109,33 +113,42 @@ main {
   padding: 0 5%;
   min-height: 80vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
 .hero {
-  max-width: 1200px;
+  max-width: 900px;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  /* Stacked layout */
+  justify-content: center;
   align-items: center;
-  gap: 4rem;
+  gap: 3rem;
   animation: fadeIn 1s ease-out;
   padding: 4rem 0;
+  text-align: center;
+  /* Center text */
 }
 
 .hero-content {
-  flex: 1;
+  flex: initial;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero-visual {
-  flex: 1;
+  flex: initial;
   display: flex;
   justify-content: center;
+  margin-top: 1rem;
 }
 
 h1 {
-  font-size: 3.5rem;
-  line-height: 1.1;
+  font-size: 3rem;
+  line-height: 1.2;
   margin-bottom: 1.5rem;
   background: linear-gradient(135deg, var(--text-color), var(--primary-color));
   -webkit-background-clip: text;
@@ -416,35 +429,53 @@ textarea:focus {
 
   .nav-links {
     gap: 1rem;
+    font-size: 0.9rem;
   }
 
   .hero {
-    flex-direction: column-reverse;
-    /* Visual first on mobile */
-    text-align: center;
     gap: 2rem;
-  }
-
-  .hero-visual {
-    margin-bottom: 2rem;
   }
 }
 
 /* --- New Section Styles --- */
 
+/* Sections Visibility (SPA) */
 .section {
   padding: 4rem 0;
   border-top: 1px solid var(--glass-border);
+  display: none;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.hero {
+  display: none;
+}
+
+.active-section {
+  animation: fadeIn 0.5s ease-out;
 }
 
 .section-title {
-  font-size: 2.5rem;
-  margin-bottom: 2.5rem;
-  background: linear-gradient(135deg, var(--text-color), var(--secondary-color));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size: 2rem;
   text-align: center;
+  margin-bottom: 3rem;
+  color: var(--primary-color);
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+  background: none;
+  -webkit-text-fill-color: var(--primary-color);
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: var(--secondary-color);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
 }
 
 /* Education / GPA */
@@ -503,72 +534,6 @@ textarea:focus {
 .gpa-scale {
   font-size: 0.9rem;
   color: #94a3b8;
-}
-
-/* Process Flow / Grid Layout */
-.experience-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.experience-card {
-  background: rgba(30, 41, 59, 0.4);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  padding: 2rem;
-  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-  position: relative;
-  overflow: hidden;
-}
-
-.experience-card:hover {
-  transform: translateY(-5px);
-  border-color: var(--primary-color);
-  box-shadow: 0 10px 30px -10px rgba(6, 182, 212, 0.3);
-}
-
-.experience-card h3 {
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-  font-size: 1.4rem;
-}
-
-.experience-card .company {
-  font-weight: 700;
-  color: var(--text-color);
-  margin-bottom: 0.25rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.experience-card .duration {
-  font-size: 0.85rem;
-  color: #94a3b8;
-  margin-bottom: 1.5rem;
-  font-family: monospace;
-  display: inline-block;
-  padding: 2px 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-}
-
-.experience-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: var(--primary-color);
-  opacity: 0.5;
-  transition: opacity 0.3s;
-}
-
-.experience-card:hover::before {
-  opacity: 1;
 }
 
 /* Certificates Grid */
@@ -654,19 +619,4 @@ textarea:focus {
     flex-direction: column;
     text-align: center;
   }
-}
-/* Sections Visibility (SPA) */
-.section {
-    padding: 4rem 0;
-    border-top: 1px solid var(--glass-border);
-    display: none;
-    animation: fadeIn 0.5s ease-out;
-}
-
-.hero {
-    display: none;
-}
-
-.active-section {
-    animation: fadeIn 0.5s ease-out;
 }
