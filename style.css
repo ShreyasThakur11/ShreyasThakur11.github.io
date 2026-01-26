@@ -674,3 +674,16 @@ textarea:focus {
     margin: 2rem 0;
 }
 .skills-text { text-align: center; color: var(--accent-color); font-weight: bold; }
+
+/* PDF Container */
+.pdf-container {
+    margin-top: 1rem;
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.certificate-card {
+    min-width: 300px;
+}
