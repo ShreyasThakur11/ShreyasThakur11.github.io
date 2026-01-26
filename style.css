@@ -500,118 +500,38 @@ textarea:focus {
   color: #94a3b8;
 }
 
-/* Process Flow / Timeline */
-.timeline {
-  position: relative;
-  max-width: 800px;
+/* Process Flow / Grid Layout */
+.experience-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 2rem 0;
 }
 
-/* Main Pipe */
-.timeline::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 20px;
-  width: 8px;
-  background: #334155;
-  border: 1px solid #475569;
-  box-shadow: inset 2px 0 5px rgba(0, 0, 0, 0.5);
-  z-index: 0;
-}
-
-.timeline-item {
-  position: relative;
-  margin-bottom: 4rem;
-  padding-left: 60px;
-  opacity: 0;
-  transform: translateX(-50px);
-  transition: all 0.5s ease;
-}
-
-/* Observer trigger class */
-.timeline-item.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Connector Pipe */
-.timeline-item::before {
-  content: '';
-  position: absolute;
-  left: 20px;
-  top: 25px;
-  width: 40px;
-  height: 8px;
-  background: #334155;
-  border: 1px solid #475569;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
-  z-index: -1;
-}
-
-/* Valve / Node */
-.timeline-dot {
-  position: absolute;
-  left: 9px;
-  top: 15px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #475569, #1e293b);
-  border: 2px solid var(--primary-color);
-  box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
-  z-index: 1;
-  transition: background-color 0.3s;
-}
-
-.timeline-item:hover .timeline-dot {
-  background: radial-gradient(circle at 30% 30%, var(--primary-color), #0e7490);
-  box-shadow: 0 0 20px var(--primary-color);
-}
-
-.timeline-content {
-  background: rgba(30, 41, 59, 0.7);
+.experience-card {
+  background: rgba(30, 41, 59, 0.4);
   border: 1px solid var(--glass-border);
-  /* Start normal */
-  border-left: 4px solid var(--primary-color);
-  border-radius: 4px;
-  padding: 1.5rem;
+  border-radius: 12px;
+  padding: 2rem;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
   position: relative;
-  transition: transform 0.3s, box-shadow 0.3s;
+  overflow: hidden;
 }
 
-/* Tank corners */
-.timeline-content::after {
-  content: '';
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  width: 20px;
-  height: 20px;
-  border-top: 2px solid var(--primary-color);
-  border-right: 2px solid var(--primary-color);
+.experience-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary-color);
+  box-shadow: 0 10px 30px -10px rgba(6, 182, 212, 0.3);
 }
 
-.timeline-content::before {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  left: -5px;
-  width: 20px;
-  height: 20px;
-  border-bottom: 2px solid var(--primary-color);
-  border-left: 2px solid var(--primary-color);
-}
-
-.timeline-content h3 {
+.experience-card h3 {
   color: var(--primary-color);
   margin-bottom: 0.5rem;
   font-size: 1.4rem;
 }
 
-.timeline-content .company {
+.experience-card .company {
   font-weight: 700;
   color: var(--text-color);
   margin-bottom: 0.25rem;
@@ -619,11 +539,31 @@ textarea:focus {
   letter-spacing: 1px;
 }
 
-.timeline-content .duration {
+.experience-card .duration {
   font-size: 0.85rem;
   color: #94a3b8;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-family: monospace;
+  display: inline-block;
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.experience-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--primary-color);
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.experience-card:hover::before {
+  opacity: 1;
 }
 
 /* Certificates Grid */

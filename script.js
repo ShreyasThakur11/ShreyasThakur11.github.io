@@ -7,8 +7,8 @@ let width, height;
 let particles = [];
 
 // Configuration
-const PARTICLE_COUNT = 60;
-const CONNECTION_DISTANCE = 150;
+const PARTICLE_COUNT = 40; // Reduced count
+const CONNECTION_DISTANCE = 120; // Reduced distance
 const MOLECULE_SIZE = 3;
 
 // Resize handling
@@ -27,10 +27,10 @@ class Particle {
     constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 1;
-        this.vy = (Math.random() - 0.5) * 1;
+        this.vx = (Math.random() - 0.5) * 0.5; // Slower movement
+        this.vy = (Math.random() - 0.5) * 0.5;
         this.size = Math.random() * MOLECULE_SIZE + 1;
-        this.color = `rgba(56, 189, 248, ${Math.random() * 0.5 + 0.2})`; // Primary color variant
+        this.color = `rgba(56, 189, 248, ${Math.random() * 0.2 + 0.1})`; // Much more faint
     }
 
     update() {
@@ -70,7 +70,7 @@ function animate() {
 
             if (distance < CONNECTION_DISTANCE) {
                 ctx.beginPath();
-                ctx.strokeStyle = `rgba(56, 189, 248, ${1 - distance / CONNECTION_DISTANCE})`; // Original blue for background
+                ctx.strokeStyle = `rgba(56, 189, 248, ${(1 - distance / CONNECTION_DISTANCE) * 0.15})`; // Very faint lines
                 ctx.lineWidth = 1;
                 ctx.moveTo(p.x, p.y);
                 ctx.lineTo(p2.x, p2.y);
