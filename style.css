@@ -686,6 +686,23 @@ textarea:focus {
   padding-top: 0.5rem;
 }
 
+.view-cert {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  border: 1px solid var(--primary-color);
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.view-cert:hover {
+  background: var(--primary-color);
+  color: #0f172a;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 600px) {
   .education-card {
