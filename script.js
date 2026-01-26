@@ -106,3 +106,46 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.timeline-item, .card').forEach(el => {
     observer.observe(el);
 });
+
+// Tab Navigation Logic
+const navBtns = document.querySelectorAll('.nav-btn');
+const sections = document.querySelectorAll('section');
+
+function switchTab(targetId) {
+    // Hide all sections
+    sections.forEach(sec => {
+        sec.style.display = 'none';
+        sec.classList.remove('active-section');
+    });
+
+    // Remove active class from navs
+    navBtns.forEach(btn => btn.classList.remove('active'));
+
+    // Show target section
+    const targetSection = document.getElementById(targetId);
+    if (targetSection) {
+        targetSection.style.display = 'block'; // Or flex/grid depending on section
+        targetSection.classList.add('active-section');
+
+        // Use flex for home/hero to maintain layout
+        if (targetId === 'home') {
+            targetSection.style.display = 'flex';
+        }
+    }
+
+    // Set active nav
+    const activeBtn = document.querySelector(`.nav-btn[data-target="${targetId}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+}
+
+// Event Listeners
+navBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = btn.getAttribute('data-target');
+        switchTab(target);
+    });
+});
+
+// Initialize Home
+switchTab('home');

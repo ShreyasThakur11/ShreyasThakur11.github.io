@@ -96,8 +96,13 @@ nav {
   color: var(--primary-color);
 }
 
-.nav-links a:hover::after {
+.nav-links a:hover::after,
+.nav-links a.active::after {
   transform: translateX(-50%) scale(1);
+}
+
+.nav-links a.active {
+  color: var(--primary-color);
 }
 
 main {
@@ -649,4 +654,19 @@ textarea:focus {
     flex-direction: column;
     text-align: center;
   }
+}
+/* Sections Visibility (SPA) */
+.section {
+    padding: 4rem 0;
+    border-top: 1px solid var(--glass-border);
+    display: none;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.hero {
+    display: none;
+}
+
+.active-section {
+    animation: fadeIn 0.5s ease-out;
 }
