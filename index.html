@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,26 +10,103 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <nav>
         <a href="index.html" class="logo">Shreyas</a>
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="contact.html">Contact</a>
+            <a href="#education">Education</a>
+            <a href="#experience">Experience</a>
+            <a href="#certificates">Certificates</a>
+            <a href="contact.html">Comm Link</a>
         </div>
     </nav>
 
     <main>
         <section class="hero">
-            <h1>Hello, I'm <br> Shreyas Thakur</h1>
-            <p class="subtitle">I craft digital experiences with a focus on aesthetics and performance.</p>
-            <a href="contact.html" class="cta-button">Get in Touch</a>
-            
-            <div class="card" style="margin-top: 4rem;">
-                <h3>Project Showcase</h3>
-                <p style="color: #cbd5e1; margin-top: 0.5rem;">Explore my latest work and contributions on GitHub.</p>
+            <div class="hero-content">
+                <h1>Chemistry in <br> <span class="typing-name">Digital Form_</span></h1>
+                <p class="subtitle">Designing process-perfect digital experiences with the precision of a chemical
+                    engineer.</p>
+                <a href="contact.html" class="cta-button">Initiate Reaction</a>
+            </div>
+
+            <div class="hero-visual">
+                <div class="element-card shimmer">
+                    <span class="atomic-number">11</span>
+                    <h2 class="symbol">St</h2>
+                    <p class="element-name">Shreyas Thakur</p>
+                    <p class="atomic-mass">22.989769</p>
+                    <div class="electron-config">
+                        <span>[Ne] 3s¹</span>
+                        <span class="category">Tech-Alchemist</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="section">
+            <h2 class="section-title">Education</h2>
+            <div class="education-card card">
+                <div class="edu-details">
+                    <h3>Bachelor of Chemical Engineering</h3>
+                    <p class="institution">Institute of Chemical Technology, Mumbai</p>
+                    <p class="year">Graduated</p>
+                </div>
+                <div class="gpa-display">
+                    <span class="gpa-label">GPA</span>
+                    <span class="gpa-score">6.6</span>
+                    <span class="gpa-scale">/ 10</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience / Internships Section -->
+        <section id="experience" class="section">
+            <h2 class="section-title">Internships & Experience</h2>
+            <div class="timeline">
+                <!-- Timeline Item 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content card">
+                        <h3>In-Plant Trainee</h3>
+                        <p class="company">Epigral Ltd., Dahej, Gujarat</p>
+                        <p class="duration">Jun 2024 – Aug 2024</p>
+                        <p class="description">
+                            • Analyzed catalyst selectivity & deactivation in H₂O₂ unit.<br>
+                            • Investigated burner failures in HCl synthesis units.<br>
+                            • Performed moisture-reduction study in Epichlorohydrin purification.<br>
+                            • Hands-on exposure to continuous plant operations via DCS.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certificates Section -->
+        <section id="certificates" class="section">
+            <h2 class="section-title">Certifications</h2>
+            <div class="certificate-grid">
+                <!-- Certificate 1 -->
+                <div class="certificate-card card">
+                    <div class="cert-icon">🛢️</div>
+                    <h3>Petroleum Refinery Engineering</h3>
+                    <p class="issuer">Indian Institute of Chemical Engineers (IIChE)</p>
+                    <span class="cert-date">Feb 2022 - April 2022</span>
+                </div>
+                <!-- Certificate 2 -->
+                <div class="certificate-card card">
+                    <div class="cert-icon">🌱</div>
+                    <h3>Industrial Environment Pollution Management</h3>
+                    <p class="issuer">Terra-green Technologies Pvt. Ltd.</p>
+                    <span class="cert-date">Jun 2022 – Jul 2022</span>
+                </div>
             </div>
         </section>
     </main>
+    <script src="script.js"></script>
 </body>
+
 </html>

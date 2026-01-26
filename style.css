@@ -1,11 +1,15 @@
 :root {
   --bg-color: #0f172a;
   --text-color: #f8fafc;
-  --primary-color: #38bdf8;
-  --secondary-color: #818cf8;
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --card-bg: rgba(30, 41, 59, 0.5);
+  --primary-color: #06b6d4;
+  /* Cyan - typical chemical liquid color */
+  --secondary-color: #8b5cf6;
+  /* Violet - reaction color */
+  --accent-color: #10b981;
+  /* Emerald - successful reaction */
+  --glass-bg: rgba(15, 23, 42, 0.6);
+  --glass-border: rgba(56, 189, 248, 0.2);
+  --card-bg: rgba(30, 41, 59, 0.4);
 }
 
 * {
@@ -22,20 +26,14 @@ body {
   overflow-x: hidden;
 }
 
-/* Background Animation */
-body::before {
-  content: '';
+#bg-canvas {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background:
-    radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.1) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(129, 140, 248, 0.1) 0%, transparent 40%);
   z-index: -1;
-  animation: moveBackground 20s infinite alternate;
+  pointer-events: none;
 }
+
 
 @keyframes moveBackground {
   0% {
@@ -77,17 +75,21 @@ nav {
   font-weight: 500;
   transition: color 0.3s;
   position: relative;
+  padding: 0.5rem 0;
 }
 
 .nav-links a::after {
   content: '';
   position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -4px;
-  left: 0;
+  width: 6px;
+  height: 6px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
   background-color: var(--primary-color);
-  transition: width 0.3s;
+  border-radius: 50%;
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 0 8px var(--primary-color);
 }
 
 .nav-links a:hover {
@@ -95,7 +97,7 @@ nav {
 }
 
 .nav-links a:hover::after {
-  width: 100%;
+  transform: translateX(-50%) scale(1);
 }
 
 main {
@@ -106,22 +108,45 @@ main {
 }
 
 .hero {
-  max-width: 800px;
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4rem;
   animation: fadeIn 1s ease-out;
+  padding: 4rem 0;
+}
+
+.hero-content {
+  flex: 1;
+}
+
+.hero-visual {
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
 h1 {
-  font-size: 4rem;
+  font-size: 3.5rem;
   line-height: 1.1;
   margin-bottom: 1.5rem;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  background: linear-gradient(135deg, var(--text-color), var(--primary-color));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+.typing-name {
+  display: inline-block;
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--primary-color);
+  -webkit-text-fill-color: var(--primary-color);
+}
+
 p.subtitle {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: #94a3b8;
   margin-bottom: 2.5rem;
   max-width: 600px;
@@ -130,19 +155,108 @@ p.subtitle {
 .cta-button {
   display: inline-block;
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: #fff;
+  background: transparent;
+  color: var(--primary-color);
   text-decoration: none;
-  border-radius: 50px;
   font-weight: 600;
-  transition: transform 0.3s, box-shadow 0.3s;
-  border: none;
-  cursor: pointer;
+  transition: all 0.3s;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  /* Techy look */
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: var(--primary-color);
+  transition: width 0.3s ease;
+  z-index: -1;
 }
 
 .cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px -10px var(--primary-color);
+  color: #000;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+}
+
+.cta-button:hover::before {
+  width: 100%;
+}
+
+/* Element Card */
+.element-card {
+  width: 280px;
+  height: 360px;
+  background: rgba(30, 41, 59, 0.6);
+  border: 2px solid var(--primary-color);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 30px rgba(6, 182, 212, 0.15);
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.element-card:hover {
+  transform: rotateY(10deg) rotateX(5deg) scale(1.02);
+  box-shadow: 0 0 50px rgba(6, 182, 212, 0.3);
+}
+
+.atomic-number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-color);
+  align-self: flex-start;
+}
+
+.symbol {
+  font-size: 5rem;
+  font-weight: 800;
+  background: linear-gradient(to bottom right, #fff, var(--primary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+  margin: 1rem 0;
+  align-self: center;
+}
+
+.element-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  align-self: center;
+  margin-bottom: 0.25rem;
+}
+
+.atomic-mass {
+  font-size: 1rem;
+  color: #94a3b8;
+  align-self: center;
+  margin-bottom: auto;
+}
+
+.electron-config {
+  display: flex;
+  justify-content: space-between;
+  font-family: monospace;
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--glass-border);
+}
+
+.category {
+  color: var(--secondary-color);
 }
 
 /* Glassmorphism Cards */
@@ -154,48 +268,112 @@ p.subtitle {
   padding: 2rem;
   margin: 2rem 0;
   transition: transform 0.3s;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .card:hover {
   transform: translateY(-5px);
   border-color: var(--primary-color);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
 }
 
-/* Contact Form */
+/* Benzene Ring / Hexagon Shape */
+.benzene-ring {
+  width: 100px;
+  height: 100px;
+  background: var(--glass-bg);
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  /* Borders don't work well with clip-path, use pseudo-element if needed for border */
+  position: relative;
+}
+
+.benzene-ring::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: var(--bg-color);
+  /* fake border effect */
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  z-index: -1;
+}
+
+/* Contact Form - Reaction Vessel */
 .contact-container {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
+  position: relative;
+  padding: 2rem;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Decorative 'Hoses' for contact form */
+.contact-container::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 20%;
+  width: 60%;
+  height: 20px;
+  background: repeating-linear-gradient(45deg,
+      #334155,
+      #334155 10px,
+      #1e293b 10px,
+      #1e293b 20px);
+  border-radius: 10px 10px 0 0;
+  opacity: 0.5;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  position: relative;
 }
 
 label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #cbd5e1;
+  color: var(--primary-color);
+  font-family: monospace;
+  /* Lab label style */
+  font-size: 0.9rem;
+  letter-spacing: 1px;
 }
 
 input,
 textarea {
   width: 100%;
-  padding: 1rem;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid #475569;
+  border-bottom: 3px solid #475569;
+  /* Thick bottom like glassware base */
+  border-radius: 4px;
+  /* Slight rounding */
   color: #fff;
   font-family: inherit;
   font-size: 1rem;
-  transition: border-color 0.3s;
+  transition: all 0.3s ease;
 }
 
 input:focus,
 textarea:focus {
   outline: none;
   border-color: var(--primary-color);
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(6, 182, 212, 0.05);
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+}
+
+/* Placeholder animation or style could go here */
+::placeholder {
+  color: #64748b;
+  font-style: italic;
 }
 
 @keyframes fadeIn {
@@ -210,6 +388,22 @@ textarea:focus {
   }
 }
 
+@keyframes bubbling {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-20px) scale(0.5);
+    opacity: 0;
+  }
+}
+
 @media (max-width: 768px) {
   h1 {
     font-size: 2.5rem;
@@ -217,5 +411,285 @@ textarea:focus {
 
   .nav-links {
     gap: 1rem;
+  }
+
+  .hero {
+    flex-direction: column-reverse;
+    /* Visual first on mobile */
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .hero-visual {
+    margin-bottom: 2rem;
+  }
+}
+
+/* --- New Section Styles --- */
+
+.section {
+  padding: 4rem 0;
+  border-top: 1px solid var(--glass-border);
+}
+
+.section-title {
+  font-size: 2.5rem;
+  margin-bottom: 2.5rem;
+  background: linear-gradient(135deg, var(--text-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+}
+
+/* Education / GPA */
+.education-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.edu-details h3 {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.edu-details .institution {
+  font-size: 1.2rem;
+  color: var(--text-color);
+}
+
+.edu-details .year {
+  color: #94a3b8;
+  margin-top: 0.25rem;
+}
+
+.gpa-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--glass-bg);
+  padding: 1.5rem;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  justify-content: center;
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+}
+
+.gpa-label {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.gpa-score {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  line-height: 1;
+}
+
+.gpa-scale {
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+/* Process Flow / Timeline */
+.timeline {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+/* Main Pipe */
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 20px;
+  width: 8px;
+  background: #334155;
+  border: 1px solid #475569;
+  box-shadow: inset 2px 0 5px rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 4rem;
+  padding-left: 60px;
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 0.5s ease;
+}
+
+/* Observer trigger class */
+.timeline-item.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Connector Pipe */
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 25px;
+  width: 40px;
+  height: 8px;
+  background: #334155;
+  border: 1px solid #475569;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+/* Valve / Node */
+.timeline-dot {
+  position: absolute;
+  left: 9px;
+  top: 15px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #475569, #1e293b);
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+  z-index: 1;
+  transition: background-color 0.3s;
+}
+
+.timeline-item:hover .timeline-dot {
+  background: radial-gradient(circle at 30% 30%, var(--primary-color), #0e7490);
+  box-shadow: 0 0 20px var(--primary-color);
+}
+
+.timeline-content {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid var(--glass-border);
+  /* Start normal */
+  border-left: 4px solid var(--primary-color);
+  border-radius: 4px;
+  padding: 1.5rem;
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* Tank corners */
+.timeline-content::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid var(--primary-color);
+  border-right: 2px solid var(--primary-color);
+}
+
+.timeline-content::before {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: -5px;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid var(--primary-color);
+  border-left: 2px solid var(--primary-color);
+}
+
+.timeline-content h3 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-size: 1.4rem;
+}
+
+.timeline-content .company {
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.timeline-content .duration {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+  font-family: monospace;
+}
+
+/* Certificates Grid */
+.certificate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.certificate-card {
+  text-align: left;
+  /* Changed to left for technical doc feel */
+  transition: all 0.3s ease;
+  border-top: 4px solid var(--secondary-color);
+  background: rgba(30, 41, 59, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.certificate-card::before {
+  content: 'CERTIFIED';
+  position: absolute;
+  right: -20px;
+  top: 15px;
+  background: var(--secondary-color);
+  color: #fff;
+  font-size: 0.6rem;
+  padding: 2px 20px;
+  transform: rotate(45deg);
+  opacity: 0.8;
+}
+
+.cert-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+.certificate-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  font-family: monospace;
+}
+
+.certificate-card .issuer {
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.certificate-card .cert-date {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  display: block;
+  margin-top: 1rem;
+  border-top: 1px dashed var(--glass-border);
+  padding-top: 0.5rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .education-card {
+    flex-direction: column;
+    text-align: center;
   }
 }
