@@ -620,3 +620,57 @@ textarea:focus {
     text-align: center;
   }
 }
+/* Resume Section specific */
+.resume-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.resume-block {
+    margin-bottom: 2rem;
+}
+
+.resume-block h3 {
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.resume-item {
+    margin-bottom: 1.5rem;
+}
+
+.resume-item h4 {
+    color: var(--text-color);
+    font-size: 1.1rem;
+}
+
+.resume-item .company {
+    color: #94a3b8;
+    font-family: monospace;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.resume-list {
+    padding-left: 1.5rem;
+    list-style-type: square;
+    color: #cbd5e1;
+}
+
+.resume-list li {
+    margin-bottom: 0.5rem;
+}
+
+.resume-divider {
+    border: 0;
+    height: 1px;
+    background: var(--glass-border);
+    margin: 2rem 0;
+}
+.skills-text { text-align: center; color: var(--accent-color); font-weight: bold; }
