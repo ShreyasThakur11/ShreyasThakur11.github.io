@@ -27,7 +27,7 @@
     <main class="project-container">
         <header class="project-header">
             <h1>Double Pipe Heat Exchanger Design</h1>
-            <p>Iterative design tool for calculating area, length, and pressure drops.</p>
+            <p>Advanced iterative design tool with standard pipe optimization.</p>
         </header>
 
         <div class="calc-grid">
@@ -36,118 +36,153 @@
 
                 <div class="input-group">
                     <h3><span class="icon">🔥</span> Hot Fluid</h3>
+                    <div class="row">
+                        <label>Select Fluid
+                            <select id="hot_fluid_select" onchange="autoFillProps('hot', this.value)">
+                                <option value="user_defined">User Defined</option>
+                                <option value="water">Water</option>
+                                <option value="air">Air</option>
+                                <option value="engine_oil">Engine Oil</option>
+                                <option value="kerosene">Kerosene</option>
+                                <option value="benzene">Benzene</option>
+                                <option value="ethanol">Ethanol</option>
+                            </select>
+                        </label>
+                    </div>
                     <label>Mass Flow Rate (kg/s) <input type="number" step="any" name="m_h"
                             placeholder="Optional if temps known"></label>
                     <label>Inlet Temp (°C) <input type="number" step="any" name="T_h_in" required></label>
                     <label>Outlet Temp (°C) <input type="number" step="any" name="T_h_out"
                             placeholder="Optional if Cold Out is known"></label>
-                    <label>Specific Heat (kJ/kg.K) <input type="number" step="any" name="Cp_h" required></label>
-                    <label>Density (kg/m³) <input type="number" step="any" name="rho_h" required></label>
-                    <label>Viscosity (Pa.s) <input type="number" step="any" name="mu_h" required></label>
-                    <label>Thermal Cond. (W/m.K) <input type="number" step="any" name="k_h" required></label>
+                    <label>Specific Heat (kJ/kg.K) <input type="number" step="any" name="Cp_h" id="h_cp"
+                            required></label>
+                    <label>Density (kg/m³) <input type="number" step="any" name="rho_h" id="h_rho" required></label>
+                    <label>Viscosity (Pa.s) <input type="number" step="any" name="mu_h" id="h_mu" required></label>
+                    <label>Thermal Cond. (W/m.K) <input type="number" step="any" name="k_h" id="h_k" required></label>
                     <label>Fouling Factor <input type="number" step="any" name="Rf_h" value="0.0002"></label>
                 </div>
 
                 <div class="input-group">
                     <h3><span class="icon">❄️</span> Cold Fluid</h3>
+                    <div class="row">
+                        <label>Select Fluid
+                            <select id="cold_fluid_select" onchange="autoFillProps('cold', this.value)">
+                                <option value="user_defined">User Defined</option>
+                                <option value="water">Water</option>
+                                <option value="air">Air</option>
+                                <option value="engine_oil">Engine Oil</option>
+                                <option value="kerosene">Kerosene</option>
+                                <option value="benzene">Benzene</option>
+                                <option value="ethanol">Ethanol</option>
+                            </select>
+                        </label>
+                    </div>
                     <label>Mass Flow Rate (kg/s) <input type="number" step="any" name="m_c"
                             placeholder="Optional if temps known"></label>
                     <label>Inlet Temp (°C) <input type="number" step="any" name="T_c_in" required></label>
                     <label>Outlet Temp (°C) <input type="number" step="any" name="T_c_out"
                             placeholder="Optional if Hot Out is known"></label>
-                    <label>Specific Heat (kJ/kg.K) <input type="number" step="any" name="Cp_c" required></label>
-                    <label>Density (kg/m³) <input type="number" step="any" name="rho_c" required></label>
-                    <label>Viscosity (Pa.s) <input type="number" step="any" name="mu_c" required></label>
-                    <label>Thermal Cond. (W/m.K) <input type="number" step="any" name="k_c" required></label>
+                    <label>Specific Heat (kJ/kg.K) <input type="number" step="any" name="Cp_c" id="c_cp"
+                            required></label>
+                    <label>Density (kg/m³) <input type="number" step="any" name="rho_c" id="c_rho" required></label>
+                    <label>Viscosity (Pa.s) <input type="number" step="any" name="mu_c" id="c_mu" required></label>
+                    <label>Thermal Cond. (W/m.K) <input type="number" step="any" name="k_c" id="c_k" required></label>
                     <label>Fouling Factor <input type="number" step="any" name="Rf_c" value="0.0002"></label>
                 </div>
 
                 <div class="input-group full-width">
                     <h3><span class="icon">⚙️</span> Design Parameters</h3>
                     <div class="row">
-                        <label>Assumed U (W/m².K) <input type="number" step="any" name="U_assumed" value="300"
-                                required></label>
                         <label>Flow Arrangement
                             <select name="flow_type">
                                 <option value="1">Counter-Current</option>
                                 <option value="2">Co-Current</option>
                             </select>
                         </label>
-                    </div>
-                    <div class="row">
-                        <label>Outer Pipe DO (m) <input type="number" step="any" name="D_o" value="0.05"
-                                required></label>
-                        <label>Inner Pipe Size
-                            <select name="pipe_size_idx">
-                                <option value="1">19 mm OD</option>
-                                <option value="2" selected>25 mm OD</option>
-                                <option value="3">32 mm OD</option>
-                                <option value="4">38 mm OD</option>
-                            </select>
-                        </label>
-                    </div>
-                    <div class="row">
-                        <label>Max dP Inner (Pa) <input type="number" step="any" name="allowable_dp_inner"
-                                value="70000"></label>
-                        <label>Max dP Annulus (Pa) <input type="number" step="any" name="allowable_dp_ann"
+                        <label>Max dP (Pa) <input type="number" step="any" name="allowable_dp_inner"
                                 value="70000"></label>
                     </div>
                 </div>
 
-                <button type="submit" class="cta-button primary full-width">Calculate Design</button>
+                <button type="submit" class="cta-button primary full-width">Optimize Design</button>
             </form>
 
             <!-- OUTPUTS -->
             <div class="output-panel">
                 <div id="results" class="card result-card hidden">
-                    <h3>Results Summary</h3>
-                    <div class="result-grid">
-                        <div class="result-item">
-                            <span>Heat Duty (Q)</span>
-                            <strong id="res-Q">-</strong>
+                    <h3>Recommended Design</h3>
+
+                    <div class="highlight-box">
+                        <div class="rec-pipe">
+                            <span>Inner Pipe</span>
+                            <strong id="res-inner-pipe">-</strong>
                         </div>
-                        <div class="result-item">
-                            <span>Mass Flow (Hot)</span>
-                            <strong id="res-mh">-</strong>
-                        </div>
-                        <div class="result-item">
-                            <span>Mass Flow (Cold)</span>
-                            <strong id="res-mc">-</strong>
-                        </div>
-                        <div class="result-item">
-                            <span>Area Required</span>
-                            <strong id="res-Area">-</strong>
-                        </div>
-                        <div class="result-item">
-                            <span>Length Required</span>
-                            <strong id="res-Length">-</strong>
-                        </div>
-                        <div class="result-item">
-                            <span>LMTD</span>
-                            <strong id="res-LMTD">-</strong>
-                        </div>
-                        <div class="result-item">
-                            <span>Final U</span>
-                            <strong id="res-U">-</strong>
-                        </div>
-                        <div class="result-item">
-                            <span>Inner dP</span>
-                            <strong id="res-dP-in">-</strong>
-                        </div>
-                        <div class="result-item">
-                            <span>Annulus dP</span>
-                            <strong id="res-dP-out">-</strong>
+                        <div class="rec-x">x</div>
+                        <div class="rec-pipe">
+                            <span>Outer Pipe</span>
+                            <strong id="res-outer-pipe">-</strong>
                         </div>
                     </div>
 
-                    <div class="status-badges">
-                        <span id="u-status" class="badge">Checking U...</span>
-                        <span id="dp-status" class="badge">Checking dP...</span>
+                    <div class="result-grid">
+                        <div class="result-item"><span>Heat Duty (Q)</span><strong id="res-Q">-</strong></div>
+                        <div class="result-item"><span>Area Required</span><strong id="res-Area">-</strong></div>
+                        <div class="result-item"><span>Length</span><strong id="res-Length">-</strong></div>
+                        <div class="result-item"><span>LMTD</span><strong id="res-LMTD">-</strong></div>
+                        <div class="result-item"><span>Overall U</span><strong id="res-U">-</strong></div>
                     </div>
+
+                    <h4>Detailed Technical Report</h4>
+                    <table class="tech-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Inner Pipe</th>
+                                <th>Annulus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fluid</td>
+                                <td>Hot</td>
+                                <td>Cold</td>
+                            </tr> <!-- Assumption for now -->
+                            <tr>
+                                <td>Flow Rate (kg/s)</td>
+                                <td id="rep-mh">-</td>
+                                <td id="rep-mc">-</td>
+                            </tr>
+                            <tr>
+                                <td>Velocity (m/s)</td>
+                                <td id="rep-v-in">-</td>
+                                <td id="rep-v-out">-</td>
+                            </tr>
+                            <tr>
+                                <td>Reynolds No.</td>
+                                <td id="rep-re-in">-</td>
+                                <td id="rep-re-out">-</td>
+                            </tr>
+                            <tr>
+                                <td>Prandtl No.</td>
+                                <td id="rep-pr-in">-</td> // Not strictly calc in display but implies
+                                <td id="rep-pr-out">-</td>
+                            </tr>
+                            <tr>
+                                <td>HTC (h) (W/m²K)</td>
+                                <td id="rep-h-in">-</td>
+                                <td id="rep-h-out">-</td>
+                            </tr>
+                            <tr>
+                                <td>Pressure Drop (Pa)</td>
+                                <td id="rep-dp-in">-</td>
+                                <td id="rep-dp-out">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 <div class="card log-card">
-                    <h3>Iteration Logs</h3>
+                    <h3>Optimization Logs</h3>
                     <div id="logs" class="log-console">
                         <p class="placeholder">Waiting for calculation...</p>
                     </div>
@@ -158,47 +193,71 @@
 
     <script src="script.js"></script>
     <script>
+        // Auto-Fill Logic
+        function autoFillProps(side, fluid) {
+            const props = FLUID_PROPERTIES[fluid];
+            if (!props || fluid === 'user_defined') return;
+
+            const map = {
+                'hot': { rho: 'h_rho', mu: 'h_mu', cp: 'h_cp', k: 'h_k' },
+                'cold': { rho: 'c_rho', mu: 'c_mu', cp: 'c_cp', k: 'c_k' }
+            };
+
+            document.getElementById(map[side].rho).value = props.rho;
+            document.getElementById(map[side].mu).value = props.mu;
+            document.getElementById(map[side].cp).value = props.cp;
+            document.getElementById(map[side].k).value = props.k;
+        }
+
         document.getElementById('designForm').addEventListener('submit', function (e) {
             e.preventDefault();
-
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData.entries());
 
-            // Clear previous logs
             const logContainer = document.getElementById('logs');
             logContainer.innerHTML = '';
 
-            // Run Calculation
             const result = calculateDPHX(data);
 
-            // Show Results
             const resCard = document.getElementById('results');
             resCard.classList.remove('hidden');
 
             if (result.error) {
                 logContainer.innerHTML = `<p class="error">${result.error}</p>`;
+                if (result.logs) {
+                    result.logs.forEach(log => {
+                        const p = document.createElement('p');
+                        p.textContent = "> " + log;
+                        logContainer.appendChild(p);
+                    });
+                }
                 return;
             }
 
-            // Populate Results
-            document.getElementById('res-Q').textContent = (result.Q / 1000).toFixed(2) + " kW";
-            document.getElementById('res-mh').textContent = result.m_h_calc.toFixed(3) + " kg/s";
-            document.getElementById('res-mc').textContent = result.m_c_calc.toFixed(3) + " kg/s";
-            document.getElementById('res-Area').textContent = result.A_required.toFixed(2) + " m²";
-            document.getElementById('res-Length').textContent = result.L_required.toFixed(2) + " m";
-            document.getElementById('res-LMTD').textContent = result.LMTD.toFixed(2) + " °C";
-            document.getElementById('res-U').textContent = result.U_calculated.toFixed(1) + " W/m².K";
-            document.getElementById('res-dP-in').textContent = result.deltaP_inner.toFixed(0) + " Pa";
-            document.getElementById('res-dP-out').textContent = result.deltaP_annulus.toFixed(0) + " Pa";
+            const opt = result.opt;
 
-            // Status Badges
-            const uBadge = document.getElementById('u-status');
-            uBadge.textContent = result.U_valid ? "U Converged ✅" : "U Failed ❌";
-            uBadge.className = result.U_valid ? "badge success" : "badge error";
+            // Header
+            document.getElementById('res-inner-pipe').textContent = opt.inner_pipe.name;
+            document.getElementById('res-outer-pipe').textContent = opt.outer_pipe.name;
 
-            const dpBadge = document.getElementById('dp-status');
-            dpBadge.textContent = result.dp_valid ? "Pressure Drop OK ✅" : "Pressure Drop High ⚠️";
-            dpBadge.className = result.dp_valid ? "badge success" : "badge warning";
+            // Summary
+            document.getElementById('res-Q').textContent = (opt.Q / 1000).toFixed(2) + " kW";
+            document.getElementById('res-Area').textContent = opt.A_req.toFixed(2) + " m²";
+            document.getElementById('res-Length').textContent = opt.L_req.toFixed(2) + " m";
+            document.getElementById('res-LMTD').textContent = opt.LMTD.toFixed(2) + " °C";
+            document.getElementById('res-U').textContent = opt.U.toFixed(1) + " W/m²K";
+
+            // Detailed Report
+            document.getElementById('rep-mh').textContent = opt.m_h.toFixed(3);
+            document.getElementById('rep-mc').textContent = opt.m_c.toFixed(3);
+            document.getElementById('rep-v-in').textContent = opt.v_in.toFixed(2);
+            document.getElementById('rep-v-out').textContent = opt.v_ann.toFixed(2);
+            document.getElementById('rep-re-in').textContent = opt.Re_in.toFixed(0);
+            document.getElementById('rep-re-out').textContent = opt.Re_ann.toFixed(0);
+            document.getElementById('rep-h-in').textContent = opt.h_in.toFixed(0);
+            document.getElementById('rep-h-out').textContent = opt.h_ann.toFixed(0);
+            document.getElementById('rep-dp-in').textContent = opt.dP_in.toFixed(0);
+            document.getElementById('rep-dp-out').textContent = opt.dP_ann.toFixed(0);
 
             // Logs
             result.logs.forEach(log => {
