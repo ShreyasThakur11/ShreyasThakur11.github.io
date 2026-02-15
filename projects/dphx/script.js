@@ -2,14 +2,14 @@
 function calculateDPHX(data) {
     try {
         // Extract inputs
-        const m_h = parseFloat(data.m_h);
+        let m_h = parseFloat(data.m_h);
         let Cp_h = parseFloat(data.Cp_h);
         const T_h_in = parseFloat(data.T_h_in);
         const rho_h = parseFloat(data.rho_h);
         const mu_h = parseFloat(data.mu_h);
         const k_h = parseFloat(data.k_h);
 
-        const m_c = parseFloat(data.m_c);
+        let m_c = parseFloat(data.m_c);
         let Cp_c = parseFloat(data.Cp_c);
         const T_c_in = parseFloat(data.T_c_in);
         const rho_c = parseFloat(data.rho_c);
@@ -25,7 +25,7 @@ function calculateDPHX(data) {
         // Pipe selection
         let pipe_name, d_o, d_i;
         const pipe_choice = parseInt(data.pipe_choice || 1);
-        
+
         if (pipe_choice === 1) {
             const pipe_size_idx = parseInt(data.pipe_size_idx || 1);
             const standard_pipes_list = [
@@ -34,7 +34,7 @@ function calculateDPHX(data) {
                 { name: "32 mm", do: 0.032 },
                 { name: "38 mm", do: 0.038 }
             ];
-            
+
             if (pipe_size_idx >= 1 && pipe_size_idx <= standard_pipes_list.length) {
                 const pipe = standard_pipes_list[pipe_size_idx - 1];
                 pipe_name = pipe.name;
@@ -87,30 +87,56 @@ function calculateDPHX(data) {
 
         // --- Logic Start ---
 
-        // Error checking
-        if (T_h_out === -1 && T_c_out === -1) {
-            return { error: "Both outlet temperatures cannot be unknown. Provide at least one." };
+        // Error checking for missing inputs
+        if (isNaN(m_h) && isNaN(m_c)) {
+            return { error: "At least one mass flow rate must be provided." };
         }
 
-        // Convert Cp from kJ to J (assuming input in kJ/kgK based on python script)
+        // Convert Cp from kJ to J
         Cp_h *= 1000;
         Cp_c *= 1000;
 
-        // Heat duty calculation
+        // Smart Calculation of Unknowns
         let Q;
-        if (T_h_out === -1) {
-            Q = m_c * Cp_c * (T_c_out - T_c_in);
-            T_h_out = T_h_in - Q / (m_h * Cp_h);
-        } else if (T_c_out === -1) {
-            Q = m_h * Cp_h * (T_h_in - T_h_out);
-            T_c_out = T_c_in + Q / (m_c * Cp_c);
-        } else {
-            const Qh = m_h * Cp_h * (T_h_in - T_h_out);
-            const Qc = m_c * Cp_c * (T_c_out - T_c_in);
-            if (Math.abs(Qh - Qc) > 0.05 * Qh) {
-                return { error: "Energy balance not satisfied (>5% difference). Check input temperatures or flow rates." };
+
+        // CASE 1: Solve for Unknown Mass Flow Rate
+        if (isNaN(m_h) || isNaN(m_c)) {
+            // To calculate a mass flow, we need ALL 4 temperatures
+            if (T_h_out === -1 || T_c_out === -1) {
+                return { error: "To calculate an unknown mass flow rate, ALL inlet and outlet temperatures must be provided." };
             }
-            Q = Qh;
+
+            if (isNaN(m_h)) {
+                // Calculate Q from Cold side
+                Q = m_c * Cp_c * (T_c_out - T_c_in);
+                // Calculate m_h
+                // Q = m_h * Cp_h * (T_h_in - T_h_out)
+                m_h = Q / (Cp_h * (T_h_in - T_h_out));
+            } else { // m_c is NaN
+                // Calculate Q from Hot side
+                Q = m_h * Cp_h * (T_h_in - T_h_out);
+                // Calculate m_c
+                // Q = m_c * Cp_c * (T_c_out - T_c_in)
+                m_c = Q / (Cp_c * (T_c_out - T_c_in));
+            }
+
+        } else {
+            // CASE 2: Both Mass Flows Known (Standard Case)
+            // Heat duty calculation
+            if (T_h_out === -1) {
+                Q = m_c * Cp_c * (T_c_out - T_c_in);
+                T_h_out = T_h_in - Q / (m_h * Cp_h);
+            } else if (T_c_out === -1) {
+                Q = m_h * Cp_h * (T_h_in - T_h_out);
+                T_c_out = T_c_in + Q / (m_c * Cp_c);
+            } else {
+                const Qh = m_h * Cp_h * (T_h_in - T_h_out);
+                const Qc = m_c * Cp_c * (T_c_out - T_c_in);
+                if (Math.abs(Qh - Qc) > 0.05 * Qh) {
+                    return { error: "Energy balance not satisfied (>5% difference). Check input temperatures or flow rates." };
+                }
+                Q = Qh;
+            }
         }
 
         // Temperature feasibility check
@@ -138,11 +164,11 @@ function calculateDPHX(data) {
 
         let LMTD;
         if (deltaT1 <= 0 || deltaT2 <= 0 || deltaT1 === deltaT2) {
-             if (Math.abs(deltaT1 - deltaT2) < 1e-5) {
-                 LMTD = deltaT1;
-             } else {
-                 return { error: "Invalid temperature difference for LMTD calculation." };
-             }
+            if (Math.abs(deltaT1 - deltaT2) < 1e-5) {
+                LMTD = deltaT1;
+            } else {
+                return { error: "Invalid temperature difference for LMTD calculation." };
+            }
         } else {
             LMTD = (deltaT1 - deltaT2) / Math.log(deltaT1 / deltaT2);
         }
@@ -167,7 +193,7 @@ function calculateDPHX(data) {
         let h_inner = 0, h_annulus = 0, U_calculated = 0;
         let v_inner = 0, v_annulus = 0;
         let deltaP_inner = 0, deltaP_ann = 0;
-        
+
         const logs = [];
 
         while (!U_valid && iteration <= max_iterations) {
@@ -194,11 +220,11 @@ function calculateDPHX(data) {
             h_inner = Nu_inner * k_h / d_i;
             h_annulus = Nu_annulus * k_c / (D_o - d_o);
 
-            U_calculated = 1 / ((1/h_inner) + Rf_h + Rf_c + (1/h_annulus));
+            U_calculated = 1 / ((1 / h_inner) + Rf_h + Rf_c + (1 / h_annulus));
 
             const difference = Math.abs(U_calculated - U) / U;
 
-            logs.push(`Iteration ${iteration}: Assumed U=${U.toFixed(1)}, Calculated U=${U_calculated.toFixed(1)}, Diff=${(difference*100).toFixed(1)}%`);
+            logs.push(`Iteration ${iteration}: Assumed U=${U.toFixed(1)}, Calculated U=${U_calculated.toFixed(1)}, Diff=${(difference * 100).toFixed(1)}%`);
 
             if (difference <= 0.2) {
                 U_valid = true;
@@ -279,6 +305,8 @@ function calculateDPHX(data) {
             U_assumed: U,
             deltaP_inner: deltaP_inner,
             deltaP_annulus: deltaP_ann,
+            m_h_calc: m_h,
+            m_c_calc: m_c,
             logs: logs,
             U_valid: U_valid,
             dp_valid: dp_valid

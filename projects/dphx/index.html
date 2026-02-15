@@ -36,7 +36,8 @@
 
                 <div class="input-group">
                     <h3><span class="icon">🔥</span> Hot Fluid</h3>
-                    <label>Mass Flow Rate (kg/s) <input type="number" step="any" name="m_h" required></label>
+                    <label>Mass Flow Rate (kg/s) <input type="number" step="any" name="m_h"
+                            placeholder="Optional if temps known"></label>
                     <label>Inlet Temp (°C) <input type="number" step="any" name="T_h_in" required></label>
                     <label>Outlet Temp (°C) <input type="number" step="any" name="T_h_out"
                             placeholder="Optional if Cold Out is known"></label>
@@ -49,7 +50,8 @@
 
                 <div class="input-group">
                     <h3><span class="icon">❄️</span> Cold Fluid</h3>
-                    <label>Mass Flow Rate (kg/s) <input type="number" step="any" name="m_c" required></label>
+                    <label>Mass Flow Rate (kg/s) <input type="number" step="any" name="m_c"
+                            placeholder="Optional if temps known"></label>
                     <label>Inlet Temp (°C) <input type="number" step="any" name="T_c_in" required></label>
                     <label>Outlet Temp (°C) <input type="number" step="any" name="T_c_out"
                             placeholder="Optional if Hot Out is known"></label>
@@ -103,6 +105,14 @@
                         <div class="result-item">
                             <span>Heat Duty (Q)</span>
                             <strong id="res-Q">-</strong>
+                        </div>
+                        <div class="result-item">
+                            <span>Mass Flow (Hot)</span>
+                            <strong id="res-mh">-</strong>
+                        </div>
+                        <div class="result-item">
+                            <span>Mass Flow (Cold)</span>
+                            <strong id="res-mc">-</strong>
                         </div>
                         <div class="result-item">
                             <span>Area Required</span>
@@ -172,6 +182,8 @@
 
             // Populate Results
             document.getElementById('res-Q').textContent = (result.Q / 1000).toFixed(2) + " kW";
+            document.getElementById('res-mh').textContent = result.m_h_calc.toFixed(3) + " kg/s";
+            document.getElementById('res-mc').textContent = result.m_c_calc.toFixed(3) + " kg/s";
             document.getElementById('res-Area').textContent = result.A_required.toFixed(2) + " m²";
             document.getElementById('res-Length').textContent = result.L_required.toFixed(2) + " m";
             document.getElementById('res-LMTD').textContent = result.LMTD.toFixed(2) + " °C";
