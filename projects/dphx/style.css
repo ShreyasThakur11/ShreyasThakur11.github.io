@@ -172,3 +172,68 @@
     color: #475569;
     font-style: italic;
 }
+
+/* Phase 2: Perfect Tool Styles */
+.highlight-box {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.rec-pipe {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rec-pipe span {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.rec-pipe strong {
+    font-size: 1.4rem;
+    color: #10b981;
+}
+
+.rec-x {
+    color: #64748b;
+    font-weight: bold;
+}
+
+.tech-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.tech-table th,
+.tech-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #334155;
+}
+
+.tech-table th {
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+.tech-table td:nth-child(1) {
+    color: #cbd5e1;
+}
+
+.tech-table td:nth-child(2),
+.tech-table td:nth-child(3) {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--primary-color);
+}
