@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUG Multicomponent Distillation | Shreyas Thakur</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../dphx/style.css">
+    <style>
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .comp-table th,
+        .comp-table td {
+            text-align: left;
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .comp-table input {
+            width: 80px;
+            padding: 0.3rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border);
+            color: var(--text-color);
+            border-radius: 4px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #ef4444;
+        }
+
+        .add-btn {
+            margin-top: 1rem;
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid #10b981;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="../../index.html" class="logo">Shreyas</a>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../index.html#projects" class="active">Projects</a>
+            <a href="../../contact.html">Comm Link</a>
+        </div>
+    </nav>
+
+    <main class="project-container">
+        <header class="project-header">
+            <div style="margin-bottom: 1rem; font-size: 0.9rem;">
+                <a href="../../index.html#projects" style="color: var(--secondary-color); text-decoration: none;">&larr;
+                    Back to Projects</a>
+            </div>
+            <h1>Multicomponent Distillation Design</h1>
+            <p>Fenske-Underwood-Gilliland (FUG) Shortcut Method</p>
+        </header>
+
+        <div class="calc-grid" style="grid-template-columns: 1fr 350px;">
+            <!-- INPUTS -->
+            <form id="fugForm" class="input-panel card">
+
+                <!-- General Specs -->
+                <div class="input-group full-width">
+                    <h3><span class="icon">⚙️</span> Feed & Operation</h3>
+                    <div class="row">
+                        <label>Feed Flow (kmol/h) <input type="number" step="any" name="F" value="100" required></label>
+                        <label>Feed Quality (q) <input type="number" step="any" name="q" value="1.0" required></label>
+                    </div>
+                    <div class="row">
+                        <label>Operating Reflux Factor (x Rmin) <input type="number" step="0.1" name="R_factor"
+                                value="1.2" required></label>
+                        <label>Pressure (atm) <input type="number" step="any" name="pressure" value="1.0"></label>
+                    </div>
+                </div>
+
+                <!-- Components -->
+                <div class="input-group full-width">
+                    <h3><span class="icon">🧪</span> Component Data</h3>
+                    <table class="comp-table" id="compTable">
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Mole Frac (z)</th>
+                                <th>Rel Volatility (α)</th>
+                                <th>Key?</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dynamic Rows -->
+                        </tbody>
+                    </table>
+                    <button type="button" class="add-btn" onclick="addComponent()">+ Add Component</button>
+                    <div style="margin-top:1rem; font-size:0.85rem; color:#94a3b8;">
+                        * Ensure Mole Fractions sum to 1.0. Alpha should be relative to Heavy Key (α ≥ 1).
+                    </div>
+                </div>
+
+                <!-- Splits -->
+                <div class="input-group full-width">
+                    <h3><span class="icon">🎯</span> Recovery Targets</h3>
+                    <div class="row">
+                        <label>LK Recovery in Dist. (Frac) <input type="number" step="0.001" name="recovery_LK"
+                                value="0.99" max="1"></label>
+                        <label>HK Recovery in Dist. (Frac) <input type="number" step="0.001" name="recovery_HK"
+                                value="0.01" max="1"></label>
+                    </div>
+                </div>
+
+                <button type="submit" class="cta-button primary full-width">Calculate Design</button>
+            </form>
+
+            <!-- OUTPUTS -->
+            <div class="output-panel">
+                <div id="results" class="card result-card hidden">
+                    <h3>Design Results</h3>
+
+                    <div class="result-grid">
+                        <div class="result-item"><span>Min Stages (Nmin)</span><strong id="res-Nmin">-</strong></div>
+                        <div class="result-item"><span>Min Reflux (Rmin)</span><strong id="res-Rmin">-</strong></div>
+                        <div class="result-item"><span>Theoretical Stages</span><strong id="res-Ntheo">-</strong></div>
+                        <div class="result-item"><span>Op. Reflux Ratio</span><strong id="res-Rop">-</strong></div>
+                    </div>
+
+                    <h4>Configuration</h4>
+                    <div class="result-grid" style="grid-template-columns: 1fr 1fr;">
+                        <div class="result-item"><span>Feed Stage</span><strong id="res-Feed">-</strong></div>
+                        <div class="result-item"><span>Height (m)</span><strong id="res-H">-</strong></div>
+                        <div class="result-item"><span>Rectifying Stages</span><strong id="res-Nr">-</strong></div>
+                        <div class="result-item"><span>Stripping Stages</span><strong id="res-Ns">-</strong></div>
+                    </div>
+
+                    <h4>Material Balance</h4>
+                    <table class="tech-table">
+                        <thead>
+                            <tr>
+                                <th>Comp</th>
+                                <th>Distillate (D)</th>
+                                <th>Bottoms (B)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="res-table-body">
+                            <!-- JS populated -->
+                        </tbody>
+                    </table>
+                    <div style="margin-top:1rem; text-align:right;">
+                        <span style="color:#cbd5e1; font-size:0.9rem;">Total D: <strong id="res-D-total"
+                                style="color:var(--primary-color)">-</strong></span><br>
+                        <span style="color:#cbd5e1; font-size:0.9rem;">Total B: <strong id="res-B-total"
+                                style="color:var(--primary-color)">-</strong></span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        const DEFAULTS = [
+            { name: "Propane", z: 0.20, alpha: 2.5, type: "LNK" },
+            { name: "i-Butane", z: 0.30, alpha: 1.5, type: "LK" },
+            { name: "n-Butane", z: 0.30, alpha: 1.0, type: "HK" },
+            { name: "n-Pentane", z: 0.20, alpha: 0.5, type: "HNK" }
+        ];
+
+        function renderTable() {
+            const tbody = document.querySelector('#compTable tbody');
+            tbody.innerHTML = '';
+            DEFAULTS.forEach((c, i) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><input type="text" name="name_${i}" value="${c.name}" style="width:100px;"></td>
+                    <td><input type="number" step="0.01" name="z_${i}" value="${c.z}"></td>
+                    <td><input type="number" step="0.01" name="alpha_${i}" value="${c.alpha}"></td>
+                    <td>
+                        <select name="type_${i}" style="width:70px; padding:0.2rem;">
+                            <option value="LNK" ${c.type == 'LNK' ? 'selected' : ''}>LNK</option>
+                            <option value="LK" ${c.type == 'LK' ? 'selected' : ''}>LK</option>
+                            <option value="HK" ${c.type == 'HK' ? 'selected' : ''}>HK</option>
+                            <option value="HNK" ${c.type == 'HNK' ? 'selected' : ''}>HNK</option>
+                        </select>
+                    </td>
+                    <td><button type="button" class="action-btn" onclick="removeComp(${i})">&times;</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function addComponent() {
+            DEFAULTS.push({ name: "New", z: 0.1, alpha: 1.0, type: "HNK" });
+            renderTable();
+        }
+
+        function removeComp(i) {
+            if (DEFAULTS.length <= 2) return;
+            DEFAULTS.splice(i, 1);
+            renderTable();
+        }
+
+        document.getElementById('fugForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+
+            // Construct Component List
+            const components = [];
+            const rows = document.querySelectorAll('#compTable tbody tr');
+            rows.forEach((r, i) => {
+                components.push({
+                    name: formData.get(`name_${i}`),
+                    z: parseFloat(formData.get(`z_${i}`)),
+                    alpha: parseFloat(formData.get(`alpha_${i}`)),
+                    type: formData.get(`type_${i}`)
+                });
+            });
+
+            // Check Sum z
+            const sumZ = components.reduce((a, b) => a + b.z, 0);
+            if (Math.abs(sumZ - 1.0) > 0.05) {
+                alert(`Warning: Mole fractions sum to ${sumZ.toFixed(2)}, not 1.0`);
+            }
+
+            const inputs = {
+                F: parseFloat(formData.get('F')),
+                q: parseFloat(formData.get('q')),
+                R_factor: parseFloat(formData.get('R_factor')),
+                pressure: parseFloat(formData.get('pressure')),
+                recovery_LK: parseFloat(formData.get('recovery_LK')),
+                recovery_HK: parseFloat(formData.get('recovery_HK')),
+                components: components
+            };
+
+            try {
+                const fug = new FUGDesign(inputs);
+
+                // Show Results
+                document.getElementById('results').classList.remove('hidden');
+
+                document.getElementById('res-Nmin').textContent = fug.results.N_min.toFixed(1);
+                document.getElementById('res-Rmin').textContent = fug.results.R_min.toFixed(2);
+                document.getElementById('res-Ntheo').textContent = fug.results.N_theo.toFixed(1);
+                document.getElementById('res-Rop').textContent = fug.results.R_op.toFixed(2);
+
+                document.getElementById('res-Feed').textContent = fug.results.FeedStage.toFixed(0);
+                document.getElementById('res-H').textContent = fug.results.Height.toFixed(1);
+                document.getElementById('res-Nr').textContent = fug.results.N_rect.toFixed(1);
+                document.getElementById('res-Ns').textContent = fug.results.N_strip.toFixed(1);
+
+                // Table
+                const tbody = document.getElementById('res-table-body');
+                tbody.innerHTML = '';
+                fug.components.forEach(c => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${c.name}</td>
+                        <td>${c.d.toFixed(2)} (${(c.xD * 100).toFixed(1)}%)</td>
+                        <td>${c.b.toFixed(2)} (${(c.xB * 100).toFixed(1)}%)</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                document.getElementById('res-D-total').textContent = fug.D.toFixed(1);
+                document.getElementById('res-B-total').textContent = fug.B.toFixed(1);
+
+            } catch (err) {
+                console.error(err);
+                alert("Calculation Error: " + err.message);
+            }
+        });
+
+        // Init
+        renderTable();
+    </script>
+</body>
+
+</html>
