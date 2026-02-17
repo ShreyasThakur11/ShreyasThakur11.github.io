@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>McCabe-Thiele Distillation Design | Shreyas Thakur</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../dphx/style.css">
+    <!-- Chart.js for Plotting -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            height: 500px;
+            margin-bottom: 2rem;
+        }
+
+        .result-group {
+            background: rgba(30, 41, 59, 0.4);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="../../index.html" class="logo">Shreyas</a>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../index.html#projects" class="active">Projects</a>
+            <a href="../../contact.html">Comm Link</a>
+        </div>
+    </nav>
+
+    <main class="project-container">
+        <header class="project-header">
+            <div style="margin-bottom: 1rem; font-size: 0.9rem;">
+                <a href="../../index.html#projects" style="color: var(--secondary-color); text-decoration: none;">&larr;
+                    Back to Projects</a>
+            </div>
+            <h1>Distillation Tower Design</h1>
+            <p>Binary Fractionation using McCabe-Thiele Method</p>
+        </header>
+
+        <div class="calc-grid" style="grid-template-columns: 350px 1fr;">
+            <!-- INPUTS -->
+            <form id="distForm" class="input-panel card">
+
+                <!-- Feed Data -->
+                <div class="input-group full-width">
+                    <h3><span class="icon">🧪</span> Feed Specifications</h3>
+                    <div class="row">
+                        <label>Flow (kmol/h) <input type="number" step="any" name="F" value="100" required></label>
+                        <label>Feed Comp (xF) <input type="number" step="0.01" name="xF" value="0.5" max="1" min="0"
+                                required></label>
+                    </div>
+                    <div class="row">
+                        <label title="q=1 (Sat Liq), q=0 (Sat Vap)">Thermal State (q) <input type="number" step="any"
+                                name="q" value="1.0" required></label>
+                        <label>Rel. Volatility (α) <input type="number" step="any" name="alpha" value="2.5"
+                                required></label>
+                    </div>
+                </div>
+
+                <!-- Product Specs -->
+                <div class="input-group full-width">
+                    <h3><span class="icon">🎯</span> Product Targets</h3>
+                    <div class="row">
+                        <label>Distillate (xD) <input type="number" step="0.001" name="xD" value="0.95" max="1"
+                                required></label>
+                        <label>Bottoms (xB) <input type="number" step="0.001" name="xB" value="0.05" min="0"
+                                required></label>
+                    </div>
+                    <label>Reflux Ratio (R) <input type="number" step="any" name="R" placeholder="Leave empty for Auto"
+                            id="R_input"></label>
+                </div>
+
+                <!-- Mechanical -->
+                <div class="input-group full-width">
+                    <h3><span class="icon">🏗️</span> Column Sizing</h3>
+                    <div class="row">
+                        <label>Tray Eff. (0-1) <input type="number" step="0.01" name="efficiency" value="0.7"></label>
+                        <label>Tray Spacing (m) <input type="number" step="0.1" name="tray_spacing" value="0.6"></label>
+                    </div>
+                    <label>Pressure (atm) <input type="number" step="any" name="pressure" value="1.0"></label>
+                </div>
+
+                <button type="submit" class="cta-button primary full-width">Run Simulation</button>
+            </form>
+
+            <!-- OUTPUTS -->
+            <div class="output-panel">
+                <!-- CHART -->
+                <div class="chart-container">
+                    <canvas id="mccabeChart"></canvas>
+                </div>
+
+                <!-- RESULTS -->
+                <div id="results" class="card result-card hidden">
+                    <h3>Design Results</h3>
+
+                    <div class="result-grid" style="grid-template-columns: repeat(4, 1fr);">
+                        <div class="result-item"><span>Theoretical Stages</span><strong id="res-Ntheo">-</strong></div>
+                        <div class="result-item"><span>Actual Trays</span><strong id="res-Nact">-</strong></div>
+                        <div class="result-item"><span>Feed Stage</span><strong id="res-Nfeed">-</strong></div>
+                        <div class="result-item"><span>Reflux Ratio</span><strong id="res-R">-</strong></div>
+                    </div>
+
+                    <div class="result-grid" style="margin-top:1rem;">
+                        <div class="result-item"><span>Min. Reflux (Rmin)</span><strong id="res-Rmin">-</strong></div>
+                        <div class="result-item"><span>Distillate (D)</span><strong id="res-D">-</strong> kmol/h</div>
+                        <div class="result-item"><span>Bottoms (B)</span><strong id="res-B">-</strong> kmol/h</div>
+                        <div class="result-item"><span>Height</span><strong id="res-H">-</strong> m</div>
+                        <div class="result-item"><span>Diameter</span><strong id="res-Dia">-</strong> m</div>
+                    </div>
+
+                    <div id="warnings" style="margin-top:1rem; color:#f59e0b; font-size:0.9rem;"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        let chartInstance = null;
+
+        function drawChart(mtVals) {
+            const ctx = document.getElementById('mccabeChart').getContext('2d');
+
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Equilibrium Curve',
+                            data: mtVals.points.equilibrium,
+                            borderColor: '#38bdf8',
+                            borderWidth: 2,
+                            showLine: true,
+                            pointRadius: 0
+                        },
+                        {
+                            label: '45° Line',
+                            data: mtVals.points.diagonal,
+                            borderColor: '#475569',
+                            borderWidth: 1,
+                            borderDash: [5, 5],
+                            showLine: true,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Rectifying Line',
+                            data: mtVals.points.op_rect,
+                            borderColor: '#10b981', // Green
+                            borderWidth: 2,
+                            showLine: true,
+                            pointRadius: 2
+                        },
+                        {
+                            label: 'Stripping Line',
+                            data: mtVals.points.op_strip,
+                            borderColor: '#f59e0b', // Orange
+                            borderWidth: 2,
+                            showLine: true, // Hide line, just connecting points
+                            pointRadius: 2
+                        },
+                        {
+                            label: 'q-Line',
+                            data: mtVals.points.q_line,
+                            borderColor: '#ef4444', // Red
+                            borderWidth: 2,
+                            borderDash: [2, 2],
+                            showLine: true,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Stages',
+                            data: mtVals.points.stages,
+                            borderColor: '#a855f7', // Purple
+                            borderWidth: 1.5,
+                            showLine: true,
+                            stepped: 'before', // Staircase effect? No, manual points better
+                            pointRadius: 0,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            min: 0, max: 1,
+                            title: { display: true, text: 'Liquid Mole Fraction (x)', color: '#94a3b8' },
+                            grid: { color: '#334155' }
+                        },
+                        y: {
+                            min: 0, max: 1,
+                            title: { display: true, text: 'Vapor Mole Fraction (y)', color: '#94a3b8' },
+                            grid: { color: '#334155' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#cbd5e1' } }
+                    }
+                }
+            });
+        }
+
+        document.getElementById('distForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const inputs = Object.fromEntries(formData.entries());
+
+            // Convert to numbers
+            Object.keys(inputs).forEach(k => inputs[k] = parseFloat(inputs[k]));
+
+            const MT = new McCabeThiele(inputs);
+
+            // Update UI
+            document.getElementById('results').classList.remove('hidden');
+
+            // Populate Fields
+            document.getElementById('res-Ntheo').textContent = MT.results.N_theo;
+            document.getElementById('res-Nact').textContent = MT.results.N_actual.toFixed(1);
+            document.getElementById('res-Nfeed').textContent = MT.results.N_feed;
+
+            document.getElementById('res-Rmin').textContent = MT.results.R_min.toFixed(2);
+            document.getElementById('res-R').textContent = MT.R.toFixed(2);
+
+            document.getElementById('res-D').textContent = MT.results.D_flow.toFixed(1);
+            document.getElementById('res-B').textContent = MT.results.B_flow.toFixed(1);
+
+            document.getElementById('res-H').textContent = MT.results.Height.toFixed(1);
+            document.getElementById('res-Dia').textContent = MT.results.Diameter.toFixed(2);
+
+            if (MT.results.warning) {
+                document.getElementById('warnings').textContent = `⚠️ Warning: ${MT.results.warning}`;
+            } else {
+                document.getElementById('warnings').textContent = "";
+            }
+
+            // Draw Graph
+            drawChart(MT);
+
+            // Auto Update R input if empty
+            if (!inputs.R) {
+                document.getElementById('R_input').placeholder = `Calc: ${MT.R.toFixed(2)}`;
+            }
+        });
+    </script>
+</body>
+
+</html>
