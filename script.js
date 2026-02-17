@@ -112,6 +112,9 @@ const navBtns = document.querySelectorAll('.nav-btn');
 const sections = document.querySelectorAll('section');
 
 function switchTab(targetId) {
+    // Scroll to top to prevent overlap issues
+    window.scrollTo(0, 0);
+
     // Hide all sections
     sections.forEach(sec => {
         sec.style.display = 'none';

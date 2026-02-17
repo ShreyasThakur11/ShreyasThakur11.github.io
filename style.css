@@ -262,15 +262,13 @@ textarea:focus {
 
 /* Section Styles */
 .section {
-  padding: 4rem 0;
+  padding: 8rem 0 4rem;
+  /* Increased top padding */
   border-top: 1px solid var(--glass-border);
   display: none;
   animation: fadeIn 0.5s ease-out;
 }
 
-.hero {
-  /* Default visibility updated by JS usually, but keep this for now */
-}
 
 .active-section {
   animation: fadeIn 0.5s ease-out;
@@ -307,7 +305,8 @@ textarea:focus {
   align-items: center;
   gap: 3rem;
   animation: fadeIn 1s ease-out;
-  padding: 4rem 0;
+  padding: 8rem 0 4rem;
+  /* Increased top padding */
 }
 
 .hero-container {
