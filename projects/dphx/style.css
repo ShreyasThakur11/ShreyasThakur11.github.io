@@ -1,7 +1,8 @@
 /* Project Specific Styles */
 
 .project-container {
-    padding: 2rem 5%;
+    padding: 8rem 5% 2rem;
+    /* Increased top padding for sticky nav */
     max-width: 1400px;
     margin: 0 auto;
 }
