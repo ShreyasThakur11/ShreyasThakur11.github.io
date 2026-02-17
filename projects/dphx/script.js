@@ -115,6 +115,19 @@ function calculateDPHX(data) {
 
         // Constraints
         const max_dp = parseFloat(data.allowable_dp_inner || 70000);
+        const allocation = data.fluid_allocation || "hot_inner";
+
+        // Map Properties to Inner/Annulus based on allocation
+        let m_in, rho_in, mu_in, k_in, Cp_in, Rf_in;
+        let m_ann, rho_ann, mu_ann, k_ann, Cp_ann, Rf_ann;
+
+        if (allocation === "hot_inner") {
+            m_in = m_h; rho_in = rho_h; mu_in = mu_h; k_in = k_h; Cp_in = Cp_h; Rf_in = foul_h;
+            m_ann = m_c; rho_ann = rho_c; mu_ann = mu_c; k_ann = k_c; Cp_ann = Cp_c; Rf_ann = foul_c;
+        } else {
+            m_in = m_c; rho_in = rho_c; mu_in = mu_c; k_in = k_c; Cp_in = Cp_c; Rf_in = foul_c;
+            m_ann = m_h; rho_ann = rho_h; mu_ann = mu_h; k_ann = k_h; Cp_ann = Cp_h; Rf_ann = foul_h;
+        }
 
         for (let i = 0; i < STANDARD_PIPES.length - 1; i++) {
             const inner_pipe = STANDARD_PIPES[i];
@@ -138,30 +151,29 @@ function calculateDPHX(data) {
                 const De_ann = (Di * Di - do_in * do_in) / do_in; // Equivalent diameter for heat transfer
 
                 // Velocities
-                const v_inner = m_h / (rho_h * A_inner);
-                const v_ann = m_c / (rho_c * A_ann);
+                const v_inner = m_in / (rho_in * A_inner);
+                const v_ann = m_ann / (rho_ann * A_ann);
 
                 // REYNOLDS
-                const Re_inner = (rho_h * v_inner * di) / mu_h;
-                const Re_ann = (rho_c * v_ann * De_ann) / mu_c;
+                const Re_inner = (rho_in * v_inner * di) / mu_in;
+                const Re_ann = (rho_ann * v_ann * De_ann) / mu_ann;
 
                 // PRANDTL
-                const Pr_h = (Cp_h * mu_h) / k_h;
-                const Pr_c = (Cp_c * mu_c) / k_c;
+                const Pr_in = (Cp_in * mu_in) / k_in;
+                const Pr_ann = (Cp_ann * mu_ann) / k_ann;
 
                 // NUSSELT (Sieder-Tate / Dittus Boelter)
-                // Nu = 0.023 * Re^0.8 * Pr^0.3 (Cooling) or 0.4 (Heating) - Simplified to 0.33 for generic
-                const Nu_inner = 0.023 * Math.pow(Re_inner, 0.8) * Math.pow(Pr_h, 0.33);
-                const Nu_ann = 0.023 * Math.pow(Re_ann, 0.8) * Math.pow(Pr_c, 0.33);
+                // Nu = 0.023 * Re^0.8 * Pr^0.33
+                const Nu_inner = 0.023 * Math.pow(Re_inner, 0.8) * Math.pow(Pr_in, 0.33);
+                const Nu_ann = 0.023 * Math.pow(Re_ann, 0.8) * Math.pow(Pr_ann, 0.33);
 
                 // HEAT TRANSFER COEFF (h)
-                const hi = Nu_inner * k_h / di;
-                const ho = Nu_ann * k_c / De_ann;
+                const hi = Nu_inner * k_in / di;
+                const ho = Nu_ann * k_ann / De_ann;
 
                 // OVERALL U (Based on Outer Surface of Inner Pipe)
                 // 1/U = Ao/Ai(1/hi) + Ao/Ai*Rfi + Rfo + 1/ho + Wall
-                // Simplified: Neglect wall resistance, refer all to do_in surface
-                const U = 1 / ((do_in / di) * (1 / hi) + (do_in / di) * foul_h + foul_c + (1 / ho));
+                const U = 1 / ((do_in / di) * (1 / hi) + (do_in / di) * Rf_in + Rf_ann + (1 / ho));
 
                 // AREA & LENGTH
                 const A_req = Q / (U * LMTD);
@@ -173,9 +185,9 @@ function calculateDPHX(data) {
                 const f_ann = 0.316 * Math.pow(Re_ann, -0.25);
 
                 // dP = f * (L/D) * 0.5 * rho * v^2
-                const dP_in = f_in * (L_req / di) * 0.5 * rho_h * v_inner * v_inner;
+                const dP_in = f_in * (L_req / di) * 0.5 * rho_in * v_inner * v_inner;
                 const Dh_ann = Di - do_in; // Hydraulic diameter for pressure drop
-                const dP_ann = f_ann * (L_req / Dh_ann) * 0.5 * rho_c * v_ann * v_ann;
+                const dP_ann = f_ann * (L_req / Dh_ann) * 0.5 * rho_ann * v_ann * v_ann;
 
                 // VALIDATION
                 const velocity_ok = (v_inner < 4.0 && v_ann < 4.0); // Generic liquid limit
@@ -207,7 +219,8 @@ function calculateDPHX(data) {
                             m_h: m_h,
                             m_c: m_c,
                             T_h_out: T_h_out,
-                            T_c_out: T_c_out
+                            T_c_out: T_c_out,
+                            allocation: allocation
                         };
                     }
                 }
