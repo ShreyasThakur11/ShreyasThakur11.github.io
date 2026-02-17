@@ -4,14 +4,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shell & Tube Heat Exchanger Design | Shreyas Thakur</title>
+    <title>Professional STHX Design | Shreyas Thakur</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../../style.css">
-    <link rel="stylesheet" href="../dphx/style.css"> <!-- Reusing DPHX styles for consistency -->
+    <link rel="stylesheet" href="../dphx/style.css">
+    <style>
+        /* Extra styles for Pro Tool */
+        .mode-switch {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            background: rgba(30, 41, 59, 0.5);
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .mode-option {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: #94a3b8;
+        }
+
+        .mode-option.active {
+            background: var(--primary-color);
+            color: #0f172a;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+        }
+
+        .rating-only {
+            display: none;
+        }
+
+        .design-mode .rating-only {
+            display: none;
+        }
+
+        .rating-mode .rating-only {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .design-only {
+            display: block;
+        }
+
+        .rating-mode .design-only {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -26,57 +76,62 @@
 
     <main class="project-container">
         <header class="project-header">
-            <!-- Breadcrumbs / Back Link -->
             <div style="margin-bottom: 1rem; font-size: 0.9rem;">
                 <a href="../dphx/index.html" style="color: var(--secondary-color); text-decoration: none;">&larr; Switch
                     to Double Pipe</a>
             </div>
-            <h1>Shell & Tube Heat Exchanger Design</h1>
-            <p>Rigorous design using the Kern Method.</p>
+            <h1>Professional Shell & Tube Design</h1>
+            <p>Rigorous Design Engine & Rating Tool (Kern Method)</p>
         </header>
 
         <div class="calc-grid">
             <!-- INPUTS -->
             <form id="designForm" class="input-panel card">
 
+                <!-- Mode Switch -->
+                <div class="input-group full-width">
+                    <h3><span class="icon">⚙️</span> Operation Mode</h3>
+                    <div class="mode-switch">
+                        <div class="mode-option active" onclick="setMode('design')">Design Mode (Auto-Geometry)</div>
+                        <div class="mode-option" onclick="setMode('rating')">Rating Mode (Manual)</div>
+                    </div>
+                    <input type="hidden" name="mode" id="modeInput" value="design">
+                </div>
+
                 <!-- Fluid Allocation -->
                 <div class="input-group full-width">
                     <h3><span class="icon">🔄</span> Configuration</h3>
                     <div class="row">
                         <label style="flex:2;">Fluid Allocation
-                            <select name="fluid_allocation">
-                                <option value="hot_shell">Hot Fluid in Shell / Cold in Tubes</option>
-                                <option value="cold_shell">Cold Fluid in Shell / Hot in Tubes</option>
+                            <select name="fluid_allocation" id="alloc_select">
+                                <option value="auto">Auto-Recommend (Smart Logic)</option>
+                                <option value="hot_shell">Hot Fluid in Shell</option>
+                                <option value="cold_shell">Cold Fluid in Shell</option>
                             </select>
                         </label>
                     </div>
                 </div>
 
-                <!-- FLUIDS (Side by Side) -->
+                <!-- FLUIDS -->
                 <div class="row" style="gap: 2rem;">
                     <!-- HOT FLUID -->
                     <div class="input-group" style="flex:1;">
                         <h3><span class="icon">🔥</span> Hot Fluid</h3>
                         <label>Select Fluid <select id="hot_fluid_select" onchange="autoFillProps('hot', this.value)">
                                 <option value="user_defined">User Defined</option>
-                                <option value="water">Water</option>
-                                <option value="air">Air</option>
-                                <option value="engine_oil">Engine Oil</option>
-                                <option value="kerosene">Kerosene</option>
-                                <option value="benzene">Benzene</option>
-                                <option value="ethanol">Ethanol</option>
                             </select></label>
                         <label>Mass Flow (kg/s) <input type="number" step="any" name="m_h"
                                 placeholder="Opt. if temps known"></label>
                         <label>Inlet Temp (°C) <input type="number" step="any" name="T_h_in" required></label>
                         <label>Outlet Temp (°C) <input type="number" step="any" name="T_h_out"
                                 placeholder="Opt. if Cold Out known"></label>
-                        <label>Cp (kJ/kg.K) <input type="number" step="any" name="Cp_h" id="h_cp" required></label>
+                        <label>Cp (J/kg.K) <input type="number" step="any" name="cp_h" id="h_cp" required></label>
                         <label>Density (kg/m³) <input type="number" step="any" name="rho_h" id="h_rho" required></label>
                         <label>Viscosity (Pa.s) <input type="number" step="any" name="mu_h" id="h_mu" required></label>
                         <label>Thermal Cond. (W/m.K) <input type="number" step="any" name="k_h" id="h_k"
                                 required></label>
-                        <label>Fouling Factor <input type="number" step="any" name="Rf_h" value="0.0002"></label>
+                        <label>Fouling Factor <input type="number" step="any" name="rf_h" id="h_rf"
+                                value="0.0002"></label>
                     </div>
 
                     <!-- COLD FLUID -->
@@ -84,24 +139,19 @@
                         <h3><span class="icon">❄️</span> Cold Fluid</h3>
                         <label>Select Fluid <select id="cold_fluid_select" onchange="autoFillProps('cold', this.value)">
                                 <option value="user_defined">User Defined</option>
-                                <option value="water">Water</option>
-                                <option value="air">Air</option>
-                                <option value="engine_oil">Engine Oil</option>
-                                <option value="kerosene">Kerosene</option>
-                                <option value="benzene">Benzene</option>
-                                <option value="ethanol">Ethanol</option>
                             </select></label>
                         <label>Mass Flow (kg/s) <input type="number" step="any" name="m_c"
                                 placeholder="Opt. if temps known"></label>
                         <label>Inlet Temp (°C) <input type="number" step="any" name="T_c_in" required></label>
                         <label>Outlet Temp (°C) <input type="number" step="any" name="T_c_out"
                                 placeholder="Opt. if Hot Out known"></label>
-                        <label>Cp (kJ/kg.K) <input type="number" step="any" name="Cp_c" id="c_cp" required></label>
+                        <label>Cp (J/kg.K) <input type="number" step="any" name="cp_c" id="c_cp" required></label>
                         <label>Density (kg/m³) <input type="number" step="any" name="rho_c" id="c_rho" required></label>
                         <label>Viscosity (Pa.s) <input type="number" step="any" name="mu_c" id="c_mu" required></label>
                         <label>Thermal Cond. (W/m.K) <input type="number" step="any" name="k_c" id="c_k"
                                 required></label>
-                        <label>Fouling Factor <input type="number" step="any" name="Rf_c" value="0.0002"></label>
+                        <label>Fouling Factor <input type="number" step="any" name="rf_c" id="c_rf"
+                                value="0.0002"></label>
                     </div>
                 </div>
 
@@ -110,36 +160,16 @@
                     <h3><span class="icon">📐</span> Exchanger Geometry</h3>
 
                     <div class="row">
+                        <!-- Common settings -->
                         <div style="flex:1;">
-                            <h4 style="color:var(--secondary-color); font-size:0.9rem; margin-bottom:0.5rem;">Shell Side
-                            </h4>
-                            <label>Shell Diameter (m) <input type="number" step="any" name="shell_ID" value="0.5"
+                            <label>Tube OD (m) <input type="number" step="any" name="tube_od" value="0.01905"
                                     required></label>
-                            <label>Baffle Spacing (m) <input type="number" step="any" name="baffle_spacing" value="0.25"
-                                    required></label>
-                            <label>Num Baffles <input type="number" step="any" name="baffles_n" value="10"
-                                    required></label>
-                        </div>
-                        <div style="flex:1;">
-                            <h4 style="color:var(--secondary-color); font-size:0.9rem; margin-bottom:0.5rem;">Tube Side
-                            </h4>
-                            <label>Total Tubes <input type="number" step="any" name="total_tubes" value="100"
+                            <label>Tube ID (m) <input type="number" step="any" name="tube_id" value="0.01575"
                                     required></label>
                             <label>Tube Length (m) <input type="number" step="any" name="tube_length" value="3.0"
                                     required></label>
-                            <label>Tube Passes <input type="number" step="any" name="tube_passes" value="2"
-                                    required></label>
-                            <label>Standard Tube Size
-                                <select name="tube_od_select" id="tube_select" onchange="updateTubeDims()">
-                                    <option value="0">19 mm (3/4")</option>
-                                    <option value="1">25 mm (1")</option>
-                                    <option value="2">32 mm (1.25")</option>
-                                    <option value="3">38 mm (1.5")</option>
-                                </select>
-                            </label>
-                            <input type="hidden" name="tube_od" id="tube_od" value="0.019">
-                            <input type="hidden" name="tube_id" id="tube_id" value="0.016">
-
+                        </div>
+                        <div style="flex:1;">
                             <label>Tube Pitch (m) <input type="number" step="any" name="tube_pitch" value="0.0238"
                                     required></label>
                             <label>Pitch Type
@@ -148,46 +178,68 @@
                                     <option value="square">Square (90°)</option>
                                 </select>
                             </label>
+                            <label>Tube Passes <input type="number" step="any" name="tube_passes" value="2"
+                                    required></label>
+                        </div>
+                    </div>
+
+                    <div class="design-only"
+                        style="margin-top:1rem; border-top:1px dashed var(--glass-border); padding-top:1rem;">
+                        <h4 style="color:var(--accent-color);">Design Constraints</h4>
+                        <label>Initial Guess U (W/m²K) <input type="number" name="U_guess" value="500"></label>
+                    </div>
+
+                    <div class="rating-only"
+                        style="margin-top:1rem; border-top:1px dashed var(--glass-border); padding-top:1rem;">
+                        <h4 style="color:var(--secondary-color);">Detailed Geometry (Rating Mode)</h4>
+                        <div class="row">
+                            <label>Shell Diameter (m) <input type="number" step="any" name="shell_ID"
+                                    value="0.5"></label>
+                            <label>Total Tubes <input type="number" name="total_tubes" value="100"></label>
+                        </div>
+                        <div class="row">
+                            <label>Baffle Spacing (m) <input type="number" step="any" name="baffle_spacing"
+                                    value="0.2"></label>
+                            <label>Baffle Cut (%) <input type="number" step="any" name="baffle_cut"
+                                    value="0.25"></label>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" class="cta-button primary full-width">Calculate Rating</button>
+                <button type="submit" class="cta-button primary full-width" id="calcBtn">Run Design Iteration</button>
             </form>
 
             <!-- OUTPUTS -->
             <div class="output-panel">
                 <div id="results" class="card result-card hidden">
-                    <h3>Design Rating</h3>
+                    <h3>Results Summary</h3>
 
-                    <div class="highlight-box">
-                        <div class="rec-pipe">
-                            <span>Area Provided</span>
-                            <strong id="res-A-prov">-</strong>
-                        </div>
-                        <div class="rec-x" style="font-size:2rem;">vs</div>
-                        <div class="rec-pipe">
-                            <span>Area Required</span>
-                            <strong id="res-A-req">-</strong>
-                        </div>
-                    </div>
-
-                    <div style="text-align:center; margin-bottom:1.5rem;">
-                        <span id="overdesign-badge" class="badge">Calculating...</span>
+                    <div style="text-align:center; margin-bottom:1rem;">
+                        <span id="converge-badge" class="badge">Processing...</span>
                     </div>
 
                     <div class="result-grid">
                         <div class="result-item"><span>Heat Duty (Q)</span><strong id="res-Q">-</strong></div>
+                        <div class="result-item"><span>Area Required</span><strong id="res-Areq">-</strong></div>
+                        <div class="result-item"><span>Calculated U</span><strong id="res-U">-</strong></div>
                         <div class="result-item"><span>LMTD</span><strong id="res-LMTD">-</strong></div>
-                        <div class="result-item"><span>U Clean</span><strong id="res-Uc">-</strong></div>
-                        <div class="result-item"><span>U Design</span><strong id="res-Ud">-</strong></div>
                     </div>
 
-                    <h4>Detailed Analysis</h4>
+                    <h4>Final Geometry</h4>
+                    <div class="result-grid" style="grid-template-columns: repeat(3, 1fr);">
+                        <div class="result-item"><span>Shell Dia</span><strong id="res-Ds"
+                                style="color:var(--secondary-color);">-</strong></div>
+                        <div class="result-item"><span>Tubes</span><strong id="res-Nt"
+                                style="color:var(--secondary-color);">-</strong></div>
+                        <div class="result-item"><span>Baffle Spacing</span><strong id="res-B"
+                                style="color:var(--secondary-color);">-</strong></div>
+                    </div>
+
+                    <h4>Detailed Performance</h4>
                     <table class="tech-table">
                         <thead>
                             <tr>
-                                <th>Parameter</th>
+                                <th>Param</th>
                                 <th>Shell Side</th>
                                 <th>Tube Side</th>
                             </tr>
@@ -195,41 +247,37 @@
                         <tbody>
                             <tr>
                                 <td>Fluid</td>
-                                <td id="res-fl-shell">-</td>
-                                <td id="res-fl-tube">-</td>
-                            </tr>
-                            <tr>
-                                <td>Flow (kg/s)</td>
-                                <td id="res-m-shell">-</td>
-                                <td id="res-m-tube">-</td>
+                                <td id="res-fl-s">-</td>
+                                <td id="res-fl-t">-</td>
                             </tr>
                             <tr>
                                 <td>Velocity (m/s)</td>
-                                <td id="res-v-shell">-</td>
-                                <td id="res-v-tube">-</td>
+                                <td id="res-v-s">-</td>
+                                <td id="res-v-t">-</td>
                             </tr>
                             <tr>
                                 <td>Reynolds No.</td>
-                                <td id="res-re-shell">-</td>
-                                <td id="res-re-tube">-</td>
+                                <td id="res-re-s">-</td>
+                                <td id="res-re-t">-</td>
                             </tr>
                             <tr>
-                                <td>HTC (h) (W/m²K)</td>
-                                <td id="res-h-shell">-</td>
-                                <td id="res-h-tube">-</td>
+                                <td>HTC (h)</td>
+                                <td id="res-h-s">-</td>
+                                <td id="res-h-t">-</td>
                             </tr>
                             <tr>
-                                <td>Pressure Drop</td>
-                                <td id="res-dp-shell">-</td>
-                                <td id="res-dp-tube">-</td>
+                                <td>Press Drop (kPa)</td>
+                                <td id="res-dp-s">-</td>
+                                <td id="res-dp-t">-</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+
                 <div class="card log-card">
-                    <h3>Status</h3>
+                    <h3>Engineering Log</h3>
                     <div id="logs" class="log-console">
-                        <p class="placeholder">Ready to calculate...</p>
+                        <p class="placeholder">Waiting for input...</p>
                     </div>
                 </div>
             </div>
@@ -238,95 +286,141 @@
 
     <script src="script.js"></script>
     <script>
-        // Update hidden inputs for tube dims
-        const TUBES = [
-            { od: 0.019, id: 0.016 },
-            { od: 0.025, id: 0.021 },
-            { od: 0.032, id: 0.028 },
-            { od: 0.038, id: 0.033 }
-        ];
-        function updateTubeDims() {
-            const idx = document.getElementById('tube_select').value;
-            const t = TUBES[idx];
-            document.getElementById('tube_od').value = t.od;
-            document.getElementById('tube_id').value = t.id;
+        // INIT
+        const fluidSelects = ['hot_fluid_select', 'cold_fluid_select'];
+
+        // Populate Dropdowns
+        function initFluids() {
+            fluidSelects.forEach(id => {
+                const sel = document.getElementById(id);
+                // Clear existing except user defined
+                sel.innerHTML = '<option value="user_defined">User Defined</option>';
+
+                Object.keys(FLUID_DB).forEach(key => {
+                    if (key === 'user_defined') return;
+                    const opt = document.createElement('option');
+                    opt.value = key;
+                    opt.textContent = FLUID_DB[key].name;
+                    sel.appendChild(opt);
+                });
+            });
         }
 
-        // Reuse Auto-Fill from DPHX logic
-        function autoFillProps(side, fluid) {
-            const props = FLUID_PROPERTIES[fluid];
-            if (!props || fluid === 'user_defined') return;
-            const map = {
-                'hot': { rho: 'h_rho', mu: 'h_mu', cp: 'h_cp', k: 'h_k' },
-                'cold': { rho: 'c_rho', mu: 'c_mu', cp: 'c_cp', k: 'c_k' }
-            };
-            document.getElementById(map[side].rho).value = props.rho;
-            document.getElementById(map[side].mu).value = props.mu;
-            document.getElementById(map[side].cp).value = props.cp;
-            document.getElementById(map[side].k).value = props.k;
+        function autoFillProps(side, key) {
+            const f = FLUID_DB[key];
+            if (!f) return;
+            const prefix = side === 'hot' ? 'h_' : 'c_';
+
+            document.getElementById(prefix + 'cp').value = f.cp;
+            document.getElementById(prefix + 'rho').value = f.rho;
+            document.getElementById(prefix + 'mu').value = f.mu;
+            document.getElementById(prefix + 'k').value = f.k;
+            document.getElementById(prefix + 'rf').value = f.fouling;
         }
 
+        function setMode(mode) {
+            document.getElementById('modeInput').value = mode;
+            const form = document.querySelector('.input-panel');
+            const btn = document.getElementById('calcBtn');
+
+            // UI Toggle
+            document.querySelectorAll('.mode-option').forEach(el => el.classList.remove('active'));
+            if (mode === 'design') {
+                document.querySelectorAll('.mode-option')[0].classList.add('active');
+                form.classList.remove('rating-mode');
+                form.classList.add('design-mode');
+                btn.textContent = "Run Design Iteration";
+            } else {
+                document.querySelectorAll('.mode-option')[1].classList.add('active');
+                form.classList.remove('design-mode');
+                form.classList.add('rating-mode');
+                btn.textContent = "Calculate Rating";
+            }
+        }
+
+        // Form Submit
         document.getElementById('designForm').addEventListener('submit', function (e) {
             e.preventDefault();
             const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData.entries());
+            const data = {};
 
-            const result = calculateSTHX(data);
-            const logContainer = document.getElementById('logs');
-            logContainer.innerHTML = '';
-
-            const resCard = document.getElementById('results');
-            resCard.classList.remove('hidden');
-
-            if (result.error) {
-                logContainer.innerHTML = `<p class="error">${result.error}</p>`;
-                return;
-            } else {
-                logContainer.innerHTML = `<p style="color:#10b981;">Calculation Successful!</p>`;
+            // Parse numbers carefully
+            for (let [key, val] of formData.entries()) {
+                if (["allocation", "pitch_type", "mode", "fluid_allocation"].includes(key)) {
+                    data[key] = val;
+                } else {
+                    data[key] = parseFloat(val);
+                }
             }
 
-            // High Level
-            document.getElementById('res-A-prov').textContent = result.A_prov.toFixed(2) + " m²";
-            document.getElementById('res-A-req').textContent = result.A_req.toFixed(2) + " m²";
+            // Construct nested fluid objects
+            data.hot = {
+                m: data.m_h, Tin: data.T_h_in, Tout: data.T_h_out,
+                cp: data.cp_h, rho: data.rho_h, mu: data.mu_h, k: data.k_h, fouling: data.rf_h
+            };
+            data.cold = {
+                m: data.m_c, Tin: data.T_c_in, Tout: data.T_c_out,
+                cp: data.cp_c, rho: data.rho_c, mu: data.mu_c, k: data.k_c, fouling: data.rf_c
+            };
 
-            const badge = document.getElementById('overdesign-badge');
-            if (result.overdesign >= 0) {
-                badge.textContent = `Overdesign: +${result.overdesign.toFixed(1)}% (SAFE)`;
+            // Run Calculation
+            const res = calculateSTHX_Pro(data);
+
+            // Render Logs
+            const logBox = document.getElementById('logs');
+            logBox.innerHTML = '';
+            if (res.logs) {
+                res.logs.forEach(l => {
+                    const p = document.createElement('p');
+                    p.textContent = typeof l === 'string' ? l : JSON.stringify(l);
+                    if (l.includes('Iter')) p.style.color = '#94a3b8';
+                    if (l.includes('Error') || l.includes('⚠️')) p.style.color = '#ef4444';
+                    if (l.includes('Converged') || l.includes('Success')) p.style.color = '#10b981';
+                    logBox.appendChild(p);
+                });
+            }
+
+            if (res.error) {
+                logBox.innerHTML += `<p class="error">CRITICAL ERROR: ${res.error}</p>`;
+                return;
+            }
+
+            // Render Results
+            document.getElementById('results').classList.remove('hidden');
+
+            const badge = document.getElementById('converge-badge');
+            if (res.converged || (data.mode === 'rating')) {
+                badge.textContent = data.mode === 'design' ? "Converged Solution Found" : "Rating Complete";
                 badge.className = "badge success";
             } else {
-                badge.textContent = `Overdesign: ${result.overdesign.toFixed(1)}% (UNDERSIZED)`;
-                badge.className = "badge error";
+                badge.textContent = "Not Converged / Warnings";
+                badge.className = "badge warning";
             }
 
-            document.getElementById('res-Q').textContent = (result.Q / 1000).toFixed(2) + " kW";
-            document.getElementById('res-LMTD').textContent = result.LMTD.toFixed(2) + " °C";
-            document.getElementById('res-Uc').textContent = result.U_clean.toFixed(1) + " W/m²K";
-            document.getElementById('res-Ud').textContent = result.U_design.toFixed(1) + " W/m²K";
+            document.getElementById('res-Q').textContent = (res.Q / 1000).toFixed(1) + " kW";
+            document.getElementById('res-Areq').textContent = res.Area_Required.toFixed(2) + " m²";
+            document.getElementById('res-U').textContent = res.U_dirty.toFixed(1) + " W/m²K";
+            document.getElementById('res-LMTD').textContent = res.LMTD.toFixed(1) + " °C";
 
-            // Detailed
-            if (result.allocation == 'hot_shell') {
-                document.getElementById('res-fl-shell').textContent = "Hot";
-                document.getElementById('res-fl-tube').textContent = "Cold";
-            } else {
-                document.getElementById('res-fl-shell').textContent = "Cold";
-                document.getElementById('res-fl-tube').textContent = "Hot";
-            }
+            document.getElementById('res-Ds').textContent = (res.Geometry.Ds * 1000).toFixed(0) + " mm";
+            document.getElementById('res-Nt').textContent = res.Geometry.Nt;
+            document.getElementById('res-B').textContent = (res.Geometry.B * 1000).toFixed(0) + " mm";
 
-            // Shell Data
-            document.getElementById('res-m-shell').textContent = (result.allocation == 'hot_shell' ? result.m_h : result.m_c).toFixed(3);
-            document.getElementById('res-v-shell').textContent = result.v_s.toFixed(2);
-            document.getElementById('res-re-shell').textContent = result.Re_s.toFixed(0);
-            document.getElementById('res-h-shell').textContent = result.h_s.toFixed(1);
-            document.getElementById('res-dp-shell').textContent = (result.dP_s / 1000).toFixed(1) + " kPa";
-
-            // Tube Data
-            document.getElementById('res-m-tube').textContent = (result.allocation == 'hot_shell' ? result.m_c : result.m_h).toFixed(3);
-            document.getElementById('res-v-tube').textContent = result.v_t.toFixed(2);
-            document.getElementById('res-re-tube').textContent = result.Re_t.toFixed(0);
-            document.getElementById('res-h-tube').textContent = result.h_t.toFixed(1);
-            document.getElementById('res-dp-tube').textContent = (result.dP_t / 1000).toFixed(1) + " kPa";
+            // Tables
+            document.getElementById('res-v-s').textContent = res.Vs.toFixed(2);
+            document.getElementById('res-v-t').textContent = res.Vt.toFixed(2);
+            document.getElementById('res-re-s').textContent = res.Re_s.toFixed(0);
+            document.getElementById('res-re-t').textContent = res.Re_t.toFixed(0);
+            document.getElementById('res-h-s').textContent = res.h_s.toFixed(1);
+            document.getElementById('res-h-t').textContent = res.h_t.toFixed(1);
+            document.getElementById('res-dp-s').textContent = (res.dP_s / 1000).toFixed(2);
+            document.getElementById('res-dp-t').textContent = (res.dP_t / 1000).toFixed(2);
 
         });
+
+        // Initialize
+        initFluids();
+        setMode('design'); // Default to design
     </script>
 </body>
 
