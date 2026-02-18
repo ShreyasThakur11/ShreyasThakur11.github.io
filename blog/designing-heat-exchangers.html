@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Designing Heat Exchangers in JS | Shreyas Thakur</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        .article-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 4rem 1rem;
+        }
+
+        .article-content {
+            font-family: 'Merriweather', serif;
+            line-height: 1.8;
+            color: #e2e8f0;
+            font-size: 1.1rem;
+        }
+
+        .article-content h2 {
+            font-family: 'Inter', sans-serif;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            color: #cbd5e1;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="../index.html" class="logo">Shreyas</a>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="../index.html#projects">Projects</a>
+            <a href="index.html" class="active">Blog</a>
+            <a href="../contact.html">Comm Link</a>
+        </div>
+    </nav>
+
+    <main class="article-container">
+        <a href="index.html" class="back-link">&larr; Back to Articles</a>
+
+        <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Designing Heat Exchangers in the Browser</h1>
+        <div style="color:#94a3b8; font-family:'Inter'; margin-bottom:3rem;">Published on Feb 20, 2026 • 5 min read
+        </div>
+
+        <div class="article-content">
+            <p>
+                Heat exchanger design is typically the domain of expensive software like HTRI or Aspen EDR.
+                These tools solve complex differential equations to ensure that a unit meets thermal duty requirements
+                within allowable pressure drops.
+                For my portfolio, I wanted to demonstrate that these fundamental chemical engineering principles could
+                be implemented in a lightweight, web-based tool using JavaScript.
+            </p>
+
+            <h2>The Challenge: Iterative Solving</h2>
+            <p>
+                The core challenge in exchanger design is that many variables are interdependent.
+                For example, the heat transfer coefficient ($U$) depends on the fluid velocity, which depends on the
+                tube count, which depends on the required area... which depends on $U$.
+            </p>
+            <p>
+                To solve this circular dependency, we use an iterative approach:
+            </p>
+            <ul>
+                <li><strong>Assume</strong> an initial Overall Heat Transfer Coefficient ($U_{assumed}$).</li>
+                <li><strong>Calculate</strong> the required Area ($A = Q / (U \cdot LMTD)$).</li>
+                <li><strong>Select</strong> a standard geometry (Tube count, Shell diameter) that fits this Area.</li>
+                <li><strong>Rate</strong> the selected geometry to find the actual coefficients ($h_i, h_o$) and
+                    pressure drops.</li>
+                <li><strong>Compare</strong> $U_{calc}$ vs $U_{assumed}$. If they differ, update the assumption and
+                    repeat.</li>
+            </ul>
+
+            <h2>Implementing the Kern Method</h2>
+            <p>
+                For the <a href="../projects/sthx/index.html" style="color:var(--secondary-color)">Shell & Tube Design
+                    Tool</a>, I implemented the <strong>Kern Method</strong>.
+                This provides analytical equations for the shell-side heat transfer coefficient ($h_o$) based on baffle
+                spacing and shell diameter.
+            </p>
+
+            <div class="code-block">
+                // Simplified Shell-Side Calc (Kern)
+                function getShellSideH(flow, properties, geometry) {
+                const { De, B, Ds, Pt } = geometry; // Equivalent Dia, Baffle Spacing, Shell Dia, Pitch
+
+                // Crossflow Area
+                const as = (Ds * B * (Pt - Do) / Pt) / 144; // standard Kern eq
+                const Gs = flow / as; // Mass Velocity
+
+                // Reynolds Number
+                const Re = (De * Gs) / mu;
+
+                // Nusselt (jH factor lookup approximated)
+                const jH = 0.5 * Math.pow(Re, 0.55);
+
+                const ho = jH * (k/De) * Math.pow(Pr, 0.33);
+                return ho;
+                }
+            </div>
+
+            <h2>Why Client-Side?</h2>
+            <p>
+                By building this in JavaScript, the tool is strictly "Serverless".
+                Benefits include:
+            </p>
+            <ul>
+                <li><strong>Zero Latency:</strong> Calculations happen instantly as you type.</li>
+                <li><strong>Privacy:</strong> No proprietary process data is sent to a cloud server.</li>
+                <li><strong>Accessibility:</strong> It runs on any device with a browser, even offline.</li>
+            </ul>
+
+            <h2>Next Steps</h2>
+            <p>
+                While the current tool handles single-phase liquid-liquid duties, future updates could include:
+            </p>
+            <ul>
+                <li>Phase change (Condensers/Reboilers).</li>
+                <li>Vibration analysis to prevent tube failure.</li>
+                <li>Cost estimation based on weight and material.</li>
+            </ul>
+        </div>
+    </main>
+</body>
+
+</html>

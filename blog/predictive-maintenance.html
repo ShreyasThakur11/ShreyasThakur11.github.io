@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Maintenance Algorithms | Shreyas Thakur</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        .article-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 4rem 1rem;
+        }
+
+        .article-content {
+            font-family: 'Merriweather', serif;
+            line-height: 1.8;
+            color: #e2e8f0;
+            font-size: 1.1rem;
+        }
+
+        .article-content h2 {
+            font-family: 'Inter', sans-serif;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            color: #cbd5e1;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="../index.html" class="logo">Shreyas</a>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="../index.html#projects">Projects</a>
+            <a href="index.html" class="active">Blog</a>
+            <a href="../contact.html">Comm Link</a>
+        </div>
+    </nav>
+
+    <main class="article-container">
+        <a href="index.html" class="back-link">&larr; Back to Articles</a>
+
+        <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Predictive Maintenance: From Data to Forecasts</h1>
+        <div style="color:#94a3b8; font-family:'Inter'; margin-bottom:3rem;">Published on Feb 22, 2026 • 5 min read
+        </div>
+
+        <div class="article-content">
+            <p>
+                In Industry 4.0, we move from "Breakdown Maintenance" (fix it when it breaks) to "Predictive
+                Maintenance" (fix it before it breaks).
+                The <a href="../projects/maintenance/index.html" style="color:var(--primary-color)">Predictive Analyst
+                    Dashboard</a> simulates this transition using client-side algorithms.
+            </p>
+
+            <h2>1. Synthesizing Industrial Data</h2>
+            <p>
+                Real operational data is confidential and hard to obtain for a portfolio.
+                So, I built a <strong>Stochastic Data Simulator</strong>. It generates time-series data for Heat
+                Exchangers and Pumps by superimposing:
+            </p>
+            <ul>
+                <li><strong>Base Signal:</strong> Nominal operating point (e.g., flow rate).</li>
+                <li><strong>Degradation Trend:</strong> Linear decline in $U$ or exponential rise in Vibration.</li>
+                <li><strong>Gaussian Noise:</strong> Random fluctuations to mimic sensor noise.</li>
+            </ul>
+
+            <h2>2. Forecasting with Linear Regression</h2>
+            <p>
+                To predict the "Remaining Useful Life" (RUL) of a Heat Exchanger, the tool tracks the Fouling Resistance
+                ($R_f$) over time.
+                I implemented a Least Squares Regression algorithm to fit a trend line ($y = mx + c$) to the noisy data.
+            </p>
+            <p>
+                By extrapolating this line to the critical limit (e.g., $R_f = 0.005$), we can calculate the exact date
+                when cleaning is required.
+            </p>
+
+            <div class="code-block">
+                // RUL Prediction Logic
+                function predictRUL(current_val, limit, slope) {
+                if (slope >= 0) return "Infinite"; // No degradation
+
+                // Days Remaining = (Limit - Current) / Slope
+                const days = (limit - current_val) / slope;
+                return Math.floor(days);
+                }
+            </div>
+
+            <h2>3. Anomaly Detection with Z-Scores</h2>
+            <p>
+                For the pump, we look for sudden failures like cavitation.
+                Instead of a simple threshold, I used <strong>Z-Score Analysis</strong> (Standard Score).
+                $$ Z = (x - \mu) / \sigma $$
+            </p>
+            <p>
+                This measures how many standard deviations a data point is away from the mean.
+                If $Z > 3$, it's statistically significant outlier, triggering a "Critical Alert" for inspection.
+            </p>
+
+            <h2>Conclusion</h2>
+            <p>
+                This project bridges the gap between traditional chemical engineering (unit ops) and modern data
+                science.
+                It shows that reliability is not just about mechanics, but about mathematics.
+            </p>
+        </div>
+    </main>
+</body>
+
+</html>
