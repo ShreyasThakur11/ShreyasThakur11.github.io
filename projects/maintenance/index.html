@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Maintenance AI | Shreyas Thakur</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .monitor-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .status-badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-healthy {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid #10b981;
+        }
+
+        .status-warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            border: 1px solid #f59e0b;
+        }
+
+        .status-critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+        }
+
+        .chart-box {
+            position: relative;
+            height: 250px;
+            margin-top: 1rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="../../index.html" class="logo">Shreyas</a>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../index.html#projects" class="active">Projects</a>
+            <a href="../../contact.html">Comm Link</a>
+        </div>
+    </nav>
+
+    <main class="project-container">
+        <header class="project-header">
+            <div style="margin-bottom: 1rem; font-size: 0.9rem;">
+                <a href="../../index.html#projects" style="color: var(--secondary-color); text-decoration: none;">&larr;
+                    Back to Projects</a>
+            </div>
+            <h1>Predictive Maintenance AI</h1>
+            <p>Reliability Engineering Dashboard for Pumps & Exchangers</p>
+        </header>
+
+        <div class="controls">
+            <button onclick="runSimulation()" class="cta-button primary">Run Simulation (30 Days) ↻</button>
+            <button onclick="injectAnomaly()" class="cta-button secondary"
+                style="border-color:#ef4444; color:#ef4444;">Trigger Pump Cavitation ⚠️</button>
+        </div>
+
+        <div class="dashboard-grid">
+
+            <!-- Heat Exchanger E-101 -->
+            <div class="monitor-card">
+                <div class="status-header">
+                    <h3>Heat Exchanger (E-101)</h3>
+                    <span id="badge-hx" class="status-badge status-healthy">Healthy</span>
+                </div>
+
+                <div class="metric-row">
+                    <span>Current U-Value:</span>
+                    <strong id="val-u">- W/m²K</strong>
+                </div>
+                <div class="metric-row">
+                    <span>Fouling Rate:</span>
+                    <strong id="val-rate">- /day</strong>
+                </div>
+                <div class="metric-row">
+                    <span>Predicted Cleaning:</span>
+                    <strong id="val-date" style="color:var(--primary-color)">-</strong>
+                </div>
+
+                <div class="chart-box">
+                    <canvas id="hxChart"></canvas>
+                </div>
+                <p style="font-size:0.8rem; color:#64748b; margin-top:0.5rem;">
+                    *AI forecasts fouling resistance (Rf) limit breach.
+                </p>
+            </div>
+
+            <!-- Pump P-202 -->
+            <div class="monitor-card">
+                <div class="status-header">
+                    <h3>Centrifugal Pump (P-202)</h3>
+                    <span id="badge-pump" class="status-badge status-healthy">Healthy</span>
+                </div>
+
+                <div class="metric-row">
+                    <span>Vibration (RMS):</span>
+                    <strong id="val-vib">- mm/s</strong>
+                </div>
+                <div class="metric-row">
+                    <span>Efficiency:</span>
+                    <strong id="val-eff">-%</strong>
+                </div>
+                <div class="metric-row">
+                    <span>Anomaly Score (Z):</span>
+                    <strong id="val-z">-</strong>
+                </div>
+
+                <div class="chart-box">
+                    <canvas id="pumpChart"></canvas>
+                </div>
+                <p style="font-size:0.8rem; color:#64748b; margin-top:0.5rem;">
+                    *Anomaly detection flags statistical deviations in vibration.
+                </p>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        // Init Simulator & AI Engines
+        const sim = new DataSimulator();
+        const predictor = new PredictionEngine();
+
+        let hxChartInst = null;
+        let pumpChartInst = null;
+
+        function updateCharts(data) {
+            const ctxHX = document.getElementById('hxChart').getContext('2d');
+            const ctxPump = document.getElementById('pumpChart').getContext('2d');
+
+            // HX Chart (Double Axis)
+            if (hxChartInst) hxChartInst.destroy();
+            hxChartInst = new Chart(ctxHX, {
+                type: 'line',
+                data: {
+                    labels: data.dates,
+                    datasets: [
+                        {
+                            label: 'Overall U (W/m²K)',
+                            data: data.hx.U,
+                            borderColor: '#38bdf8', // Blue
+                            yAxisID: 'y',
+                        },
+                        {
+                            label: 'Fouling Factor (x10⁻⁴)',
+                            data: data.hx.Rf,
+                            borderColor: '#f59e0b', // Orange
+                            yAxisID: 'y1',
+                            borderDash: [5, 5]
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { position: 'left', title: { display: true, text: 'U-Value' } },
+                        y1: { position: 'right', title: { display: true, text: 'Rf' } }
+                    }
+                }
+            });
+
+            // Pump Chart
+            if (pumpChartInst) pumpChartInst.destroy();
+            pumpChartInst = new Chart(ctxPump, {
+                type: 'line',
+                data: {
+                    labels: data.dates,
+                    datasets: [
+                        {
+                            label: 'Efficiency (%)',
+                            data: data.pump.Eff,
+                            borderColor: '#10b981', // Green
+                            yAxisID: 'y',
+                        },
+                        {
+                            label: 'Vibration RMS (mm/s)',
+                            data: data.pump.Vib,
+                            borderColor: '#ef4444', // Red
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            fill: true,
+                            yAxisID: 'y1',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { position: 'left', min: 60, max: 90 },
+                        y1: { position: 'right', min: 0, max: 10 }
+                    }
+                }
+            });
+        }
+
+        function runSimulation() {
+            const data = sim.generateHistory();
+
+            // 1. Heat Exchanger Analysis
+            const hxRes = predictor.analyzeHX(data.hx);
+            document.getElementById('val-u').textContent = hxRes.current_U.toFixed(1) + " W/m²K";
+            document.getElementById('val-rate').textContent = hxRes.trend_rate.toFixed(2) + " /day";
+            document.getElementById('val-date').textContent = hxRes.clean_date;
+
+            const hxBadge = document.getElementById('badge-hx');
+            hxBadge.className = `status-badge status-${hxRes.status.toLowerCase()}`;
+            hxBadge.textContent = hxRes.status;
+
+            // 2. Pump Analysis
+            const pumpRes = predictor.analyzePump(data.pump);
+            const eff = data.pump.Eff[data.pump.Eff.length - 1];
+
+            document.getElementById('val-vib').textContent = pumpRes.current_Vib.toFixed(2) + " mm/s";
+            document.getElementById('val-eff').textContent = eff.toFixed(1) + "%";
+            document.getElementById('val-z').textContent = pumpRes.z_score.toFixed(1);
+
+            const pumpBadge = document.getElementById('badge-pump');
+            pumpBadge.className = `status-badge status-${pumpRes.status.toLowerCase()}`;
+            pumpBadge.textContent = pumpRes.status;
+
+            if (pumpRes.issue !== "None") {
+                pumpBadge.textContent = pumpRes.issue; // Show issue text if warning
+            }
+
+            // 3. Update Visuals
+            updateCharts(data);
+        }
+
+        function injectAnomaly() {
+            // Force vibration spike in simulator
+            // We can hack this by regenerating with a triggered condition or just modifying last point
+            // Let's modify sim logic momentarily
+            // Actually, the simulator logic already has an anomaly at day 25. 
+            // We can just add a huge spike at the end of current data locally
+            const data = sim.data; // reference
+            const lastIdx = data.pump.Vib.length - 1;
+            data.pump.Vib[lastIdx] = 8.5; // Huge spike
+
+            // Re-run analysis on modified data
+            const pumpRes = predictor.analyzePump(data.pump);
+
+            // Update UI
+            document.getElementById('val-vib').textContent = "8.50 mm/s (SPIKE)";
+            document.getElementById('val-z').textContent = pumpRes.z_score.toFixed(1);
+
+            const pumpBadge = document.getElementById('badge-pump');
+            pumpBadge.className = 'status-badge status-critical';
+            pumpBadge.textContent = "Cavitation Detected!";
+
+            updateCharts(data);
+        }
+
+        // Auto run on load
+        runSimulation();
+    </script>
+</body>
+
+</html>
