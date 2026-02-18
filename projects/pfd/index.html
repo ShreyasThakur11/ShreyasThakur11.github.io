@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart PFD Generator | Shreyas Thakur</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css">
+
+    <!-- Mermaid JS -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'dark',
+            flowchart: { curve: 'basis', useMaxWidth: false }
+        });
+        window.mermaid = mermaid;
+    </script>
+
+    <style>
+        .ai-input-container {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .ai-textarea {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--text-color);
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            min-height: 100px;
+            resize: vertical;
+            margin-bottom: 1rem;
+        }
+
+        .diagram-container {
+            background: white;
+            /* Mermaid dark theme sometimes tricky with transparency, using white for clarity or specific dark compatible bg */
+            background: #1e293b;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            min-height: 400px;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Mermaid text color fix */
+        .nodeLabel {
+            color: #fff !important;
+        }
+
+        .example-chips {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #38bdf8;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chip:hover {
+            background: rgba(56, 189, 248, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="../../index.html" class="logo">Shreyas</a>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../index.html#projects" class="active">Projects</a>
+            <a href="../../contact.html">Comm Link</a>
+        </div>
+    </nav>
+
+    <main class="project-container">
+        <header class="project-header">
+            <div style="margin-bottom: 1rem; font-size: 0.9rem;">
+                <a href="../../index.html#projects" style="color: var(--secondary-color); text-decoration: none;">&larr;
+                    Back to Projects</a>
+            </div>
+            <h1>Smart PFD Generator</h1>
+            <p>AI-Powered Text-to-Diagram Engine</p>
+        </header>
+
+        <div class="ai-input-container">
+            <h3><span class="icon">🤖</span> Describe your process</h3>
+            <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:1rem;">
+                Enter a process description or keywords. The AI will interpret the intent and generate a block flow
+                diagram.
+            </p>
+
+            <div class="example-chips">
+                <div class="chip" onclick="setPrompt('Design an Ammonia production plant using steam reforming')">
+                    Ammonia Plant</div>
+                <div class="chip" onclick="setPrompt('Methanol synthesis from natural gas')">Methanol Synthesis</div>
+                <div class="chip" onclick="setPrompt('Crude oil distillation unit with desalter and furnace')">Bunker
+                    Fuel Refining</div>
+                <div class="chip" onclick="setPrompt('Feed -> Reactor -> Separator -> Distillation Column')">Custom
+                    Chain</div>
+            </div>
+
+            <textarea id="prompt" class="ai-textarea"
+                placeholder="e.g., Design a sulfuric acid plant with double absorption..."></textarea>
+
+            <button onclick="generatePFD()" class="cta-button primary">Generate Diagram ✨</button>
+        </div>
+
+        <div class="calc-grid" style="grid-template-columns: 2fr 1fr; display:none;" id="output-section">
+
+            <!-- DIAGRAM -->
+            <div>
+                <h3 style="margin-bottom:0.5rem;">Process Flow Diagram</h3>
+                <div class="diagram-container" id="pfd-canvas">
+                    <!-- Mermaid Graph goes here -->
+                    <div style="color:#64748b">Diagram will appear here...</div>
+                </div>
+            </div>
+
+            <!-- TABLES -->
+            <div class="input-panel card">
+                <h3>Equipment List</h3>
+                <div style="overflow-x:auto;">
+                    <table class="tech-table" style="font-size:0.85rem;">
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eq-table-body">
+                            <!-- JS Populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        const ai = new ProcessAI();
+        const builder = new PFDBuilder();
+
+        function setPrompt(text) {
+            document.getElementById('prompt').value = text;
+        }
+
+        async function generatePFD() {
+            const text = document.getElementById('prompt').value;
+            if (!text) return;
+
+            // 1. Parse
+            const processData = ai.parse(text);
+
+            // 2. Build Mermaid
+            const mermaidCode = builder.buildMermaid(processData);
+
+            // 3. Render
+            document.getElementById('output-section').style.display = 'grid';
+            const container = document.getElementById('pfd-canvas');
+
+            // Clear & Draw
+            container.innerHTML = `<pre class="mermaid">${mermaidCode}</pre>`;
+
+            // Re-run mermaid
+            if (window.mermaid) {
+                try {
+                    await window.mermaid.run({
+                        nodes: document.querySelectorAll('.mermaid')
+                    });
+                } catch (e) {
+                    console.error(e);
+                    container.innerHTML = "Error rendering diagram. Please try different keywords.";
+                }
+            }
+
+            // 4. Populate Table
+            const eqList = builder.generateEquipmentList(processData);
+            const tbody = document.getElementById('eq-table-body');
+            tbody.innerHTML = '';
+            eqList.forEach(eq => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong style="color:var(--secondary-color)">${eq.tag}</strong></td>
+                    <td>${eq.name}</td>
+                    <td>${eq.type}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+
+</html>
