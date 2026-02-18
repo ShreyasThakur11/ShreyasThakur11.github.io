@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Driven HAZOP Automation | Shreyas Thakur</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        .article-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 4rem 1rem;
+        }
+
+        .article-content {
+            font-family: 'Merriweather', serif;
+            line-height: 1.8;
+            color: #e2e8f0;
+            font-size: 1.1rem;
+        }
+
+        .article-content h2 {
+            font-family: 'Inter', sans-serif;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            color: #cbd5e1;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="../index.html" class="logo">Shreyas</a>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="../index.html#projects">Projects</a>
+            <a href="index.html" class="active">Blog</a>
+            <a href="../contact.html">Comm Link</a>
+        </div>
+    </nav>
+
+    <main class="article-container">
+        <a href="index.html" class="back-link">&larr; Back to Articles</a>
+
+        <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Automating Process Hazard Analysis with Rule-Based AI</h1>
+        <div style="color:#94a3b8; font-family:'Inter'; margin-bottom:3rem;">Published on Feb 21, 2026 • 6 min read
+        </div>
+
+        <div class="article-content">
+            <p>
+                Process Hazard Analysis (PHA), specifically the HAZOP study, is a critical step in chemical plant
+                safety.
+                Conventionally, this involves a multidisciplinary team sitting in a room for weeks, brainstorming "What
+                If" scenarios.
+                The <a href="../projects/hazop/index.html" style="color:#ef4444">AI HAZOP Assistant</a> I built aims to
+                accelerate this process by automating the preliminary generation of deviations and causes.
+            </p>
+
+            <h2>The Logic: Expert Systems vs. LLMs</h2>
+            <p>
+                While Large Language Models (LLMs) like GPT-4 are powerful, they can hallucinate safety-critical facts.
+                For industrial safety, determinism is key. Therefore, I chose a **Rule-Based Expert System**
+                architecture.
+            </p>
+            <p>
+                The system relies on a structured Knowledge Base (KB) derived from CCPS guidelines and industrial
+                experience.
+                It maps:
+            </p>
+            <ul>
+                <li><strong>Equipment</strong> (e.g., Reactor) &rarr; <strong>Parameters</strong> (Temp, Pressure)</li>
+                <li><strong>Parameter</strong> (Flow) + <strong>Guideword</strong> (No) &rarr;
+                    <strong>Deviation</strong> (No Flow)</li>
+                <li><strong>Deviation</strong> &rarr; <strong>Causes</strong> (Pump Trip) &rarr;
+                    <strong>Consequences</strong> (Runaway)</li>
+            </ul>
+
+            <h2>NLP for Node Extraction</h2>
+            <p>
+                To make the tool user-friendly, I implemented a lightweight Natural Language Processing (NLP) parser.
+                It scans the user's process description for keywords to identify equipment nodes using simple heuristic
+                matching.
+            </p>
+
+            <div class="code-block">
+                // Node Extraction Logic
+                const NODES = {
+                "reactor": { params: ["Temp", "Pressure"] },
+                "pump": { params: ["Flow", "Pressure"] }
+                };
+
+                function extractNodes(text) {
+                const found = [];
+                Object.keys(NODES).forEach(key => {
+                if(text.toLowerCase().includes(key)) {
+                found.push({ type: key, ...NODES[key] });
+                }
+                });
+                return found; // Returns list of equipment to study
+                }
+            </div>
+
+            <h2>Risk Ranking Matrix</h2>
+            <p>
+                The tool also estimates risk using a simplified Severity x Likelihood matrix.
+                For example, if the node is a "Reactor" and the deviation is "High Temperature", the system logic flags
+                this as
+                <strong>High Severity</strong> due to the potential for a runaway reaction, automatically assigning a
+                "High Risk" badge.
+            </p>
+
+            <h2>Conclusion</h2>
+            <p>
+                This tool demonstrates how we can capture domain knowledge into software to assist engineers.
+                It doesn't replace the human HAZOP team, but it provides a robust "first draft" to ensure no obvious
+                hazards are missed.
+            </p>
+        </div>
+    </main>
+</body>
+
+</html>

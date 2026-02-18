@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Blog | Shreyas Thakur</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        .blog-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 1rem;
+        }
+
+        .blog-header {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .blog-header h1 {
+            font-size: 3rem;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .article-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .article-card:hover {
+            transform: translateY(-2px);
+            background: rgba(30, 41, 59, 0.6);
+            border-color: var(--secondary-color);
+        }
+
+        .article-meta {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .article-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .article-summary {
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .read-link {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .read-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="../index.html" class="logo">Shreyas</a>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="../index.html#projects">Projects</a>
+            <a href="index.html" class="active">Blog</a>
+            <a href="../contact.html">Comm Link</a>
+        </div>
+    </nav>
+
+    <main class="blog-container">
+        <header class="blog-header">
+            <h1>Engineering Notes</h1>
+            <p style="color:#94a3b8;">Technical details behind the code.</p>
+        </header>
+
+        <!-- Article 1 -->
+        <article class="article-card">
+            <div class="article-meta">Heat Transfer • Algorithms • JavaScript</div>
+            <h2 class="article-title">Designing Heat Exchangers in the Browser using Iterative Solvers</h2>
+            <p class="article-summary">
+                How I ported standard Kern Method and TEMA standards into a client-side JavaScript engine to design
+                Double Pipe and Shell & Tube heat exchangers without server-side processing.
+            </p>
+            <a href="designing-heat-exchangers.html" class="read-link">Read Article &rarr;</a>
+        </article>
+
+        <!-- Article 2 -->
+        <article class="article-card">
+            <div class="article-meta">Process Safety • Expert Systems • AI</div>
+            <h2 class="article-title">Automating Process Hazard Analysis with Rule-Based AI</h2>
+            <p class="article-summary">
+                Building an intelligent HAZOP assistant that parses natural language process descriptions and applies
+                industrial failure logic to identify risks and suggest safeguards.
+            </p>
+            <a href="ai-driven-hazop.html" class="read-link">Read Article &rarr;</a>
+        </article>
+
+        <!-- Article 3 -->
+        <article class="article-card">
+            <div class="article-meta">Reliability • Data Science • Machine Learning</div>
+            <h2 class="article-title">Predictive Maintenance: From Synthesized Data to Failure Forecasting</h2>
+            <p class="article-summary">
+                Implementing a digital twin for pumps and exchangers. Using stochastic simulation to generate
+                degradation data and linear regression to predict Remaining Useful Life (RUL).
+            </p>
+            <a href="predictive-maintenance.html" class="read-link">Read Article &rarr;</a>
+        </article>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Shreyas Thakur. Built with code, engineering, and tea.</p>
+    </footer>
+</body>
+
+</html>
