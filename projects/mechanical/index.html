@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pressure Vessel Design AI | Shreyas Thakur</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css">
+
+    <style>
+        .design-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .design-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 0.4rem;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .spec-table th {
+            text-align: left;
+            color: #94a3b8;
+            padding: 0.5rem 0;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .spec-table td {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .spec-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .param-value {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .thick-value {
+            color: #10b981;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .warn-flag {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+            /* hidden by default */
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="../../index.html" class="logo">Shreyas</a>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../index.html#projects" class="active">Projects</a>
+            <a href="../../contact.html">Comm Link</a>
+        </div>
+    </nav>
+
+    <main class="project-container">
+        <header class="project-header">
+            <div style="margin-bottom: 1rem; font-size: 0.9rem;">
+                <a href="../../index.html#projects" style="color: var(--secondary-color); text-decoration: none;">&larr;
+                    Back to Projects</a>
+            </div>
+            <h1>Pressure Vessel Design Tool 🏗️</h1>
+            <p>ASME Section VIII Div. 1 Calculation Engine</p>
+        </header>
+
+        <div class="design-grid">
+
+            <!-- Input Panel -->
+            <div class="card">
+                <h3>Design Parameters</h3>
+                <br>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Design Pressure (psig)</label>
+                        <input type="number" id="in-P" value="150">
+                    </div>
+                    <div class="input-group">
+                        <label>Temperature (°F)</label>
+                        <input type="number" id="in-T" value="400">
+                    </div>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Inner Diameter (inch)</label>
+                        <input type="number" id="in-ID" value="60">
+                    </div>
+                    <div class="input-group">
+                        <label>Length T/T (inch)</label>
+                        <input type="number" id="in-L" value="120">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Material</label>
+                    <select id="in-Mat"
+                        style="width:100%; padding:0.8rem; background:rgba(0,0,0,0.3); border:1px solid var(--glass-border); color:#fff; border-radius:6px;">
+                        <option value="SA-516 Gr. 70">Carbon Steel (SA-516 Gr. 70)</option>
+                        <option value="SA-516 Gr. 60">Carbon Steel (SA-516 Gr. 60)</option>
+                        <option value="SA-240 Type 304">Stainless Steel 304</option>
+                        <option value="SA-240 Type 316">Stainless Steel 316</option>
+                    </select>
+                </div>
+                <br>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Joint Efficiency (E)</label>
+                        <select id="in-E"
+                            style="width:100%; padding:0.5rem; background:rgba(0,0,0,0.3); border:1px solid var(--glass-border); color:#fff; border-radius:6px;">
+                            <option value="1.0">1.00 (Full RT)</option>
+                            <option value="0.85" selected>0.85 (Spot RT)</option>
+                            <option value="0.7">0.70 (None)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Corr. Allow (inch)</label>
+                        <input type="number" id="in-CA" value="0.125" step="0.001">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Head Type</label>
+                    <select id="in-Head"
+                        style="width:100%; padding:0.5rem; background:rgba(0,0,0,0.3); border:1px solid var(--glass-border); color:#fff; border-radius:6px;">
+                        <option value="2:1 Ellipsoidal">2:1 Ellipsoidal</option>
+                        <option value="Hemispherical">Hemispherical</option>
+                        <option value="Torispherical">Torispherical (F&D)</option>
+                    </select>
+                </div>
+                <br>
+                <button onclick="calculate()" class="cta-button primary" style="width:100%">Run Calculation</button>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="result-card">
+                <h3>Mechanical Datasheet</h3>
+                <div style="font-size:0.8rem; color:#94a3b8;">Code: ASME BPVC Sec. VIII Div. 1</div>
+
+                <table class="spec-table">
+                    <tr>
+                        <th>Component</th>
+                        <th>Required Thick (in)</th>
+                        <th>Nominal Selected (in)</th>
+                    </tr>
+                    <tr>
+                        <td>Cylindrical Shell</td>
+                        <td id="out-t-shell-req">-</td>
+                        <td id="out-t-shell-nom" class="thick-value">-</td>
+                    </tr>
+                    <tr>
+                        <td>Formed Head</td>
+                        <td id="out-t-head-req">-</td>
+                        <td id="out-t-head-nom" class="thick-value">-</td>
+                    </tr>
+                </table>
+
+                <div style="margin-top:2rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1);">
+                    <div class="input-row">
+                        <div>
+                            <label>Allowable Stress (S)</label>
+                            <div id="out-S" class="param-value">- psi</div>
+                        </div>
+                        <div>
+                            <label>Est. Total Weight</label>
+                            <div id="out-Weight" class="param-value">- lbs</div>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div>
+                            <label>L/D Ratio</label>
+                            <div id="out-LD" class="param-value">-</div>
+                        </div>
+                        <div>
+                            <label>Est. Fab Cost</label>
+                            <div id="out-Cost" class="param-value" style="color:#10b981">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="warn-box" class="warn-flag">
+                    ⚠️ <strong>Design Warning:</strong> <span id="warn-msg"></span>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        const engine = new DesignEngine();
+
+        function calculate() {
+            const inputs = {
+                P: parseFloat(document.getElementById('in-P').value),
+                T: parseFloat(document.getElementById('in-T').value),
+                ID: parseFloat(document.getElementById('in-ID').value),
+                L: parseFloat(document.getElementById('in-L').value),
+                Mat: document.getElementById('in-Mat').value,
+                E: parseFloat(document.getElementById('in-E').value),
+                CA: parseFloat(document.getElementById('in-CA').value),
+                HeadType: document.getElementById('in-Head').value
+            };
+
+            const res = engine.calculate(inputs);
+
+            if (res.error) {
+                alert(res.error);
+                return;
+            }
+
+            // Update UI
+            document.getElementById('out-t-shell-req').textContent = res.t_shell_req.toFixed(4);
+            document.getElementById('out-t-shell-nom').textContent = res.t_shell_nom.toFixed(3) + '"';
+
+            document.getElementById('out-t-head-req').textContent = res.t_head_req.toFixed(4);
+            document.getElementById('out-t-head-nom').textContent = res.t_head_nom.toFixed(3) + '"';
+
+            document.getElementById('out-S').textContent = res.S_val.toLocaleString();
+            document.getElementById('out-Weight').textContent = Math.round(res.weight).toLocaleString();
+            document.getElementById('out-Cost').textContent = "$" + Math.round(res.cost).toLocaleString();
+
+            const ld = inputs.L / inputs.ID;
+            document.getElementById('out-LD').textContent = ld.toFixed(2);
+
+            // Warnings
+            const warnBox = document.getElementById('warn-box');
+            if (ld > 5) {
+                warnBox.style.display = 'block';
+                document.getElementById('warn-msg').textContent = "L/D Ratio > 5. Consider checking wind loads/deflection.";
+            } else {
+                warnBox.style.display = 'none';
+            }
+        }
+
+        // Run on load
+        calculate();
+    </script>
+</body>
+
+</html>
