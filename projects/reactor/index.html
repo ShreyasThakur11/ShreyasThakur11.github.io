@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reactor Design AI | Shreyas Thakur</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        .reactor-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .reactor-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .chart-box {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: 400px;
+        }
+
+        .summary-card {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            color: #d1fae5;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="../../index.html" class="logo">Shreyas</a>
+        <div class="nav-links">
+            <a href="../../index.html">Home</a>
+            <a href="../../index.html#projects" class="active">Projects</a>
+            <a href="../../contact.html">Comm Link</a>
+        </div>
+    </nav>
+
+    <main class="project-container">
+        <header class="project-header">
+            <div style="margin-bottom: 1rem; font-size: 0.9rem;">
+                <a href="../../index.html#projects" style="color: var(--secondary-color); text-decoration: none;">&larr;
+                    Back to Projects</a>
+            </div>
+            <h1>Reactor Design AI ⚗️</h1>
+            <p>Chemical Kinetics & Reactor Sizing Engine (CSTR / PFR)</p>
+        </header>
+
+        <div class="reactor-grid">
+
+            <!-- Controls -->
+            <div class="card">
+                <h3>1. Reaction Kinetics</h3>
+                <br>
+                <div class="input-group">
+                    <label>Reaction Order (n)</label>
+                    <input type="number" id="in-n" value="1.0" step="0.1">
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Pre-exp factor (A)</label>
+                        <input type="number" id="in-A" value="0.5">
+                    </div>
+                    <!-- Simplified: Assuming A units match time^-1 or similar for simplicity -->
+                    <div class="input-group">
+                        <label>Activ. Energy (kJ/mol)</label>
+                        <input type="number" id="in-Ea" value="40">
+                    </div>
+                </div>
+
+                <h3>2. Operations</h3>
+                <br>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Feed Flow (L/min)</label>
+                        <input type="number" id="in-v0" value="100">
+                    </div>
+                    <div class="input-group">
+                        <label>Init. Conc CA0 (mol/L)</label>
+                        <input type="number" id="in-CA0" value="2.0">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Temperature (K)</label>
+                    <input type="number" id="in-T" value="350">
+                </div>
+                <div class="input-group">
+                    <label>Target Reactor Vol (L)</label>
+                    <input type="number" id="in-V" value="500">
+                </div>
+
+                <br>
+                <button onclick="simulate()" class="cta-button primary" style="width:100%">Run Simulation</button>
+            </div>
+
+            <!-- Visuals -->
+            <div>
+                <div id="cstr-res" class="summary-card" style="display:none;">
+                    <strong>CSTR Performance:</strong> <br>
+                    Conversion (X): <span id="val-cstr-x" style="font-weight:bold;">-</span> <br>
+                    Exit Conc (CA): <span id="val-cstr-ca">-</span> mol/L
+                </div>
+
+                <div class="chart-box">
+                    <canvas id="pfrChart"></canvas>
+                </div>
+                <p style="text-align:center; color:#94a3b8; font-size:0.9rem; margin-top:0.5rem;">
+                    PFR Profile: Conversion & Concentration vs Volume
+                </p>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        const engine = new ReactorSolver();
+        let chartInst = null;
+
+        function simulate() {
+            // Inputs
+            const n = parseFloat(document.getElementById('in-n').value);
+            const A = parseFloat(document.getElementById('in-A').value);
+            const Ea = parseFloat(document.getElementById('in-Ea').value) * 1000; // kJ -> J
+
+            const v0 = parseFloat(document.getElementById('in-v0').value);
+            const CA0 = parseFloat(document.getElementById('in-CA0').value);
+            const T = parseFloat(document.getElementById('in-T').value);
+            const V = parseFloat(document.getElementById('in-V').value);
+
+            const kinetics = new Kinetics(A, Ea, n);
+
+            // 1. CSTR Calculation
+            const cstr = engine.solveCSTR(V, v0, CA0, kinetics, T);
+            document.getElementById('cstr-res').style.display = 'block';
+            document.getElementById('val-cstr-x').textContent = (cstr.X * 100).toFixed(2) + "%";
+            document.getElementById('val-cstr-ca').textContent = cstr.CA.toFixed(3);
+
+            // 2. PFR Calculation (Profile)
+            const pfrData = engine.solvePFR(V, v0, CA0, kinetics, T);
+
+            // 3. Plot
+            const ctx = document.getElementById('pfrChart').getContext('2d');
+
+            if (chartInst) chartInst.destroy();
+
+            chartInst = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: pfrData.map(d => d.V.toFixed(1)),
+                    datasets: [
+                        {
+                            label: 'Conversion (X)',
+                            data: pfrData.map(d => d.X),
+                            borderColor: '#10b981', // Green
+                            yAxisID: 'y',
+                        },
+                        {
+                            label: 'Concentration (CA)',
+                            data: pfrData.map(d => d.CA),
+                            borderColor: '#38bdf8', // Blue
+                            yAxisID: 'y1',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { title: { display: true, text: 'Reactor Volume (L)' } },
+                        y: { position: 'right', title: { display: true, text: 'Conversion fraction' }, min: 0, max: 1 },
+                        y1: { position: 'left', title: { display: true, text: 'Conc (mol/L)' } }
+                    }
+                }
+            });
+        }
+
+        // Init
+        simulate();
+    </script>
+</body>
+
+</html>
