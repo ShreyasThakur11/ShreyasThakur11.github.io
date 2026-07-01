@@ -6,7 +6,7 @@
  * Description: Main site navigation component with a sticky, blurred header and responsive menu.
  */
 
-import { createElement, $ } from '../utils/dom.js';
+import { createElement } from '../utils/dom.js';
 
 export const renderNavigation = (): HTMLElement => {
   const header = createElement('header', { className: 'site-header' });

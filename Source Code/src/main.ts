@@ -16,6 +16,7 @@ import { renderHero } from './sections/Hero.js';
 import { renderAbout } from './sections/About.js';
 import { renderProjects } from './sections/Projects.js';
 import { renderExperience } from './sections/Experience.js';
+import { renderEducation } from './sections/Education.js';
 import { renderCertifications } from './sections/Certifications.js';
 import { renderContact } from './sections/Contact.js';
 
