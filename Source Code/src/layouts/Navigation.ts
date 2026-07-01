@@ -53,6 +53,14 @@ export const renderNavigation = (): HTMLElement => {
     className: 'btn btn-primary nav-contact-btn' 
   }, 'Reach Me');
 
+  const themeToggle = createElement('button', { 
+    id: 'theme-toggle', 
+    className: 'nav-link', 
+    style: 'background: transparent; border: none; cursor: pointer; padding: 0.5rem; display: flex; align-items: center;',
+    'aria-label': 'Toggle Dark Mode'
+  });
+
+  actionsContainer.appendChild(themeToggle);
   actionsContainer.appendChild(resumeBtn);
   actionsContainer.appendChild(contactBtn);
 

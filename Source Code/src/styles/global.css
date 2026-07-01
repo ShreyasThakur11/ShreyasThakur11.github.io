@@ -26,6 +26,23 @@
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-display: 'Instrument Serif', Georgia, serif;
+}
+
+:root[data-theme='dark'] {
+  --color-bg-primary: #0a0a0a;
+  --color-bg-secondary: #171717;
+  --color-bg-tertiary: #262626;
+  
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #9ca3af;
+  --color-text-tertiary: #6b7280;
+  
+  --color-border: #262626;
+  --color-border-hover: #404040;
+  
+  --color-accent: #3b82f6;
+  --color-accent-hover: #60a5fa;
+}
   
   /* Layout constraints */
   --max-width-content: 800px;
@@ -70,6 +87,31 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+/* Subtle background animation */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background-image: radial-gradient(circle at 50% 50%, var(--color-bg-secondary) 0%, transparent 70%),
+                    linear-gradient(var(--color-border) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  background-position: center, 0 0, 0 0;
+  opacity: 0.4;
+  animation: bg-pan 30s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes bg-pan {
+  0% { background-position: center, 0 0, 0 0; }
+  100% { background-position: center, 40px 40px, 40px 40px; }
 }
 
 #root {
