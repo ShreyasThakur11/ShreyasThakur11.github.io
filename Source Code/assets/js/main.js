@@ -313,17 +313,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     }
 
-    // Register Service Worker
+    // Unregister old Service Workers to fix caching issues and remove old Vite React app ghosts
     if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js') // Ensure correct path
-                .then(registration => {
-                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                })
-                .catch(err => {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister();
+                console.log('Old ServiceWorker unregistered to clear stale cache.');
+            }
         });
+        
+        // Also clear old caches
+        if (window.caches) {
+            caches.keys().then(function(names) {
+                for (let name of names) {
+                    caches.delete(name);
+                }
+            });
+        }
     }
 
 });
