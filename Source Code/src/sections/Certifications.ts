@@ -39,7 +39,7 @@ export const renderCertifications = (): HTMLElement => {
   ];
 
   certs.forEach((cert, index) => {
-    const card = createElement('div', { className: `project-card reveal reveal-delay-${(index % 3) + 1}` });
+    const card = createElement('div', { className: `cert-card glass-card reveal reveal-delay-${(index % 3) + 1}` });
     
     card.innerHTML = `
       <div class="project-tags">

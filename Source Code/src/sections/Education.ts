@@ -37,7 +37,8 @@ export const renderEducation = (): HTMLElement => {
   ];
 
   educationData.forEach((edu, index) => {
-    const item = createElement('div', { className: `education-item reveal reveal-delay-${(index % 2) + 1}` });
+    const item = createElement('div', { className: `education-item glass-card reveal reveal-delay-${(index % 3) + 1}` });
+    item.style.marginBottom = '2rem';
     
     item.innerHTML = `
       <div class="education-header">

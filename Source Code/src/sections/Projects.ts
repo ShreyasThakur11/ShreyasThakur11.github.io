@@ -41,7 +41,7 @@ export const renderProjects = (): HTMLElement => {
   ];
 
   projects.forEach((proj, index) => {
-    const card = createElement('div', { className: `project-card reveal reveal-delay-${(index % 3) + 1}` });
+    const card = createElement('div', { className: `project-card glass-card reveal reveal-delay-${(index % 3) + 1}` });
     
     const tagsHtml = proj.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('');
     

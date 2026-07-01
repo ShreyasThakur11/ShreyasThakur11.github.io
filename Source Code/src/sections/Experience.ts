@@ -51,7 +51,8 @@ export const renderExperience = (): HTMLElement => {
   ];
 
   experiences.forEach((exp, index) => {
-    const item = createElement('div', { className: `experience-item reveal reveal-delay-${(index % 3) + 1}` });
+    const item = createElement('div', { className: `experience-item glass-card reveal reveal-delay-${(index % 3) + 1}` });
+    item.style.marginBottom = '2rem';
     
     let certHtml = '';
     if (exp.pdf) {

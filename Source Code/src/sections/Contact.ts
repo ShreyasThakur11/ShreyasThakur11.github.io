@@ -20,7 +20,9 @@ export const renderContact = (): HTMLElement => {
   `;
 
   // Form Container
-  const formWrapper = createElement('div', { className: 'form-wrapper reveal reveal-delay-1' });
+  const formContainer = createElement('div', { className: 'contact-form-container glass-card reveal reveal-delay-1' });
+  formContainer.style.maxWidth = '600px';
+  formContainer.style.margin = '0 auto';
   
   // Note: Replace the action URL with the actual Formspree endpoint when ready
   const form = createElement('form', { 
@@ -99,10 +101,10 @@ export const renderContact = (): HTMLElement => {
     }
   });
 
-  formWrapper.appendChild(form);
+  formContainer.appendChild(form);
   
   container.appendChild(header);
-  container.appendChild(formWrapper);
+  container.appendChild(formContainer);
   section.appendChild(container);
 
   return section;
