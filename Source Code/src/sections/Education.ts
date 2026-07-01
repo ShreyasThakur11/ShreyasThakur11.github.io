@@ -15,7 +15,6 @@ export const renderEducation = (): HTMLElement => {
   // Section Header
   const header = createElement('div', { className: 'section-header reveal' });
   header.innerHTML = `
-    <span class="section-label">03 // Foundation</span>
     <h2 class="section-title">Academic Journey</h2>
     <p class="section-desc">A rigorous transition from process engineering to executive business management.</p>
   `;
@@ -26,13 +25,13 @@ export const renderEducation = (): HTMLElement => {
     {
       degree: 'Master of Business Administration (MBA)',
       institution: 'Indian Institute of Management (IIM) Mumbai',
-      duration: '2026 — Present',
+      duration: '2026 - Present',
       details: 'Focusing on operations strategy, supply chain analytics, and corporate finance. Leveraging engineering background to solve complex business problems.'
     },
     {
       degree: 'B.Tech in Chemical Engineering',
       institution: 'Institute of Chemical Technology (ICT), Mumbai',
-      duration: '2021 — 2025',
+      duration: '2021 - 2025',
       details: 'Specialized in process synthesis, techno-economic evaluation, and transport phenomena. Developed a strong foundation in quantitative analysis and system modeling.'
     }
   ];

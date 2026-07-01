@@ -54,6 +54,7 @@ export const renderFooter = (): HTMLElement => {
   const currentYear = new Date().getFullYear();
   bottom.innerHTML = `
     <span>&copy; ${currentYear} Shreyas Thakur. All rights reserved.</span>
+    <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fshreyasthakur11.github.io&countColor=%232563eb" alt="Visitor count" style="height: 20px;" />
     <span>Designed with intent.</span>
   `;
 

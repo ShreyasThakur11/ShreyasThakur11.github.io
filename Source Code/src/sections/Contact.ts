@@ -15,9 +15,8 @@ export const renderContact = (): HTMLElement => {
   // Section Header
   const header = createElement('div', { className: 'section-header reveal' });
   header.innerHTML = `
-    <span class="section-label">04 // Connect</span>
     <h2 class="section-title">Reach Me</h2>
-    <p class="section-desc">Open to discussing opportunities in strategy, analytics, and operations management. Leave a message and I will get back to you promptly.</p>
+    <p class="section-desc">Open to discussing opportunities in strategy, analytics, and operations management. Whether you are a recruiter, a founder, or just want to connect, feel free to leave a message.</p>
   `;
 
   // Form Container

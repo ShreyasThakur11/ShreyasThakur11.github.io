@@ -39,15 +39,27 @@ export const renderNavigation = (): HTMLElement => {
   nav.appendChild(navList);
 
   // Contact Action
+  const actionsContainer = createElement('div', { className: 'nav-actions' });
+  
+  const resumeBtn = createElement('a', { 
+    href: 'https://github.com/ShreyasThakur11/Resume/releases/latest/download/Shreyas_Thakur_Resume.pdf', 
+    className: 'nav-link',
+    target: '_blank',
+    rel: 'noopener noreferrer'
+  }, 'Resume');
+
   const contactBtn = createElement('a', { 
     href: '#contact', 
     className: 'btn btn-primary nav-contact-btn' 
   }, 'Reach Me');
 
+  actionsContainer.appendChild(resumeBtn);
+  actionsContainer.appendChild(contactBtn);
+
   // Assemble Header
   container.appendChild(logo);
   container.appendChild(nav);
-  container.appendChild(contactBtn);
+  container.appendChild(actionsContainer);
   header.appendChild(container);
 
   // Scroll effect for blur and border

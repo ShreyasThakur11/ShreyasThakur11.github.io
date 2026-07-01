@@ -26,34 +26,16 @@
   color: var(--color-text-secondary);
 }
 
-.about-stats {
+.about-photo-wrapper {
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 2rem;
-  background-color: var(--color-bg-secondary);
+  align-items: center;
+  justify-content: center;
+}
+
+.about-photo {
+  max-width: 100%;
   border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.stat-number {
-  font-family: var(--font-display);
-  font-size: 2.5rem;
-  color: var(--color-text-primary);
-  line-height: 1;
-}
-
-.stat-label {
-  font-family: var(--font-sans);
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-text-tertiary);
+  box-shadow: var(--shadow-lg);
+  object-fit: cover;
+  aspect-ratio: 4/5;
 }

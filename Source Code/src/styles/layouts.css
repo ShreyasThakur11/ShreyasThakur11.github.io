@@ -82,6 +82,12 @@
   width: 100%;
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
 .nav-contact-btn {
   display: none;
 }

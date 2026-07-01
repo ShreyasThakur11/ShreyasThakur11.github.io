@@ -16,7 +16,6 @@ export const renderExperience = (): HTMLElement => {
   // Section Header
   const header = createElement('div', { className: 'section-header reveal' });
   header.innerHTML = `
-    <span class="section-label">01 // Career</span>
     <h2 class="section-title">Professional Experience</h2>
     <p class="section-desc">A foundation in chemical process engineering, expanded into financial operations and business strategy.</p>
   `;
@@ -28,7 +27,7 @@ export const renderExperience = (): HTMLElement => {
     {
       role: 'Tax & Audit Assistant',
       company: 'Office of Santosh S. Bakshetti',
-      duration: 'Jun 2025 — May 2026',
+      duration: 'Jun 2025 - May 2026',
       details: [
         'Conducted comprehensive tax audits, ensuring adherence to statutory financial frameworks.',
         'Streamlined financial reconciliation processes for diverse corporate clients.',
@@ -40,7 +39,7 @@ export const renderExperience = (): HTMLElement => {
     {
       role: 'Process Engineering Intern',
       company: 'Epigral Ltd. (formerly Meghmani Finechem Ltd.)',
-      duration: 'Jun 2024 — Aug 2024',
+      duration: 'Jun 2024 - Aug 2024',
       details: [
         'Executed root cause analysis on catalyst deactivation and burner failures within a high-capacity industrial environment.',
         'Proposed operational parameter adjustments that directly contributed to improved asset utilization.',

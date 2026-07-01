@@ -15,7 +15,6 @@ export const renderProjects = (): HTMLElement => {
   // Section Header
   const header = createElement('div', { className: 'section-header reveal' });
   header.innerHTML = `
-    <span class="section-label">02 // Capability</span>
     <h2 class="section-title">Selected Projects</h2>
     <p class="section-desc">Demonstrating technical rigor, complex problem solving, and system optimization.</p>
   `;

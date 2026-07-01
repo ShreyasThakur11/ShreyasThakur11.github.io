@@ -21,7 +21,7 @@ export const renderHero = (): HTMLElement => {
 
   const description = createElement('p', { className: 'hero-description reveal reveal-delay-2' });
   description.innerHTML = `
-    Chemical Engineer transitioning into business leadership through an MBA at IIM Mumbai. 
+    A Chemical Engineer transitioning into business leadership through an MBA at IIM Mumbai. 
     Specializing in process optimization, financial modeling, and operational strategy.
   `;
 
@@ -39,6 +39,17 @@ export const renderHero = (): HTMLElement => {
     className: 'btn btn-outline' 
   }, 'Get in Touch');
 
+  const scrollIndicator = createElement('div', { className: 'hero-scroll-indicator reveal reveal-delay-4' });
+  scrollIndicator.innerHTML = `
+    <div class="mouse">
+      <div class="wheel"></div>
+    </div>
+    <div>
+      <span class="m_scroll_arrows unu"></span>
+      <span class="m_scroll_arrows doi"></span>
+    </div>
+  `;
+
   actions.appendChild(resumeBtn);
   actions.appendChild(contactBtn);
 
@@ -49,6 +60,7 @@ export const renderHero = (): HTMLElement => {
 
   container.appendChild(content);
   section.appendChild(container);
+  section.appendChild(scrollIndicator);
 
   return section;
 };

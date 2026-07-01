@@ -16,7 +16,6 @@ export const renderCertifications = (): HTMLElement => {
   // Section Header
   const header = createElement('div', { className: 'section-header reveal' });
   header.innerHTML = `
-    <span class="section-label">05 // Credentials</span>
     <h2 class="section-title">Licenses & Certifications</h2>
   `;
 
