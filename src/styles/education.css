@@ -1,0 +1,100 @@
+/**
+ * Author: Amey Thakur
+ * GitHub: https://github.com/amey-thakur
+ * Date: 2026-07-01
+ * License: MIT
+ * Description: Education section styles.
+ */
+
+.education-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+.edu-card {
+  padding: var(--space-8);
+  background-color: var(--color-bg-primary);
+}
+
+.edu-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+@media (min-width: 768px) {
+  .edu-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+}
+
+.edu-title-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: flex-start;
+}
+
+@media (min-width: 768px) {
+  .edu-title-wrapper {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+}
+
+.edu-header h3 {
+  margin-bottom: 0;
+  color: var(--color-accent-primary);
+}
+
+.edu-score {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-strong);
+  font-family: var(--font-body);
+}
+
+.edu-date {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.edu-inst-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+@media (min-width: 768px) {
+  .edu-inst-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+}
+
+.edu-institution {
+  font-size: var(--text-lg);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.edu-location {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.edu-highlight {
+  color: var(--color-text-secondary);
+  margin-bottom: 0;
+}

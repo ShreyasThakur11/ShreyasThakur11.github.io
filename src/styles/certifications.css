@@ -1,0 +1,55 @@
+/**
+ * Author: Amey Thakur
+ * GitHub: https://github.com/amey-thakur
+ * Date: 2026-07-01
+ * License: MIT
+ * Description: Certifications styling.
+ */
+
+.cert-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .cert-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+.cert-card {
+  padding: var(--space-6);
+  background-color: var(--color-bg-secondary);
+}
+
+.cert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.cert-date {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.cert-badge {
+  background-color: var(--color-accent-subtle);
+  color: var(--color-accent-primary);
+  border: 1px solid var(--color-accent-primary);
+}
+
+.cert-title {
+  font-size: var(--text-lg);
+  font-family: var(--font-body);
+  margin-bottom: var(--space-2);
+}
+
+.cert-issuer {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}

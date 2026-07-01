@@ -1,399 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shreyas Thakur | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shreyas Thakur — Portfolio | MBA Candidate & Chemical Engineer</title>
+  <meta name="description" content="Portfolio of Shreyas Thakur, Chemical Engineer and MBA Candidate at IIM Mumbai, specializing in process engineering, data analytics, and business strategy." />
+  <meta name="author" content="Shreyas Thakur" />
+  <meta name="theme-color" content="#0a0f1e" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Shreyas Thakur — Portfolio" />
+  <meta property="og:description" content="Chemical Engineer and MBA Candidate at IIM Mumbai." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ShreyasThakur11.github.io" />
+  <meta property="og:image" content="https://ShreyasThakur11.github.io/og-image.png" />
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <!-- Preconnect to Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <!-- Fonts: Inter (sans) & Instrument Serif (display) -->
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/src/styles/design-tokens.css" />
+  <link rel="stylesheet" href="/src/styles/reset.css" />
+  <link rel="stylesheet" href="/src/styles/typography.css" />
+  <link rel="stylesheet" href="/src/styles/layout.css" />
+  <link rel="stylesheet" href="/src/styles/components.css" />
+  <link rel="stylesheet" href="/src/styles/animations.css" />
+  
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon-180x180.png" />
 </head>
-
 <body>
-    <nav>
-        <a href="index.html" class="logo">Shreyas</a>
-        <div class="nav-links">
-            <a href="#" data-target="home" class="nav-btn active">Home</a>
-            <a href="#" data-target="projects" class="nav-btn">Projects</a>
-            <a href="#" data-target="certificates" class="nav-btn">Certifications</a>
-            <a href="#" data-target="resume" class="nav-btn">Resume</a>
-            <a href="#" data-target="blog" class="nav-btn">Blog</a>
-            <a href="contact.html">Comm Link</a>
-        </div>
-    </nav>
+  <a href="#main-content" class="visually-hidden focus:not-sr-only">Skip to content</a>
+  
+  <div id="app">
+    <!-- Components are injected via JS -->
+  </div>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="hero-container">
-                <div class="hero-image">
-                    <!-- User to replace src with actual image -->
-                    <img src="assets/img/profile.jpg" alt="Shreyas Thakur"
-                        onerror="this.src='https://via.placeholder.com/300x300?text=Profile+Photo'">
-                </div>
-                <div class="hero-text">
-                    <h1>Shreyas Thakur</h1>
-                    <h2 class="professional-title">Chemical Engineering Graduate</h2>
-
-                    <div class="career-aim">
-                        <h3>Career Objective</h3>
-                        <p>
-                            Motivated Chemical Engineering graduate seeking a Process Engineer role to apply skills in
-                            process design, mass and energy balances, PFD/P&ID interpretation, and plant
-                            troubleshooting.
-                            Eager to support technology-driven improvements in yield, throughput, and operational
-                            reliability.
-                        </p>
-                    </div>
-
-                    <div class="contact-info">
-                        <p class="email-line">Email: <a href="mailto:thakursm11@gmail.com">thakursm11@gmail.com</a></p>
-                        <div class="cta-group">
-                            <a href="#resume" class="cta-button primary">View Resume</a>
-                            <a href="https://www.linkedin.com/in/shreyas-thakur-771154228/" target="_blank"
-                                class="cta-button secondary">LinkedIn</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="education-section">
-                <h3 class="section-heading">Education History</h3>
-                <div class="education-table-wrapper">
-                    <table class="education-table">
-                        <thead>
-                            <tr>
-                                <th>qualification</th>
-                                <th>Institution / Board</th>
-                                <th>Performance</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="degree">Bachelor of Chemical Engineering</td>
-                                <td>Institute of Chemical Technology (ICT), Mumbai</td>
-                                <td class="score">6.6 GPA</td>
-                            </tr>
-                            <tr>
-                                <td class="degree">HSC (12th Grade)</td>
-                                <td>Maharashtra State Board</td>
-                                <td class="score">85.67%</td>
-                            </tr>
-                            <tr>
-                                <td class="degree">SSC (10th Grade)</td>
-                                <td>Maharashtra State Board</td>
-                                <td class="score">85.20%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="section">
-            <h2 class="section-title">Engineering Projects</h2>
-            <div class="project-grid">
-                <div class="card project-card">
-                    <h3>Double Pipe Heat Exchanger Design</h3>
-                    <p>
-                        Comprehensive iterative design tool for DPHX calculation.
-                        Features include heat duty analysis, LMTD calculation,
-                        area optimization, and pressure drop verification.
-                    </p>
-                    <div class="tech-stack">
-                        <span>JavaScript</span><span>Process Design</span><span>Numerical Methods</span>
-                    </div>
-                    <a href="projects/dphx/index.html" class="cta-button secondary small">Launch Tool</a>
-                </div>
-                <div class="card project-card">
-                    <h3>Shell & Tube Heat Exchanger Design</h3>
-                    <p>
-                        Rigorous design tool using the Kern Method. Features detailed shell-side analysis, baffle cut
-                        optimization, and fluid allocation.
-                    </p>
-                    <div class="tech-stack">
-                        <span>JavaScript</span><span>Kern Method</span><span>Unit Operations</span>
-                    </div>
-                    <a href="projects/sthx/index.html" class="cta-button secondary small">Launch Tool</a>
-                </div>
-                <div class="card project-card">
-                    <h3>Distillation Tower Design</h3>
-                    <p>
-                        Binary fractionation design using McCabe-Thiele method.
-                        Features interactive VLE graphing, stage-by-stage analysis,
-                        and mechanical sizing.
-                    </p>
-                    <div class="tech-stack">
-                        <span>JavaScript</span><span>Chart.js</span><span>Mass Transfer</span>
-                    </div>
-                    <a href="projects/distillation/index.html" class="cta-button secondary small">Launch Tool</a>
-                </div>
-                <div class="card project-card">
-                    <h3>Multicomponent Distillation (FUG)</h3>
-                    <p>
-                        Shortcut design for complex mixtures using Fenske-Underwood-Gilliland method.
-                        Calculates Min Stages, Rmin, and Feed Location for multi-component feeds.
-                    </p>
-                    <div class="tech-stack">
-                        <span>JavaScript</span><span>FUG Method</span><span>Simulation</span>
-                    </div>
-                    <a href="projects/fug/index.html" class="cta-button secondary small">Launch Tool</a>
-                </div>
-                <div class="card project-card" style="border: 1px solid var(--secondary-color);">
-                    <div
-                        style="position:absolute; top:10px; right:10px; background:var(--secondary-color); color:#000; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:bold;">
-                        AI Powered</div>
-                    <h3>Smart PFD Generator</h3>
-                    <p>
-                        A generative AI tool that converts text descriptions into professional Process Flow Diagrams.
-                        Input "Design an Ammonia Plant" and watch it build the flowchart.
-                    </p>
-                    <div class="tech-stack">
-                        <span>Generative Logic</span><span>NLP Parsers</span><span>Mermaid.js</span>
-                    </div>
-                    <a href="projects/pfd/index.html" class="cta-button secondary small">Launch (Beta)</a>
-                </div>
-                <div class="card project-card" style="border: 1px solid #ef4444;">
-                    <div
-                        style="position:absolute; top:10px; right:10px; background:#ef4444; color:#fff; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:bold;">
-                        Safety</div>
-                    <h3>AI HAZOP Assistant</h3>
-                    <p>
-                        Automated Process Hazard Analysis (PHA) tool.
-                        Generates deviations, causes, consequences, and safeguards based on nodes extracted from text.
-                    </p>
-                    <div class="tech-stack">
-                        <span>Process Safety</span><span>Risk Analysis</span><span>Expert System</span>
-                    </div>
-                    <a href="projects/hazop/index.html" class="cta-button secondary small">Run Study</a>
-                </div>
-                <div class="card project-card">
-                    <div
-                        style="position:absolute; top:10px; right:10px; background:var(--primary-color); color:#000; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:bold;">
-                        Reliability</div>
-                    <h3>Predictive Maintenance AI</h3>
-                    <p>
-                        Condition monitoring dashboard for Pumps & Exchangers.
-                        Uses time-series regression to forecast fouling and detect pump cavitation anomalies.
-                    </p>
-                    <div class="tech-stack">
-                        <span>Time-Series</span><span>Forecasting</span><span>Chart.js</span>
-                    </div>
-                    <a href="projects/maintenance/index.html" class="cta-button secondary small">Launch Dashboard</a>
-                </div>
-                <div class="card project-card">
-                    <div
-                        style="position:absolute; top:10px; right:10px; background:#f59e0b; color:#000; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:bold;">
-                        Mechanical</div>
-                    <h3>Pressure Vessel Design AI</h3>
-                    <p>
-                        ASME Section VIII Div 1 Design Engine.
-                        Automates sizing of shells and heads, estimates weight, and validates code compliance.
-                    </p>
-                    <div class="tech-stack">
-                        <span>ASME Codes</span><span>Static Equipment</span><span>Cost Est.</span>
-                    </div>
-                    <a href="projects/mechanical/index.html" class="cta-button secondary small">Launch Engine</a>
-                </div>
-                <div class="card project-card">
-                    <div
-                        style="position:absolute; top:10px; right:10px; background:#8b5cf6; color:#fff; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:bold;">
-                        Reaction Eng</div>
-                    <h3>Reactor Design AI</h3>
-                    <p>
-                        Design engine for CSTR & PFR reactors.
-                        Models Arrhenius kinetics, solves design equations numerically, and visualizes conversion
-                        profiles using RK4 integration.
-                    </p>
-                    <div class="tech-stack">
-                        <span>Kinetics</span><span>ODE Solver</span><span>Process Design</span>
-                    </div>
-                    <a href="projects/reactor/index.html" class="cta-button secondary small">Simulate</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Certificates / Experience Section -->
-        <section id="certificates" class="section">
-            <h2 class="section-title">Certifications & Training</h2>
-            <div class="certificate-grid">
-                <!-- Certificate 1 (Training) -->
-                <div class="certificate-card card">
-                    <div class="cert-icon">🏭</div>
-                    <h3>In-Plant Trainee</h3>
-                    <p class="issuer">Epigral Ltd., Dahej, Gujarat</p>
-                    <span class="cert-date">Jun 2024 – Aug 2024</span>
-                    <p style="font-size: 0.9rem; color: #cbd5e1; margin-top: 1rem;">
-                        • Analyzed catalyst selectivity in H₂O₂ unit.<br>
-                        • Investigated burner failures in HCl units.<br>
-                        • Moisture-reduction study in ECH unit.
-                    </p>
-                    <div class="pdf-container">
-                        <embed src="assets/doc/Internship.pdf" type="application/pdf" width="100%" height="250px" />
-                    </div>
-                </div>
-                <!-- Certificate 2 -->
-                <div class="certificate-card card">
-                    <h3>Petroleum Refinery Engineering</h3>
-                    <p class="issuer">Indian Institute of Chemical Engineers (IIChE)</p>
-                    <span class="cert-date">Feb 2022 - April 2022</span>
-                    <div class="pdf-container">
-                        <embed src="assets/doc/iiche_cert.pdf" type="application/pdf" width="100%" height="250px" />
-                    </div>
-                </div>
-                <!-- Certificate 3 -->
-                <div class="certificate-card card">
-                    <h3>Industrial Environment Pollution Management</h3>
-                    <p class="issuer">Terra-green Technologies Pvt. Ltd.</p>
-                    <span class="cert-date">Jun 2022 – Jul 2022</span>
-                    <div class="pdf-container">
-                        <embed src="assets/doc/terra_green_cert.pdf" type="application/pdf" width="100%"
-                            height="250px" />
-                    </div>
-                </div>
-                <!-- Certificate 4 (NPTEL) -->
-                <div class="certificate-card card">
-                    <h3>NPTEL Industrial IoT</h3>
-                    <p class="issuer">NPTEL</p>
-                    <span class="cert-date">Top 5% Score</span>
-                    <div class="pdf-container">
-                        <embed src="assets/doc/NPTL(1).pdf" type="application/pdf" width="100%" height="250px" />
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Resume Section -->
-        <section id="resume" class="section">
-            <h2 class="section-title">Resume</h2>
-            <div class="resume-container card">
-
-                <!-- Objective -->
-                <div class="resume-block">
-                    <h3>Career Objective</h3>
-                    <p>Motivated Chemical Engineering graduate seeking a Process Engineer role to apply skills in
-                        process design, mass and energy balances, PFD/P&ID interpretation, and plant troubleshooting.
-                        Eager to support technology-driven improvements in yield, throughput, and operational
-                        reliability.</p>
-                </div>
-
-                <hr class="resume-divider">
-
-                <!-- Training -->
-                <div class="resume-block">
-                    <h3>In-Plant Training</h3>
-                    <div class="resume-item">
-                        <h4>In-Plant Training — Hydrogen Peroxide, HCl & ECH Units</h4>
-                        <p class="company">Epigral Ltd., Dahej, Gujarat | Jun 2024 – Aug 2024</p>
-                        <ul class="resume-list">
-                            <li>Analysed catalyst selectivity & deactivation issues in Hydrogen Peroxide unit.</li>
-                            <li>Investigated burner failures in HCl synthesis units.</li>
-                            <li>Performed moisture-reduction study in Epichlorohydrin purification.</li>
-                            <li>Gained hands-on exposure to continuous plant operations via DCS.</li>
-                            <li>Completed industrial safety & MoC exposure.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <hr class="resume-divider">
-
-                <!-- Certifications -->
-                <div class="resume-block">
-                    <h3>Certification Courses</h3>
-                    <div class="resume-item">
-                        <h4>Intern - Indian Institute of Chemical Engineers</h4>
-                        <p class="company">Feb 2022 - April 2022</p>
-                        <p>Online Summer internship at IIChE on the topic "Petroleum Refinery Engineering"</p>
-                    </div>
-                    <div class="resume-item">
-                        <h4>Intern - Terra-green Technologies Pvt. Ltd.</h4>
-                        <p class="company">Jun 2022 – Jul 2022</p>
-                        <p>Online Internship at Terra-Green on the topic "Industrial Environment Pollution Management"
-                        </p>
-                    </div>
-                </div>
-
-                <hr class="resume-divider">
-
-                <!-- Responsibilities -->
-                <div class="resume-block">
-                    <h3>Positions of Responsibilities</h3>
-                    <ul class="resume-list">
-                        <li><strong>Creative Head</strong> – Bombay Technologist, ICT Mumbai (Nov 2022 – Sep 2023)</li>
-                        <li><strong>Design Head</strong> – Savishkar ICT (2022-2023)</li>
-                    </ul>
-                </div>
-
-                <hr class="resume-divider">
-
-                <!-- Extra-Curricular -->
-                <div class="resume-block">
-                    <h3>Extra-Curicular</h3>
-                    <ul class="resume-list">
-                        <li>Top 5% in NPTL Industrial Internet of Thing Course</li>
-                        <li>2nd Position in The Entrepreneur’s Blueprint conducted by Vortex 2022</li>
-                    </ul>
-                </div>
-
-                <hr class="resume-divider">
-
-                <!-- Skills -->
-                <div class="resume-block">
-                    <h3>Computer Knowledge</h3>
-                    <p class="skills-text">MS Office - Excel, Word, Power Point, Power Bi<br>MATLAB, Python, ChemCAD,
-                        DWSIM</p>
-                </div>
-
-            </div>
-        </section>
-        <!-- Blog Section -->
-        <section id="blog" class="section" style="display:none;">
-            <h2 class="section-title">Technical Engineering Blog</h2>
-            <div class="blog-grid">
-                <!-- Article 1 -->
-                <div class="blog-card card">
-                    <div>
-                        <div class="blog-meta">Heat Transfer • Iterative Design</div>
-                        <h3 class="blog-title">Designing Heat Exchangers in the Browser using JS</h3>
-                        <p class="blog-excerpt">
-                            How I ported standard Kern Method and TEMA standards into a client-side engine
-                            to design Double Pipe and Shell & Tube exchangers without server-side processing.
-                        </p>
-                    </div>
-                    <a href="blog/designing-heat-exchangers.html" class="read-more">Read Full Article &rarr;</a>
-                </div>
-
-                <!-- Article 2 -->
-                <div class="blog-card card">
-                    <div>
-                        <div class="blog-meta">Process Safety • Expert Systems</div>
-                        <h3 class="blog-title">Automating HAZOP with Rule-Based AI</h3>
-                        <p class="blog-excerpt">
-                            Building an intelligent assistant that parses natural language process descriptions
-                            and applies industrial failure logic to identify risks and suggest safeguards.
-                        </p>
-                    </div>
-                    <a href="blog/ai-driven-hazop.html" class="read-more">Read Full Article &rarr;</a>
-                </div>
-
-                <!-- Article 3 -->
-                <div class="blog-card card">
-                    <div>
-                        <div class="blog-meta">Reliability • Data Science</div>
-                        <h3 class="blog-title">Predictive Maintenance: Simulation to Forecasts</h3>
-                        <p class="blog-excerpt">
-                            Implementing a digital twin for pumps and exchangers using stochastic
-                            simulation to generate degradation data and linear regression for RUL prediction.
-                        </p>
-                    </div>
-                    <a href="blog/predictive-maintenance.html" class="read-more">Read Full Article &rarr;</a>
-                </div>
-            </div>
-        </section>
-    </main>
-    <script src="script.js"></script>
+  <script type="module" src="/src/main.js"></script>
 </body>
-
 </html>

@@ -1,0 +1,158 @@
+/**
+ * Author: Amey Thakur
+ * GitHub: https://github.com/amey-thakur
+ * Date: 2026-07-01
+ * License: MIT
+ * Description: Hero section styles.
+ */
+
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-top: var(--space-24);
+  padding-bottom: var(--space-16);
+}
+
+.hero-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+@media (min-width: 992px) {
+  .hero-container {
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: var(--space-16);
+  }
+}
+
+.hero-greeting {
+  font-family: var(--font-body);
+  color: var(--color-accent-primary);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-4);
+  display: block;
+}
+
+.hero-name {
+  margin-bottom: var(--space-2);
+  line-height: 1;
+}
+
+.hero-title-wrapper {
+  margin-bottom: var(--space-6);
+}
+
+.hero-title {
+  font-family: var(--font-body);
+  font-size: var(--text-2xl);
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  margin-bottom: 0;
+}
+
+.title-separator {
+  color: var(--color-accent-primary);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  margin-inline: var(--space-1);
+}
+
+.hero-description {
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-8);
+  max-width: 50ch;
+}
+
+.hero-cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.hero-image-wrapper {
+  position: relative;
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-image-frame {
+  position: absolute;
+  inset: -15px;
+  border: 1px solid var(--color-accent-primary);
+  border-radius: var(--radius-lg);
+  z-index: 0;
+  opacity: 0.5;
+  transform: translate(10px, 10px);
+  transition: transform var(--transition-slow);
+}
+
+.hero-image-wrapper:hover .hero-image-frame {
+  transform: translate(5px, 5px);
+}
+
+.hero-image {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  filter: grayscale(20%) contrast(1.1);
+  transition: filter var(--transition-slow);
+}
+
+.hero-image-wrapper:hover .hero-image {
+  filter: grayscale(0%) contrast(1);
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: var(--space-8);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.7;
+}
+
+.mouse {
+  width: 26px;
+  height: 40px;
+  border: 2px solid var(--color-text-muted);
+  border-radius: 13px;
+  position: relative;
+}
+
+.wheel {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 8px;
+  background-color: var(--color-accent-primary);
+  border-radius: 2px;
+  animation: scroll-wheel 2s infinite;
+}
+
+@keyframes scroll-wheel {
+  0% { transform: translate(-50%, 0); opacity: 1; }
+  100% { transform: translate(-50%, 15px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wheel {
+    animation: none;
+  }
+}

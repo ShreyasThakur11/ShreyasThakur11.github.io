@@ -1,0 +1,45 @@
+/**
+ * Author: Amey Thakur
+ * GitHub: https://github.com/amey-thakur
+ * Date: 2026-07-01
+ * License: MIT
+ * Description: Animation definitions (fade, slide, reveal).
+ */
+
+/* Reveal Animations triggered by Intersection Observer */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 100ms; }
+.reveal-delay-2 { transition-delay: 200ms; }
+.reveal-delay-3 { transition-delay: 300ms; }
+
+/* Subtle pulse for accents */
+@keyframes subtle-pulse {
+  0% { opacity: 0.8; }
+  50% { opacity: 1; box-shadow: var(--shadow-glow); }
+  100% { opacity: 0.8; }
+}
+
+.animate-pulse {
+  animation: subtle-pulse 3s infinite ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-pulse {
+    animation: none;
+  }
+}

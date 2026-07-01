@@ -1,0 +1,20 @@
+{
+  "name": "shreyas-thakur-portfolio",
+  "version": "1.0.0",
+  "description": "Premium personal portfolio for Shreyas Thakur — MBA Candidate at IIM Mumbai",
+  "author": "Amey Thakur",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "prettier --check \"src/**/*.{js,css,html}\" \"*.html\"",
+    "format": "prettier --write \"src/**/*.{js,css,html}\" \"*.html\""
+  },
+  "devDependencies": {
+    "vite": "^6.0.0",
+    "vite-plugin-pwa": "^0.21.0",
+    "prettier": "^3.4.0"
+  }
+}
