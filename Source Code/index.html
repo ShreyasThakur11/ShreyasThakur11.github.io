@@ -1,25 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
+<head>
+    <!-- 
+    Author: Amey Thakur
+    GitHub: https://github.com/amey-thakur
+    Date: 2026-07-01
+    License: MIT
+    Description: Main HTML structure for Shreyas Thakur's Portfolio, mimicking Aaysha's architecture.
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Chemical Engineer transitioning into business leadership through an MBA at IIM Mumbai.">
+    <meta name="author" content="Shreyas Thakur">
+
     <title>Shreyas Thakur</title>
-    <meta name="description" content="Portfolio of Shreyas Thakur — Strategy, Analytics & Operations Management" />
-    
-    <!-- Fonts -->
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="/src/styles/global.css" />
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+
     <!-- Icons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">Shreyas Thakur<span class="dot">.</span></a>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#about" data-target="about">About</a></li>
+                <li><a href="#experience" data-target="experience">Experience</a></li>
+                <li><a href="#projects" data-target="projects">Projects</a></li>
+                <li><a href="#education" data-target="education">Education</a></li>
+                <li><a href="#credentials" data-target="credentials">Certificates</a></li>
+                <li><a href="#contact" data-target="contact" class="btn-nav">Reach Me</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero" class="hero-section">
+        <div class="container hero-content">
+            <div class="hero-text fade-in-up">
+                <p class="subtitle">Strategy & Engineering</p>
+                <h1>Engineering precise <br> <span class="highlight">Solutions</span></h1>
+                <p class="description">
+                    A Chemical Engineer transitioning into business leadership through an MBA at IIM Mumbai.
+                    Specializing in <strong>process optimization</strong>, <strong>financial modeling</strong>, and <strong>operational strategy</strong>.
+                </p>
+                <div class="cta-group">
+                    <a href="#contact" class="btn btn-primary">Reach Me</a>
+                    <a href="https://github.com/ShreyasThakur11/Resume/releases/latest/download/Shreyas_Thakur_Resume.pdf" class="btn btn-secondary"><i class="fas fa-download"></i> Download Resume</a>
+                </div>
+            </div>
+            <div class="hero-visual fade-in-delay">
+                <div class="circle-graphic"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Scroll Down Mouse Indicator -->
+    <a href="#about" class="scroll-down">
+        <div class="mouse">
+            <div class="wheel"></div>
+        </div>
+        <div class="arrow-span">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </a>
+
+    <!-- About Section -->
+    <section id="about" class="section about-section">
+        <div class="container about-grid">
+            <div class="about-image reveal-left">
+                <div class="img-wrapper">
+                    <img src="assets/img/profile.jpg" alt="Shreyas Thakur" style="object-fit: cover;">
+                    <div class="img-overlay"></div>
+                </div>
+            </div>
+            <div class="about-text reveal-right">
+                <h2 class="section-title">Value Proposition</h2>
+                <div class="bio">
+                    <p class="lead">
+                        I am a Chemical Engineer transitioning into business leadership through an MBA at the <strong>Indian Institute of Management (IIM) Mumbai</strong>. My foundation lies in rigorous process engineering, where I specialized in optimizing plant operations, conducting techno-economic evaluations, and implementing data-driven reliability models.
+                    </p>
+                    <p>
+                        During my time in the chemical manufacturing industry, I led root cause analyses and moisture reduction studies that directly improved asset utilization and production throughput. I excel at solving complex, multi-variable problems, whether that involves designing a 25 TPA specialty chemicals facility or building AI-driven predictive maintenance pipelines.
+                    </p>
+                    <p>
+                        Now, I am combining my technical background with advanced business strategy, supply chain analytics, and financial modeling. My goal is to bridge the gap between engineering excellence and executive decision-making to drive sustainable enterprise growth.
+                    </p>
+                    <div class="vibe-tags">
+                        <span class="tag">Process Optimization</span>
+                        <span class="tag">Financial Modeling</span>
+                        <span class="tag">Supply Chain Analytics</span>
+                        <span class="tag">Strategic Planning</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section (Using Aaysha's Education/Timeline format for Experience) -->
+    <section id="experience" class="section education-section">
+        <div class="container">
+            <h2 class="section-title text-center reveal-up">Professional Experience</h2>
+
+            <div class="timeline">
+                <div class="timeline-item reveal-up">
+                    <div class="timeline-date">Jun 2023 – Present</div>
+                    <div class="timeline-content card-glass">
+                        <h3>Process Engineer</h3>
+                        <h4>Deepak Nitrite Ltd., Dahej</h4>
+                        <p>Leading capacity enhancement and debottlenecking initiatives for a 120,000 TPA phenol plant. Engineered a heat recovery system saving $150K annually.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-up">
+                    <div class="timeline-date">Jan 2023 – May 2023</div>
+                    <div class="timeline-content card-glass">
+                        <h3>Strategy Consulting Intern</h3>
+                        <h4>KPMG India</h4>
+                        <p>Assisted in market entry strategy for a European specialty chemicals manufacturer targeting the APAC region. Conducted financial modeling and competitor benchmarking.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section (Using Aaysha's Research format) -->
+    <section id="projects" class="section research-section">
+        <div class="container">
+            <h2 class="section-title text-center reveal-up">Key Projects</h2>
+            <div class="research-grid">
+                
+                <div class="card-research reveal-up">
+                    <div class="card-header">
+                        <i class="fas fa-industry icon-bg"></i>
+                        <h3>Predictive Maintenance Model</h3>
+                        <span class="badge">Machine Learning</span>
+                    </div>
+                    <div class="card-body">
+                        <p>Developed an AI pipeline using Python to predict pump failures in a continuous manufacturing setup.</p>
+                        <ul class="d-list">
+                            <li><i class="fas fa-check"></i> 15% reduction in unplanned downtime.</li>
+                            <li><i class="fas fa-check"></i> Deployed using Flask API.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card-research reveal-up">
+                    <div class="card-header">
+                        <i class="fas fa-chart-line icon-bg"></i>
+                        <h3>Supply Chain Network Optimization</h3>
+                        <span class="badge">Operations</span>
+                    </div>
+                    <div class="card-body">
+                        <p>Modeled a multi-echelon distribution network to minimize transportation costs across India.</p>
+                        <ul class="d-list">
+                            <li><i class="fas fa-check"></i> Linear programming in Python.</li>
+                            <li><i class="fas fa-check"></i> 8% projected cost savings.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section (Using Aaysha's timeline format again) -->
+    <section id="education" class="section education-section">
+        <div class="container">
+            <h2 class="section-title text-center reveal-up">Academic Foundation</h2>
+
+            <div class="timeline">
+                <div class="timeline-item reveal-up">
+                    <div class="timeline-date">2024 – 2026</div>
+                    <div class="timeline-content card-glass">
+                        <h3>Master of Business Administration (MBA)</h3>
+                        <h4>Indian Institute of Management (IIM) Mumbai</h4>
+                        <p>Focus on Operations Management and Strategy. Member of the Consulting Club.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item reveal-up">
+                    <div class="timeline-date">2019 – 2023</div>
+                    <div class="timeline-content card-glass">
+                        <h3>Bachelor of Technology in Chemical Engineering</h3>
+                        <h4>National Institute of Technology (NIT)</h4>
+                        <p>Graduated with Distinction (CGPA: 9.2). President of the AIChE Student Chapter.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Credentials Section -->
+    <section id="credentials" class="section credentials-section">
+        <div class="container">
+            <h2 class="section-title text-center reveal-up">Certifications & Credentials</h2>
+
+            <!-- Resume Sub-Area -->
+            <div class="resume-cta reveal-up">
+                <div class="resume-cta-content card-glass">
+                    <div class="resume-cta-text">
+                        <h3><i class="fas fa-file-alt"></i> Executive Resume</h3>
+                        <p>Download my latest resume for a complete overview of my education, professional experience, and technical skills.</p>
+                    </div>
+                    <div class="resume-cta-actions">
+                        <a href="https://github.com/ShreyasThakur11/Resume/releases/latest/download/Shreyas_Thakur_Resume.pdf" class="btn btn-primary"><i class="fas fa-download"></i> Download Resume</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certificates Sub-Area -->
+            <div class="credentials-grid">
+                <div class="credential-card card-glass reveal-up">
+                    <div class="credential-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Six Sigma Green Belt</h3>
+                    <p>ASQ Certified</p>
+                </div>
+
+                <div class="credential-card card-glass reveal-up">
+                    <div class="credential-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Financial Modeling</h3>
+                    <p>Corporate Finance Institute</p>
+                </div>
+
+                <div class="credential-card card-glass reveal-up">
+                    <div class="credential-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Data Analytics</h3>
+                    <p>Google Professional Certificate</p>
+                </div>
+            </div>
+            
+            <div class="text-center reveal-up" style="margin-top: 2.5rem;">
+                <a href="https://github.com/ShreyasThakur11/Certificates" target="_blank" class="btn btn-primary"><i class="fas fa-folder-open"></i> View Certificate Repository</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact-section">
+        <div class="container">
+            <div class="contact-wrapper card-glass reveal-up">
+                <div class="contact-info">
+                    <h2>Reach Me</h2>
+                    <p>I am seeking consulting and leadership roles to drive strategic business growth through analytical rigor.</p>
+
+                    <div class="contact-details">
+                        <div class="detail-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:shreyas@example.com">shreyas@example.com</a>
+                        </div>
+                        <div class="social-links">
+                            <a href="https://linkedin.com/in/shreyasthakur" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://github.com/ShreyasThakur11" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <form action="https://formspree.io/f/mqazwrnd" method="POST" class="contact-form" autocomplete="off" id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Hi Shreyas, I'd like to discuss..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">Shreyas Thakur<span class="dot">.</span></div>
+            <p>&copy; <span id="year"></span> Shreyas Thakur. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+</body>
 </html>
