@@ -3,7 +3,7 @@
  * GitHub: https://github.com/amey-thakur
  * Date: 2026-07-01
  * License: MIT
- * Description: styling for the certificate modal viewer.
+ * Description: Styles for the certificate modal viewer.
  */
 
 .modal-overlay {
@@ -12,9 +12,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--color-glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   z-index: 2000;
   display: flex;
   align-items: center;
@@ -31,7 +31,7 @@
 
 .modal-container {
   background-color: var(--color-bg-primary);
-  border: 1px solid var(--color-border-strong);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   width: 90%;
@@ -39,7 +39,7 @@
   height: 85vh;
   display: flex;
   flex-direction: column;
-  transform: translateY(20px) scale(0.98);
+  transform: translateY(10px) scale(0.98);
   transition: transform var(--transition-normal);
   overflow: hidden;
 }
@@ -52,39 +52,41 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-4) var(--space-6);
-  border-bottom: 1px solid var(--color-border-subtle);
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
   background-color: var(--color-bg-secondary);
 }
 
 .modal-title {
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 1.125rem;
   color: var(--color-text-primary);
   margin: 0;
 }
 
 .modal-actions {
   display: flex;
-  gap: var(--space-4);
+  gap: 0.5rem;
 }
 
 .modal-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--radius-full);
   background: transparent;
   border: none;
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary);
   cursor: pointer;
-  transition: background-color var(--transition-fast);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 .modal-btn:hover {
-  background-color: var(--color-bg-tertiary);
+  background-color: var(--color-border);
+  color: var(--color-text-primary);
 }
 
 .modal-body {
@@ -102,4 +104,3 @@
   height: 100%;
   border: none;
 }
-

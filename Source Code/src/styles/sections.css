@@ -1,0 +1,87 @@
+/**
+ * Author: Amey Thakur
+ * GitHub: https://github.com/amey-thakur
+ * Date: 2026-07-01
+ * License: MIT
+ * Description: Styles specific to the Hero section.
+ */
+
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 4.5rem; /* Account for fixed header */
+  background-color: var(--color-bg-primary);
+}
+
+.hero-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-content {
+  max-width: var(--max-width-hero);
+}
+
+.hero-eyebrow {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-tertiary);
+  margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  margin-bottom: 2rem;
+}
+
+.hero-description {
+  font-size: 1.125rem;
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+  color: var(--color-text-secondary);
+}
+
+@media (min-width: 768px) {
+  .hero-description {
+    font-size: 1.25rem;
+  }
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Base Section Styles */
+.section-header {
+  margin-bottom: 4rem;
+}
+
+.section-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-tertiary);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 1rem;
+}
+
+.section-desc {
+  max-width: 600px;
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+}

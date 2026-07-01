@@ -8,7 +8,7 @@
 
 import { createElement, $ } from '../utils/dom.js';
 
-export const renderModal = () => {
+export const renderModal = (): HTMLElement => {
   const overlay = createElement('div', { className: 'modal-overlay', id: 'cert-modal' });
   const container = createElement('div', { className: 'modal-container' });
   
@@ -51,17 +51,15 @@ export const renderModal = () => {
   header.appendChild(actions);
   
   const body = createElement('div', { className: 'modal-body', id: 'modal-body' });
-  // iframe will be injected dynamically
   
   container.appendChild(header);
   container.appendChild(body);
   overlay.appendChild(container);
   
-  // Close logic
   const closeModal = () => {
     overlay.classList.remove('is-open');
     setTimeout(() => {
-      body.innerHTML = ''; // Clear iframe to stop loading/playing
+      body.innerHTML = '';
     }, 300);
     document.body.style.overflow = '';
   };
@@ -79,10 +77,10 @@ export const renderModal = () => {
   return overlay;
 };
 
-export const openModal = (pdfUrl, titleText) => {
+export const openModal = (pdfUrl: string, titleText: string): void => {
   const modal = $('#cert-modal');
   const title = $('#modal-title');
-  const download = $('#modal-download');
+  const download = $('#modal-download') as HTMLAnchorElement;
   const body = $('#modal-body');
   
   if (!modal || !title || !download || !body) return;
@@ -90,8 +88,7 @@ export const openModal = (pdfUrl, titleText) => {
   title.textContent = titleText || 'Document Viewer';
   download.href = pdfUrl;
   
-  // Create iframe for PDF viewing
-  body.innerHTML = `<iframe src="${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0" class="modal-iframe" title="${titleText}"></iframe>`;
+  body.innerHTML = \`<iframe src="\${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0" class="modal-iframe" title="\${titleText}"></iframe>\`;
   
   modal.classList.add('is-open');
   document.body.style.overflow = 'hidden';
