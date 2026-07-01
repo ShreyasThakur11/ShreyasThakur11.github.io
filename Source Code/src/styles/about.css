@@ -3,64 +3,99 @@
  * GitHub: https://github.com/amey-thakur
  * Date: 2026-07-01
  * License: MIT
- * Description: About section styles.
+ * Description: Premium styling for the About section.
  */
 
-.about-content-wrapper {
+.about-grid {
+  display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-12);
+  align-items: center;
 }
 
 @media (min-width: 992px) {
-  .about-content-wrapper {
-    grid-template-columns: 1.5fr 1fr;
+  .about-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-16);
   }
 }
 
-.about-text {
-  font-size: var(--text-lg);
+.about-image-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
-.about-text p {
-  margin-bottom: var(--space-6);
-}
-
-.about-metrics {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.metric-card {
-  background-color: var(--color-bg-secondary);
-  border: 1px solid var(--color-border-subtle);
+.about-image {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
   border-radius: var(--radius-lg);
-  padding: var(--space-6);
+  box-shadow: var(--shadow-lg);
+  transition: transform var(--transition-slow);
+}
+
+.about-image-wrapper:hover .about-image {
+  transform: scale(1.02);
+}
+
+/* Very subtle offset background mimicking Apple's photography framing */
+.about-image-bg {
+  position: absolute;
+  top: 5%;
+  left: -5%;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  z-index: -1;
+  transition: transform var(--transition-slow);
+}
+
+.about-image-wrapper:hover .about-image-bg {
+  transform: translate(2%, -2%);
+}
+
+.about-content h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  margin-bottom: var(--space-6);
+  letter-spacing: -0.02em;
+}
+
+.about-content p {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-6);
+  line-height: 1.6;
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.stat-item {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  transition: transform var(--transition-normal);
+  gap: var(--space-2);
 }
 
-.metric-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--color-border-strong);
-}
-
-.metric-value {
+.stat-number {
   font-family: var(--font-display);
-  font-size: var(--text-5xl);
-  color: var(--color-accent-primary);
-  line-height: 1;
-  margin-bottom: var(--space-2);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
 }
 
-.metric-label {
+.stat-label {
   font-size: var(--text-sm);
-  color: var(--color-text-secondary);
+  color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 500;
+  letter-spacing: 0.1em;
 }

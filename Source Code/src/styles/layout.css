@@ -3,41 +3,53 @@
  * GitHub: https://github.com/amey-thakur
  * Date: 2026-07-01
  * License: MIT
- * Description: Layout primitives.
+ * Description: Defines structural layout classes, flex/grid utilities, and main container constraints.
  */
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  overflow-x: hidden;
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
 
 .container {
   width: 100%;
   max-width: var(--container-max);
-  margin-inline: auto;
-  padding-inline: var(--container-padding);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
 }
 
 .section {
-  padding-block: var(--space-24);
+  padding: var(--space-24) 0;
   position: relative;
 }
 
 @media (min-width: 768px) {
   .section {
-    padding-block: var(--space-32);
+    padding: var(--space-32) 0;
   }
 }
 
-.grid {
-  display: grid;
-  gap: var(--space-6);
+.section-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: var(--space-32);
 }
 
-.grid-cols-2 {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+.bg-alt {
+  background-color: var(--color-bg-secondary);
 }
 
-.grid-cols-3 {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
-}
-
-.flex {
+.d-flex {
   display: flex;
 }
 
@@ -45,7 +57,7 @@
   flex-direction: column;
 }
 
-.items-center {
+.align-center {
   align-items: center;
 }
 
@@ -64,22 +76,22 @@
 
 .mt-2 { margin-top: var(--space-2); }
 .mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
 .mt-8 { margin-top: var(--space-8); }
 .mt-12 { margin-top: var(--space-12); }
 
 .mb-2 { margin-bottom: var(--space-2); }
 .mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
 .mb-8 { margin-bottom: var(--space-8); }
 .mb-12 { margin-bottom: var(--space-12); }
 
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+/* Utility classes to hide standard borders/boxes in premium design */
+.edge-to-edge {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }

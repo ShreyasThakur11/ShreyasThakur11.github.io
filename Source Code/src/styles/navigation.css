@@ -3,70 +3,72 @@
  * GitHub: https://github.com/amey-thakur
  * Date: 2026-07-01
  * License: MIT
- * Description: Navigation component styling.
+ * Description: Styling for the top navigation bar with a frosted glass effect.
  */
 
-.nav-main {
+.navbar {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  z-index: 50;
-  background-color: transparent;
-  transition: background-color var(--transition-normal), box-shadow var(--transition-normal), padding var(--transition-normal);
-  padding-block: var(--space-6);
+  right: 0;
+  z-index: 1000;
+  padding: var(--space-4) 0;
+  transition: all var(--transition-normal);
+  border-bottom: 1px solid transparent;
 }
 
-.nav-scrolled {
+.navbar.nav-scrolled {
   background-color: var(--color-glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--color-border-subtle);
-  padding-block: var(--space-4);
-  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: var(--space-3) 0;
+  border-bottom-color: var(--color-border-subtle);
 }
 
 .nav-container {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
 .nav-logo {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  color: var(--color-text-primary);
-  text-decoration: none;
-}
-
-.logo-text {
   font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  line-height: 1;
+  font-weight: 600;
+  font-size: var(--text-xl);
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
 }
 
-.nav-menu {
+.nav-logo:hover {
+  opacity: 1;
+  text-shadow: var(--shadow-glow);
+}
+
+.nav-links {
   display: none;
 }
 
-@media (min-width: 768px) {
-  .nav-menu {
+@media (min-width: 992px) {
+  .nav-links {
     display: flex;
+    gap: var(--space-6);
     align-items: center;
-    gap: var(--space-8);
   }
 }
 
 .nav-link {
   font-family: var(--font-body);
   font-size: var(--text-sm);
-  font-weight: 500;
   color: var(--color-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-weight: 500;
   position: relative;
-  padding-block: var(--space-2);
+  padding: var(--space-2) 0;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--color-text-primary);
+  opacity: 1;
 }
 
 .nav-link::after {
@@ -74,81 +76,94 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 100%;
+  width: 0;
   height: 2px;
-  background-color: var(--color-accent-primary);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform var(--transition-normal);
-}
-
-.nav-link:hover {
-  color: var(--color-text-primary);
+  background-color: var(--color-text-primary);
+  transition: width var(--transition-fast);
 }
 
 .nav-link:hover::after,
 .nav-link.active::after {
-  transform: scaleX(1);
-  transform-origin: left;
+  width: 100%;
 }
 
-.nav-link.active {
-  color: var(--color-text-primary);
-}
-
-/* Mobile Toggle */
-.nav-toggle {
-  display: block;
+/* Mobile Menu Button */
+.menu-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: var(--space-2);
-  z-index: 60;
+  padding: 0;
+  z-index: 1001;
 }
 
-@media (min-width: 768px) {
-  .nav-toggle {
+@media (min-width: 992px) {
+  .menu-btn {
     display: none;
   }
 }
 
-.hamburger-line {
-  display: block;
-  width: 24px;
+.menu-btn span {
+  width: 100%;
   height: 2px;
   background-color: var(--color-text-primary);
-  margin-block: 5px;
-  transition: transform var(--transition-fast), opacity var(--transition-fast);
+  transition: all var(--transition-fast);
 }
 
-/* Mobile Menu Open State */
-.nav-main.is-open .nav-menu {
+/* Mobile Menu Overlay */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-glass-bg);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  z-index: 999;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: var(--color-bg-primary);
-  z-index: 55;
-  gap: var(--space-8);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-normal);
 }
 
-.nav-main.is-open .nav-link {
-  font-size: var(--text-xl);
+.mobile-menu.is-open {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.nav-main.is-open .nav-toggle .hamburger-line:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+.mobile-menu .nav-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
 }
 
-.nav-main.is-open .nav-toggle .hamburger-line:nth-child(2) {
+.mobile-menu .nav-link {
+  font-size: var(--text-2xl);
+  font-family: var(--font-display);
+}
+
+body.menu-open {
+  overflow: hidden;
+}
+
+/* Menu Button Animations */
+.menu-btn.is-open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.menu-btn.is-open span:nth-child(2) {
   opacity: 0;
 }
 
-.nav-main.is-open .nav-toggle .hamburger-line:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
+.menu-btn.is-open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
 }

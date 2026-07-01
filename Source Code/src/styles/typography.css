@@ -3,7 +3,7 @@
  * GitHub: https://github.com/amey-thakur
  * Date: 2026-07-01
  * License: MIT
- * Description: Typography system for the portfolio.
+ * Description: Establishes base typography rules, heading scales, paragraph styling, and font assignments.
  */
 
 body {
@@ -11,54 +11,57 @@ body {
   font-size: var(--text-base);
   color: var(--color-text-primary);
   background-color: var(--color-bg-primary);
+  letter-spacing: -0.01em;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 400;
-  line-height: 1.1;
+  font-weight: 600;
+  line-height: 1.05;
   margin-bottom: var(--space-4);
   color: var(--color-text-primary);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em; /* Tighter letter spacing for display fonts */
 }
 
 h1 {
   font-size: var(--text-6xl);
+  font-weight: 700;
 }
 
 h2 {
   font-size: var(--text-5xl);
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6);
+  font-weight: 600;
 }
 
 h3 {
   font-size: var(--text-3xl);
-  font-family: var(--font-body);
   font-weight: 600;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 h4 {
   font-size: var(--text-xl);
-  font-family: var(--font-body);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 p {
   color: var(--color-text-secondary);
   margin-bottom: var(--space-4);
   max-width: 65ch;
-  line-height: 1.7;
+  line-height: 1.6;
+  font-size: var(--text-lg);
+  font-weight: 400;
 }
 
 a {
-  color: var(--color-accent-primary);
+  color: var(--color-text-primary);
   text-decoration: none;
-  transition: color var(--transition-fast);
+  transition: opacity var(--transition-fast);
 }
 
 a:hover, a:focus {
-  color: var(--color-accent-hover);
+  opacity: 0.7;
 }
 
 strong, b {
@@ -80,11 +83,11 @@ small {
 
 .section-subtitle {
   font-family: var(--font-body);
-  font-size: var(--text-lg);
-  color: var(--color-accent-primary);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 500;
-  margin-bottom: var(--space-2);
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  margin-bottom: var(--space-4);
   display: block;
 }

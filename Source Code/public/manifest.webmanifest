@@ -4,8 +4,8 @@
   "description": "Portfolio of Shreyas Thakur, Chemical Engineer and MBA Candidate at IIM Mumbai.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0a0f1e",
-  "theme_color": "#0a0f1e",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "/favicon.svg",

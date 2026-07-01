@@ -1,68 +1,35 @@
-# Shreyas Thakur — Portfolio Website
+# Shreyas Thakur
 
-A premium, executive-grade digital portfolio built for Shreyas Thakur (Chemical Engineer & MBA Candidate at IIM Mumbai). Designed to highlight the transition from rigorous technical engineering to business leadership, strategy, and operations management.
+**Chemical Engineer & MBA Candidate at IIM Mumbai**
 
-## 🚀 Tech Stack
+Welcome to my digital portfolio. This repository contains the source code for my personal website, meticulously designed to reflect a blend of engineering precision and strategic business execution. 
 
-* **Vite 6** — Lightning-fast build tooling and dev server
-* **Vanilla JS** — Zero-dependency architecture for maximum performance and control
-* **Vanilla CSS** — Custom design system built with CSS variables (`design-tokens.css`)
-* **PWA Enabled** — Fully installable as an application via `vite-plugin-pwa`
-* **GitHub Actions** — CI/CD pipeline automating deployments to GitHub Pages
+The site serves as a central hub for recruiters, collaborators, and peers to explore my professional journey, from optimizing complex industrial operations in the chemical sector to mastering advanced management frameworks at one of India's premier business schools.
 
-## 📐 Architecture & Design System
+## 🌐 Live Website
+**[Explore the Portfolio](https://ShreyasThakur11.github.io)**
 
-The application is structured as a modular SPA-like experience without heavy frameworks. 
-All UI components are built natively and assembled in `src/main.js`.
+## 📑 Contents
 
-* **Design Tokens:** Typography scales, colors, spacing, and animations defined centrally in `src/styles/design-tokens.css`.
-* **DOM Utilities:** Custom wrapper functions in `src/utils/dom.js` for clean element creation.
-* **Component-Based Sections:** Each major section (Hero, About, Experience) is a standalone pure function returning a DOM node.
+- **Professional Experience:** Detailed timelines of my roles in tax, audit, and process engineering.
+- **Verified Credentials:** One-click access to official internship letters and elite certifications from institutions like NPTEL and IIChE.
+- **Academic Journey:** A clear visualization of my path from a B.Tech in Chemical Engineering (ICT Mumbai) to an MBA (IIM Mumbai).
 
-## 🛠️ Local Development
+## 🛠️ Technical Architecture
 
-### Prerequisites
-* Node.js (v18 or higher recommended)
-* npm
+This portfolio is built to executive standards with a focus on performance, accessibility, and a premium "Apple-inspired" minimal design language.
 
-### Setup
+- **Framework:** Vanilla JavaScript with Vite 6 for lightning-fast builds.
+- **Design System:** Custom CSS architecture utilizing a crisp light theme, glassmorphic surfaces, and highly legible typography (`SF Pro` & `Instrument Serif`).
+- **Progressive Web App (PWA):** Fully installable on desktop and mobile devices.
+- **CI/CD:** Automated deployments to GitHub Pages via GitHub Actions.
 
-1. **Clone the repository:**
-   \`\`\`bash
-   git clone https://github.com/ShreyasThakur11/ShreyasThakur11.github.io.git
-   cd ShreyasThakur11.github.io
-   \`\`\`
+## 📬 Get in Touch
 
-2. **Install dependencies:**
-   \`\`\`bash
-   npm install
-   \`\`\`
+I am always open to discussing new opportunities at the intersection of operations and strategy. 
 
-3. **Start the development server:**
-   \`\`\`bash
-   npm run dev
-   \`\`\`
-   _The site will be available at http://localhost:5173_
-
-### Building for Production
-
-\`\`\`bash
-npm run build
-\`\`\`
-_Compiled assets will be placed in the `dist/` directory._
-
-## 📝 Formspree Integration
-
-The Contact form is built to integrate directly with Formspree.
-To activate it:
-1. Create a Formspree account and a new form.
-2. Open `src/sections/contact.js`.
-3. Locate the form action URL: `https://formspree.io/f/YOUR_FORM_ID`.
-4. Replace `YOUR_FORM_ID` with your actual Formspree ID.
-
-## 🔮 Easter Eggs
-* Press \`Cmd + K\` or \`Ctrl + K\` to quickly scroll to the Contact section.
-* Check the developer console for a hidden message.
+- **Email:** thakursm11@gmail.com
+- **LinkedIn:** [linkedin.com/in/shreyasthakur11](https://linkedin.com/in/shreyasthakur11)
 
 ---
-*Built with care.*
+*Built with care and a commitment to excellence.*

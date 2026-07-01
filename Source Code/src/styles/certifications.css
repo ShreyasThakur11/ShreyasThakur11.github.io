@@ -3,24 +3,25 @@
  * GitHub: https://github.com/amey-thakur
  * Date: 2026-07-01
  * License: MIT
- * Description: Certifications styling.
+ * Description: Styling for Certifications section.
  */
 
 .cert-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-6);
+  gap: var(--space-8);
 }
 
 @media (min-width: 768px) {
   .cert-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   }
 }
 
 .cert-card {
-  padding: var(--space-6);
-  background-color: var(--color-bg-secondary);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-8);
 }
 
 .cert-header {
@@ -28,28 +29,44 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 
 .cert-date {
   font-family: var(--font-body);
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
-}
-
-.cert-badge {
-  background-color: var(--color-accent-subtle);
-  color: var(--color-accent-primary);
-  border: 1px solid var(--color-accent-primary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .cert-title {
-  font-size: var(--text-lg);
-  font-family: var(--font-body);
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  color: var(--color-text-primary);
   margin-bottom: var(--space-2);
+  line-height: 1.2;
 }
 
 .cert-issuer {
   display: block;
   font-size: var(--text-sm);
   color: var(--color-text-muted);
+  font-weight: 500;
+  margin-bottom: var(--space-4);
+}
+
+.cert-score {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  font-weight: 600;
+  margin-bottom: var(--space-6);
+  display: inline-block;
+}
+
+.cert-actions {
+  margin-top: auto; /* Push button to bottom */
 }

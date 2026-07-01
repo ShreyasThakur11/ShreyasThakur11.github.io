@@ -3,43 +3,44 @@
  * GitHub: https://github.com/amey-thakur
  * Date: 2026-07-01
  * License: MIT
- * Description: Design tokens for the Shreyas Thakur portfolio.
- *              Defines colors, typography scales, spacing, shadows, and motion properties.
+ * Description: Defines global CSS variables for colors, typography scale, spacing, layout, shadows, and motion for a premium Light Theme.
  */
 
 :root {
-  /* Colors */
-  --color-bg-primary: #0a0f1e;
-  --color-bg-secondary: #131b2f;
-  --color-bg-tertiary: #1c2642;
+  /* Colors - Premium Light Theme */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f5f5f7;
+  --color-bg-tertiary: #e5e5ea;
   
-  --color-text-primary: #f0ede6;
-  --color-text-secondary: #a3b0c9;
-  --color-text-muted: #6b7a99;
+  --color-text-primary: #1d1d1f;
+  --color-text-secondary: #86868b;
+  --color-text-muted: #a1a1a6;
 
-  --color-accent-primary: #c4a35a; /* Muted gold */
-  --color-accent-hover: #e0c27e;
-  --color-accent-subtle: rgba(196, 163, 90, 0.15);
+  /* Accents */
+  --color-accent-primary: #000000;
+  --color-accent-hover: #1d1d1f;
+  --color-accent-subtle: rgba(0, 0, 0, 0.05);
 
-  --color-border-subtle: rgba(255, 255, 255, 0.08);
-  --color-border-strong: rgba(255, 255, 255, 0.15);
+  /* Glass & Borders */
+  --color-border-subtle: rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(0, 0, 0, 0.15);
+  --color-glass-bg: rgba(255, 255, 255, 0.72);
+  --color-glass-card: rgba(255, 255, 255, 0.6);
 
-  --color-glass-bg: rgba(10, 15, 30, 0.7);
-
-  /* Typography Scale (Modular) */
-  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Instrument Serif', Georgia, serif;
+  /* Typography Scale (SF Pro / System) */
+  --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Playfair Display", "New York", serif;
   
-  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
-  --text-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
-  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.8125rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.375vw, 0.9375rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
   --text-lg: clamp(1.125rem, 1.05rem + 0.375vw, 1.25rem);
   --text-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
   --text-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
   --text-3xl: clamp(1.875rem, 1.6rem + 1.375vw, 2.5rem);
   --text-4xl: clamp(2.25rem, 1.8rem + 2.25vw, 3rem);
   --text-5xl: clamp(3rem, 2.4rem + 3vw, 4.5rem);
-  --text-6xl: clamp(3.75rem, 3rem + 3.75vw, 6rem);
+  --text-6xl: clamp(4rem, 3.5rem + 4vw, 7rem);
 
   /* Spacing */
   --space-1: 0.25rem;
@@ -52,25 +53,26 @@
   --space-16: 4rem;
   --space-24: 6rem;
   --space-32: 8rem;
+  --space-48: 12rem;
 
   /* Layout */
-  --container-max: 1200px;
-  --container-padding: var(--space-6);
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 1rem;
+  --container-max: 1024px;
+  --container-padding: var(--space-8);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
   --radius-full: 9999px;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 20px var(--color-accent-subtle);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
+  --shadow-glow: 0 0 40px rgba(0, 0, 0, 0.05);
 
   /* Motion */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --transition-normal: 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --transition-slow: 800ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
