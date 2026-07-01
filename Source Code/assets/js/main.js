@@ -346,6 +346,44 @@ window.openDocModal = function(docUrl, title) {
         titleEl.textContent = title;
         downloadBtn.href = docUrl;
         
+        // Force the download attribute to use the actual filename
+        const fileName = docUrl.split('/').pop();
+        downloadBtn.setAttribute('download', fileName);
+        
+        // Override click to force download via blob for stubborn browsers
+        downloadBtn.onclick = function(e) {
+            e.preventDefault();
+            
+            // Show brief loading state
+            const originalText = downloadBtn.innerHTML;
+            downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Downloading...';
+            
+            fetch(docUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                    downloadBtn.innerHTML = originalText;
+                })
+                .catch(() => {
+                    // Fallback
+                    const a = document.createElement('a');
+                    a.href = docUrl;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    downloadBtn.innerHTML = originalText;
+                });
+        };
+        
         // Show modal
         modal.style.display = 'flex';
         // Small delay to allow display:flex to apply before adding the opacity class for transition
