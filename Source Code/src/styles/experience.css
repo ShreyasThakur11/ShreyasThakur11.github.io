@@ -3,7 +3,7 @@
  * GitHub: https://github.com/amey-thakur
  * Date: 2026-07-01
  * License: MIT
- * Description: Premium styling for Experience section.
+ * Description: styling for Experience section.
  */
 
 .experience-list {
@@ -87,3 +87,4 @@
 .exp-actions {
   margin-top: var(--space-4);
 }
+

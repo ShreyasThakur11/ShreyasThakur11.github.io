@@ -3,7 +3,7 @@
  * GitHub: https://github.com/amey-thakur
  * Date: 2026-07-01
  * License: MIT
- * Description: Premium styling for the Hero section.
+ * Description: styling for the Hero section.
  */
 
 .hero-content {
@@ -73,3 +73,4 @@
   z-index: -1;
   pointer-events: none;
 }
+

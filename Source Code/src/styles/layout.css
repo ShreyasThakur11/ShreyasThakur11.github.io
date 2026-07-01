@@ -86,7 +86,7 @@ main {
 .mb-8 { margin-bottom: var(--space-8); }
 .mb-12 { margin-bottom: var(--space-12); }
 
-/* Utility classes to hide standard borders/boxes in premium design */
+/* Utility classes to hide standard borders/boxes in design */
 .edge-to-edge {
   width: 100vw;
   position: relative;
@@ -95,3 +95,4 @@ main {
   margin-left: -50vw;
   margin-right: -50vw;
 }
+

@@ -3,11 +3,11 @@
  * GitHub: https://github.com/amey-thakur
  * Date: 2026-07-01
  * License: MIT
- * Description: Defines global CSS variables for colors, typography scale, spacing, layout, shadows, and motion for a premium Light Theme.
+ * Description: Defines global CSS variables for colors, typography scale, spacing, layout, shadows, and motion for a Light Theme.
  */
 
 :root {
-  /* Colors - Premium Light Theme */
+  /* Colors - Light Theme */
   --color-bg-primary: #ffffff;
   --color-bg-secondary: #f5f5f7;
   --color-bg-tertiary: #e5e5ea;
@@ -82,3 +82,4 @@
     --transition-slow: 0s;
   }
 }
+

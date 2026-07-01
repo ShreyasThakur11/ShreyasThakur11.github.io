@@ -24,6 +24,7 @@ import { renderLeadership } from './sections/leadership.js';
 import { renderEducation } from './sections/education.js';
 import { renderCertifications } from './sections/certifications.js';
 import { renderContact } from './sections/contact.js';
+import { renderModal } from './components/modal.js';
 
 // Import Styles for Sections (to be handled by Vite in dev/build)
 import './styles/navigation.css';
@@ -38,6 +39,7 @@ import './styles/leadership.css';
 import './styles/education.css';
 import './styles/certifications.css';
 import './styles/contact.css';
+import './styles/modal.css';
 
 const initApp = () => {
   const app = $('#app');
@@ -74,6 +76,7 @@ Built with care. Want to collaborate? → thakursm11@gmail.com
   app.appendChild(main);
   
   app.appendChild(renderFooter());
+  app.appendChild(renderModal());
 
   // Easter Egg: Keyboard Shortcut Cmd+K / Ctrl+K
   document.addEventListener('keydown', (e) => {

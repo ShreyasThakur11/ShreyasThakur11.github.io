@@ -3,7 +3,7 @@
  * GitHub: https://github.com/amey-thakur
  * Date: 2026-07-01
  * License: MIT
- * Description: Premium Hero Section Component.
+ * Description: Hero Section Component.
  */
 
 import { createElement } from '../utils/dom.js';
@@ -60,3 +60,4 @@ export const renderHero = () => {
   
   return section;
 };
+

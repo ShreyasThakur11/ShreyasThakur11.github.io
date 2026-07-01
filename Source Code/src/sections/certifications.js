@@ -3,10 +3,11 @@
  * GitHub: https://github.com/amey-thakur
  * Date: 2026-07-01
  * License: MIT
- * Description: Premium Certifications section component.
+ * Description: Certifications section component.
  */
 
 import { createElement } from '../utils/dom.js';
+import { openModal } from '../components/modal.js';
 
 export const renderCertifications = () => {
   const section = createElement('section', { id: 'certifications', className: 'section bg-alt' });
@@ -56,11 +57,23 @@ export const renderCertifications = () => {
       <span class="cert-issuer">${cert.issuer}</span>
       ${scoreHtml}
       <div class="cert-actions">
-        <a href="${cert.pdf}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary text-sm mt-4 w-full">
-          Download Certificate
-        </a>
+        <button class="btn btn-secondary text-sm mt-4 w-full view-cert-btn" data-url="${cert.pdf}" data-title="${cert.title}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+          View Certificate
+        </button>
       </div>
     `;
+    
+    // Attach event listener
+    const btn = card.querySelector('.view-cert-btn');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        openModal(btn.dataset.url, btn.dataset.title);
+      });
+    }
     
     grid.appendChild(card);
   });
@@ -72,3 +85,4 @@ export const renderCertifications = () => {
   
   return section;
 };
+
