@@ -2053,19 +2053,34 @@ footer {
 }
 
 /* Document Actions (Icons) */
-.timeline-content, .credential-card {
+.timeline-content {
+    position: relative;
+}
+
+.credential-card {
     position: relative;
     display: flex;
     flex-direction: column;
     height: 100%;
 }
+
 .doc-actions {
+    position: absolute;
+    top: 20px;
+    right: 20px;
     display: flex;
-    justify-content: center;
     gap: 15px;
+    z-index: 10;
+}
+
+/* Center at bottom for Credentials only */
+.credential-card .doc-actions {
+    position: static;
+    justify-content: center;
     margin-top: auto;
     padding-top: 1.5rem;
 }
+
 .doc-actions a {
     color: var(--text-color);
     font-size: 1.2rem;
