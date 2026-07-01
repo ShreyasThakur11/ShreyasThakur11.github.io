@@ -88,7 +88,7 @@ export const openModal = (pdfUrl: string, titleText: string): void => {
   title.textContent = titleText || 'Document Viewer';
   download.href = pdfUrl;
   
-  body.innerHTML = \`<iframe src="\${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0" class="modal-iframe" title="\${titleText}"></iframe>\`;
+  body.innerHTML = `<iframe src="${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0" class="modal-iframe" title="${titleText}"></iframe>`;
   
   modal.classList.add('is-open');
   document.body.style.overflow = 'hidden';
