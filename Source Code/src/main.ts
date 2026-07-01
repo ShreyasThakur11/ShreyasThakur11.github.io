@@ -8,7 +8,6 @@
 
 import { createElement, $ } from './utils/dom.js';
 import { useScrollReveal } from './hooks/useScrollReveal.js';
-import { useDarkMode } from './hooks/useDarkMode.js';
 
 import { renderNavigation } from './layouts/Navigation.js';
 import { renderFooter } from './layouts/Footer.js';
@@ -54,7 +53,6 @@ const initApp = (): void => {
 
   // Initialization of client-side logic
   setTimeout(() => {
-    useDarkMode();
     useScrollReveal();
   }, 0);
 
