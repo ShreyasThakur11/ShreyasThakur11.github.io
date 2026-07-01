@@ -1580,24 +1580,24 @@ footer {
     /* 6. Layouts: About Section */
     .about-grid {
         display: flex !important;
-        flex-direction: row;
-        gap: 3rem;
+        flex-direction: column;
+        gap: 1.5rem;
         align-items: center;
         justify-content: center;
     }
 
     .about-image {
         display: block !important;
-        width: 160px;
-        flex-shrink: 0;
+        width: 100%;
+        max-width: 220px;
         margin: 0 auto;
     }
 
     .img-wrapper {
         border: 4px solid var(--accent-light) !important;
         border-radius: 50%;
-        width: 160px;
-        height: 160px;
+        width: 220px;
+        height: 220px;
         overflow: hidden;
         margin: 0 auto;
     }
@@ -1609,7 +1609,7 @@ footer {
     }
 
     .about-text {
-        text-align: justify;
+        text-align: center;
         flex: 1;
     }
 
