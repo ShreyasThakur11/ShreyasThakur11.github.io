@@ -328,3 +328,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+// Global function to open document modal
+window.openDocModal = function(docUrl, title) {
+    const modal = document.getElementById('doc-modal');
+    const iframe = document.getElementById('modal-iframe');
+    const titleEl = document.getElementById('modal-title');
+    const downloadBtn = document.getElementById('modal-download-btn');
+
+    if (modal && iframe) {
+        iframe.src = docUrl;
+        titleEl.textContent = title;
+        downloadBtn.href = docUrl;
+        
+        // Show modal
+        modal.style.display = 'flex';
+        // Small delay to allow display:flex to apply before adding the opacity class for transition
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 10);
+    }
+};
+
+// Setup modal close handlers once DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('doc-modal');
+    const closeBtn = document.querySelector('.close-modal');
+    
+    if (modal && closeBtn) {
+        // Close on X button click
+        closeBtn.addEventListener('click', () => {
+            closeModal();
+        });
+        
+        // Close on background click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    }
+
+    function closeModal() {
+        modal.classList.remove('show');
+        // Wait for transition to finish before hiding completely
+        setTimeout(() => {
+            modal.style.display = 'none';
+            document.getElementById('modal-iframe').src = ''; // Clear iframe to stop loading/audio if any
+        }, 300);
+    }
+});
