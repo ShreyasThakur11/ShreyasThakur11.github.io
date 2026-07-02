@@ -52,7 +52,7 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container nav-container">
-            <a href="#" class="logo">Shreyas Thakur<span class="dot">.</span></a>
+            <a href="javascript:void(0)" class="logo" id="logo-btn">Shreyas Thakur<span class="dot">.</span></a>
             <div class="hamburger">
                 <span></span>
                 <span></span>
@@ -414,6 +414,30 @@
             <p>&copy; <span id="year"></span> Shreyas Thakur. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- Digital Business Card Modal -->
+    <div id="biz-card-modal" class="modal">
+        <div class="biz-card-content card-glass">
+            <span class="close-biz-card">&times;</span>
+            <div class="biz-card-photo">
+                <img src="assets/img/profile.jpg" alt="Shreyas Thakur">
+            </div>
+            <h2 class="biz-card-name">Shreyas Thakur</h2>
+            <p class="biz-card-title">MBA Candidate @ IIM Mumbai</p>
+            <p class="biz-card-pitch">Chemical Engineer turned business strategist. Driving enterprise growth through process optimization, financial modeling & data-driven decision making.</p>
+            <div class="biz-card-actions">
+                <a href="mailto:thakursm11@gmail.com" class="biz-card-btn">
+                    <i class="fas fa-envelope"></i> Email Me
+                </a>
+                <a href="https://www.linkedin.com/in/shreyasthakur11/" target="_blank" class="biz-card-btn biz-card-btn-accent">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <a href="https://github.com/ShreyasThakur11/Resume/releases/latest/download/Shreyas_Thakur_Resume.pdf" class="biz-card-btn">
+                    <i class="fas fa-download"></i> Resume
+                </a>
+            </div>
+        </div>
+    </div>
 
     <!-- Document Modal -->
     <div id="doc-modal" class="modal">

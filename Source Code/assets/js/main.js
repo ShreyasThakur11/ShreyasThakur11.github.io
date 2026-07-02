@@ -1,7 +1,7 @@
 /**
  * Author: Amey Thakur
  * GitHub: https://github.com/amey-thakur
- * Date: 2026-02-17
+ * Date: 2026-07-01
  * License: MIT
  * Description: Main JavaScript file handling navigation and interactions.
  */
@@ -438,5 +438,50 @@ document.addEventListener('DOMContentLoaded', () => {
                 behavior: 'smooth'
             });
         });
+    }
+
+    // --- Digital Business Card Modal ---
+    const logoBtn = document.getElementById('logo-btn');
+    const bizModal = document.getElementById('biz-card-modal');
+    const closeBizCard = document.querySelector('.close-biz-card');
+
+    if (logoBtn && bizModal) {
+        // Open on logo click
+        logoBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            bizModal.style.display = 'flex';
+            // Small delay for CSS transition to kick in
+            setTimeout(() => {
+                bizModal.classList.add('show');
+            }, 10);
+        });
+
+        // Close on X button
+        if (closeBizCard) {
+            closeBizCard.addEventListener('click', () => {
+                closeBizModal();
+            });
+        }
+
+        // Close on backdrop click
+        bizModal.addEventListener('click', (e) => {
+            if (e.target === bizModal) {
+                closeBizModal();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && bizModal.classList.contains('show')) {
+                closeBizModal();
+            }
+        });
+
+        function closeBizModal() {
+            bizModal.classList.remove('show');
+            setTimeout(() => {
+                bizModal.style.display = 'none';
+            }, 300);
+        }
     }
 });
