@@ -155,7 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
         "color: #0d9488; background: #ccfbf1; font-size: 16px; padding: 10px; border-radius: 5px; font-family: 'Inter', sans-serif; border: 2px solid #0d9488;",
         "color: #2c3e50; font-size: 12px;"
     );
-    console.log("%c Psst! Click the 'dot' in the logo for a behind-the-scenes surprise. 🎬", "color: #ff007f; font-style: italic;");
+    console.log("%c Psst! Click the 'dot' in the logo for a secret surprise. 🌙", 
+"color: #3b82f6; font-style: italic;");
 
     // --- AJAX Form Submission ---
     const contactForm = document.getElementById('contact-form');
@@ -218,54 +219,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // Easter Egg 2: Amey's Cinematic Vibe (Clicking the ".")
+    // Secret Theme Toggle (Clicking the ".")
     const logoDot = document.querySelector('.dot');
     if (logoDot) {
-        logoDot.style.cursor = 'pointer'; // Make it look clickable
+        logoDot.style.cursor = 'pointer';
         logoDot.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            triggerAmeyEffect();
+            document.body.classList.toggle('dark-theme');
+
+            // Save preference
+            const isDark = document.body.classList.contains('dark-theme');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+
+            // Subtle dot pulse animation
+            logoDot.style.transform = 'scale(1.8)';
+            setTimeout(() => { logoDot.style.transform = 'scale(1)'; }, 300);
         });
     }
 
-
-
-    function triggerAmeyEffect() {
-        // Cinematic Matrix/Code Overlay
-        const overlay = document.createElement('div');
-        overlay.style.position = 'fixed';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100%';
-        overlay.style.height = '100%';
-        overlay.style.background = 'rgba(0, 0, 0, 0.9)';
-        overlay.style.zIndex = '10000';
-        overlay.style.display = 'flex';
-        overlay.style.alignItems = 'center';
-        overlay.style.justifyContent = 'center';
-        overlay.style.color = '#0f0';
-        overlay.style.fontFamily = 'monospace';
-        overlay.style.textAlign = 'center';
-        overlay.style.padding = '20px';
-        overlay.style.boxSizing = 'border-box';
-        overlay.style.flexDirection = 'column';
-
-        // Responsive font sizes using clamp
-        overlay.innerHTML = `
-            <div style="font-size: clamp(1.5rem, 5vw, 3rem); font-weight: bold; margin-bottom: 10px;">SYSTEM OVERRIDE: INITIATED</div>
-            <div style="font-size: clamp(1rem, 4vw, 2rem); margin-bottom: 2rem;">Developer Mode: Active</div>
-            <div style="font-size: clamp(0.8rem, 3vw, 1rem); color: #fff; opacity: 0.8;">Designed & Developed by Amey Thakur</div>
-        `;
-
-        document.body.appendChild(overlay);
-
-        // Simple typing effect or glitch could go here, but let's keep it pristine
-        setTimeout(() => {
-            overlay.style.transition = 'opacity 1s ease';
-            overlay.style.opacity = '0';
-            setTimeout(() => overlay.remove(), 1000);
-        }, 3000);
+    // Restore saved theme preference on load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
     }
 
 
