@@ -692,7 +692,7 @@ img {
     display: none;
 }
 
-.btn-nav:hover {
+.nav-links a.btn-nav:hover {
     background: var(--accent-color);
     color: #ffffff;
 }
