@@ -6,34 +6,35 @@
  * Description: Main JavaScript file handling navigation and interactions.
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+// Tracks the control that opened a modal so focus can return to it on close.
+let lastFocusedElement = null;
 
-    // Music Control
-    const musicBtn = document.getElementById('music-btn');
-    const bgMusic = document.getElementById('bg-music');
-    
-    if (musicBtn && bgMusic) {
-        const musicIcon = musicBtn.querySelector('i');
-        // Set initial volume
-        bgMusic.volume = 0.4;
+// Honor the user's reduced-motion preference for scripted scrolling.
+function scrollBehavior() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+}
 
-        musicBtn.addEventListener('click', () => {
-            if (bgMusic.paused) {
-                bgMusic.play().then(() => {
-                    musicBtn.classList.add('playing');
-                    musicIcon.classList.remove('fa-music');
-                    musicIcon.classList.add('fa-pause');
-                }).catch(error => {
-                    console.log("Audio play failed:", error);
-                });
-            } else {
-                bgMusic.pause();
-                musicBtn.classList.remove('playing');
-                musicIcon.classList.remove('fa-pause');
-                musicIcon.classList.add('fa-music');
-            }
-        });
+// Keep keyboard focus inside an open modal (Tab / Shift+Tab wrap around).
+function trapFocus(e, container) {
+    const focusable = container.querySelectorAll(
+        'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+    );
+    const visible = Array.from(focusable).filter(el => el.offsetParent !== null);
+    if (visible.length === 0) return;
+
+    const first = visible[0];
+    const last = visible[visible.length - 1];
+
+    if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
     }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
 
     // --- Navigation & Mobile Menu ---
     const hamburger = document.querySelector('.hamburger');
@@ -43,8 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Toggle Mobile Menu
     hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
+        const isOpen = navLinks.classList.toggle('active');
         hamburger.classList.toggle('toggle');
+        hamburger.setAttribute('aria-expanded', isOpen);
     });
 
     // Close mobile menu when a link is clicked
@@ -53,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (navLinks.classList.contains('active')) {
                 navLinks.classList.remove('active');
                 hamburger.classList.remove('toggle');
+                hamburger.setAttribute('aria-expanded', false);
             }
         });
     });
@@ -80,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         navItems.forEach(li => {
             li.classList.remove('active');
             if (li.getAttribute('href').includes(current)) {
-                li.classList.add('active'); // Add CSS class for active state if needed
+                li.classList.add('active');
             }
         });
     });
@@ -143,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target) {
                 window.scrollTo({
                     top: target.offsetTop - 80, // Offset for fixed header
-                    behavior: 'smooth'
+                    behavior: scrollBehavior()
                 });
             }
         });
@@ -155,8 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
         "color: #0d9488; background: #ccfbf1; font-size: 16px; padding: 10px; border-radius: 5px; font-family: 'Inter', sans-serif; border: 2px solid #0d9488;",
         "color: #2c3e50; font-size: 12px;"
     );
-    console.log("%c Psst! Click the 'dot' in the logo for a secret surprise. 🌙", 
-"color: #3b82f6; font-style: italic;");
+    console.log("%c Psst! Click the 'dot' in the logo for a secret surprise. 🌙",
+        "color: #3b82f6; font-style: italic;");
 
     // --- AJAX Form Submission ---
     const contactForm = document.getElementById('contact-form');
@@ -201,9 +204,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 4500);
     }
 
-    // --- Global Keystroke Easter Eggs ---
+    // --- Global Keystroke Easter Egg (theme toggle) ---
     let inputSequence = '';
     document.addEventListener('keydown', (e) => {
+        // Ignore keystrokes typed into form fields so ordinary input cannot flip the theme
+        const tag = e.target.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
+
         inputSequence += e.key.toLowerCase();
 
         if (inputSequence.includes('amey')) {
@@ -219,13 +226,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
-
-    // Secret Theme Toggle (Clicking the ".")
+    // --- Secret Theme Toggle (Clicking the ".") ---
     const logoDot = document.querySelector('.dot');
     if (logoDot) {
         logoDot.style.cursor = 'pointer';
-        logoDot.addEventListener('click', (e) => {
+        logoDot.setAttribute('role', 'button');
+        logoDot.setAttribute('tabindex', '0');
+        logoDot.setAttribute('aria-label', 'Toggle dark theme');
+
+        const toggleTheme = (e) => {
             e.preventDefault();
             e.stopPropagation();
             document.body.classList.toggle('dark-theme');
@@ -237,105 +246,66 @@ document.addEventListener('DOMContentLoaded', () => {
             // Subtle dot pulse animation
             logoDot.style.transform = 'scale(1.8)';
             setTimeout(() => { logoDot.style.transform = 'scale(1)'; }, 300);
-        });
-    }
+        };
 
-    // Restore saved theme preference on load
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-theme');
-    }
-
-
-    // --- PWA Handling ---
-    let deferredPrompt;
-    const pwaBtn = document.getElementById('pwa-install-btn');
-    const pwaToast = document.getElementById('pwa-toast');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent default browser prompt
-        e.preventDefault();
-        deferredPrompt = e;
-        // Show our custom install button
-        if (pwaBtn) pwaBtn.style.display = 'flex';
-    });
-
-    if (pwaBtn) {
-        pwaBtn.addEventListener('click', (e) => {
-            pwaBtn.style.display = 'none';
-            // Trigger the actual prompt
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('Install accepted');
-                        showPwaToast("Thank you for installing Shreyas's Portfolio! 🌟");
-                    }
-                    deferredPrompt = null;
-                });
+        logoDot.addEventListener('click', toggleTheme);
+        logoDot.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                toggleTheme(e);
             }
         });
     }
 
-    window.addEventListener('appinstalled', (evt) => {
-        console.log('App installed');
-        showPwaToast("App installed successfully! Welcome aboard. 🚀");
-    });
+    // The saved theme is applied before first paint by an inline script in index.html,
+    // so no restore step is needed here.
 
-    function showPwaToast(message) {
-        if (!pwaToast) return;
-        pwaToast.textContent = message;
-        pwaToast.classList.add('show');
-        setTimeout(() => {
-            pwaToast.classList.remove('show');
-        }, 3000);
-    }
-
-    // Unregister old Service Workers to fix caching issues and remove old Vite React app ghosts
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-            for(let registration of registrations) {
+    // --- One-time teardown of stale Service Workers / caches from the old Vite build ---
+    if ('serviceWorker' in navigator && !localStorage.getItem('sw-cleared')) {
+        navigator.serviceWorker.getRegistrations().then(function (registrations) {
+            for (let registration of registrations) {
                 registration.unregister();
-                console.log('Old ServiceWorker unregistered to clear stale cache.');
             }
         });
-        
+
         // Also clear old caches
         if (window.caches) {
-            caches.keys().then(function(names) {
+            caches.keys().then(function (names) {
                 for (let name of names) {
                     caches.delete(name);
                 }
             });
         }
+
+        localStorage.setItem('sw-cleared', '1');
     }
 
 });
 
 // Global function to open document modal
-window.openDocModal = function(docUrl, title) {
+window.openDocModal = function (docUrl, title) {
     const modal = document.getElementById('doc-modal');
     const iframe = document.getElementById('modal-iframe');
     const titleEl = document.getElementById('modal-title');
     const downloadBtn = document.getElementById('modal-download-btn');
 
     if (modal && iframe) {
+        lastFocusedElement = document.activeElement;
         iframe.src = docUrl;
         titleEl.textContent = title;
         downloadBtn.href = docUrl;
-        
+
         // Force the download attribute to use the actual filename
         const fileName = docUrl.split('/').pop();
         downloadBtn.setAttribute('download', fileName);
-        
+
         // Override click to force download via blob for stubborn browsers
-        downloadBtn.onclick = function(e) {
+        downloadBtn.onclick = function (e) {
             e.preventDefault();
-            
+
             // Show brief loading state
             const originalText = downloadBtn.innerHTML;
             downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Downloading...';
-            
+
             fetch(docUrl)
                 .then(response => response.blob())
                 .then(blob => {
@@ -361,12 +331,13 @@ window.openDocModal = function(docUrl, title) {
                     downloadBtn.innerHTML = originalText;
                 });
         };
-        
-        // Show modal
+
+        // Show modal and move focus into it
         modal.style.display = 'flex';
-        // Small delay to allow display:flex to apply before adding the opacity class for transition
         setTimeout(() => {
             modal.classList.add('show');
+            const closeBtn = modal.querySelector('.close-modal');
+            if (closeBtn) closeBtn.focus();
         }, 10);
     }
 };
@@ -375,28 +346,37 @@ window.openDocModal = function(docUrl, title) {
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('doc-modal');
     const closeBtn = document.querySelector('.close-modal');
-    
-    if (modal && closeBtn) {
-        // Close on X button click
-        closeBtn.addEventListener('click', () => {
-            closeModal();
-        });
-        
-        // Close on background click
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
-    }
 
     function closeModal() {
         modal.classList.remove('show');
         // Wait for transition to finish before hiding completely
         setTimeout(() => {
             modal.style.display = 'none';
-            document.getElementById('modal-iframe').src = ''; // Clear iframe to stop loading/audio if any
+            document.getElementById('modal-iframe').src = ''; // Clear iframe to stop loading
         }, 300);
+        if (lastFocusedElement) lastFocusedElement.focus();
+    }
+
+    if (modal && closeBtn) {
+        // Close on X button click
+        closeBtn.addEventListener('click', closeModal);
+
+        // Close on background click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Keyboard support: Escape closes, Tab stays within the dialog
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('show')) return;
+            if (e.key === 'Escape') {
+                closeModal();
+            } else if (e.key === 'Tab') {
+                trapFocus(e, modal.querySelector('.modal-content'));
+            }
+        });
     }
 
     // Back to top button logic
@@ -413,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
         backToTopBtn.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
-                behavior: 'smooth'
+                behavior: scrollBehavior()
             });
         });
     }
@@ -427,10 +407,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Open on logo click
         logoBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            lastFocusedElement = document.activeElement;
             bizModal.style.display = 'flex';
             // Small delay for CSS transition to kick in
             setTimeout(() => {
                 bizModal.classList.add('show');
+                if (closeBizCard) closeBizCard.focus();
             }, 10);
         });
 
@@ -448,10 +430,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Close on Escape key
+        // Keyboard support: Escape closes, Tab stays within the dialog
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && bizModal.classList.contains('show')) {
+            if (!bizModal.classList.contains('show')) return;
+            if (e.key === 'Escape') {
                 closeBizModal();
+            } else if (e.key === 'Tab') {
+                trapFocus(e, bizModal.querySelector('.biz-card-content'));
             }
         });
 
@@ -460,6 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 bizModal.style.display = 'none';
             }, 300);
+            if (lastFocusedElement) lastFocusedElement.focus();
         }
     }
 });

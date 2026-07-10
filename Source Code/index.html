@@ -49,23 +49,26 @@
 
 <body>
 
+    <!-- Restore saved theme before first paint to avoid a flash of the light theme -->
+    <script>if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-theme');</script>
+
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="javascript:void(0)" class="logo" id="logo-btn">Shreyas Thakur<span class="dot">.</span></a>
-            <div class="hamburger">
+            <button class="hamburger" id="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-links-menu">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#about" data-target="about">About</a></li>
-                <li><a href="#experience" data-target="experience">Experience</a></li>
-                <li><a href="#projects" data-target="projects">Projects</a></li>
-                <li><a href="#education" data-target="education">Education</a></li>
-                <li><a href="#skills" data-target="skills">Skills</a></li>
-                <li><a href="#credentials" data-target="credentials">Certificates</a></li>
-                <li><a href="#contact" data-target="contact" class="btn-nav">Contact</a></li>
+            </button>
+            <ul class="nav-links" id="nav-links-menu">
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#credentials">Certificates</a></li>
+                <li><a href="#contact" class="btn-nav">Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -92,7 +95,7 @@
     </header>
 
     <!-- Scroll Down Mouse Indicator -->
-    <a href="#about" class="scroll-down">
+    <a href="#about" class="scroll-down" aria-label="Scroll to About section">
         <div class="mouse">
             <div class="wheel"></div>
         </div>
@@ -112,10 +115,10 @@
                     <div class="img-overlay"></div>
                 </div>
                 
-                <div class="visitor-counter card-glass" style="margin-top: 2rem; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.75rem; color: var(--light-text);">
+                <div class="visitor-counter card-glass" style="margin-top: 2rem; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.75rem; color: #64748b;">
                     <i class="fas fa-users" style="color: var(--accent-color);"></i>
                     <span style="font-size: 0.95rem; font-weight: 500;">Welcome to my portfolio.</span>
-                    <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fshreyasthakur11.github.io&countColor=%232563eb&labelStyle=none&label=PROFILE%20VIEWS" alt="Visitor Count" style="border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fshreyasthakur11.github.io&countColor=%232563eb&labelStyle=none&label=PROFILE%20VIEWS" alt="Profile view count" loading="lazy" onerror="this.style.display='none'" style="border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
                 </div>
             </div>
             <div class="about-text reveal-right">
@@ -151,8 +154,8 @@
                     <div class="timeline-date">Jun 2025 – May 2026</div>
                     <div class="timeline-content card-glass">
                         <div class="doc-actions">
-                            <a href="javascript:void(0)" onclick="openDocModal('assets/docs/Santosh_Bakshetti_Accountant_Experience.pdf', 'Experience Letter - Santosh S. Bakshetti')" title="View Letter"><i class="fas fa-eye"></i></a>
-                            <a href="assets/docs/Santosh_Bakshetti_Accountant_Experience.pdf" download title="Download Letter"><i class="fas fa-download"></i></a>
+                            <button type="button" onclick="openDocModal('assets/docs/Santosh_Bakshetti_Accountant_Experience.pdf', 'Experience Letter - Santosh S. Bakshetti')" aria-label="View experience letter, Santosh S. Bakshetti" title="View Letter"><i class="fas fa-eye"></i></button>
+                            <a href="assets/docs/Santosh_Bakshetti_Accountant_Experience.pdf" download aria-label="Download experience letter, Santosh S. Bakshetti (PDF)" title="Download Letter"><i class="fas fa-download"></i></a>
                         </div>
                         <h3>Tax & Audit Assistant</h3>
                         <h4>Office of Santosh S. Bakshetti, Tax Consultant & Auditor</h4>
@@ -164,8 +167,8 @@
                     <div class="timeline-date">Jun 2024 – Aug 2024</div>
                     <div class="timeline-content card-glass">
                         <div class="doc-actions">
-                            <a href="javascript:void(0)" onclick="openDocModal('assets/docs/Epigral_Project_Work_Certificate.pdf', 'Experience Letter - Epigral Ltd.')" title="View Letter"><i class="fas fa-eye"></i></a>
-                            <a href="assets/docs/Epigral_Project_Work_Certificate.pdf" download title="Download Letter"><i class="fas fa-download"></i></a>
+                            <button type="button" onclick="openDocModal('assets/docs/Epigral_Project_Work_Certificate.pdf', 'Experience Letter - Epigral Ltd.')" aria-label="View experience letter, Epigral Ltd." title="View Letter"><i class="fas fa-eye"></i></button>
+                            <a href="assets/docs/Epigral_Project_Work_Certificate.pdf" download aria-label="Download experience letter, Epigral Ltd. (PDF)" title="Download Letter"><i class="fas fa-download"></i></a>
                         </div>
                         <h3>Process Engineering Intern</h3>
                         <h4>Epigral Ltd. (Formerly Meghmani Finechem)</h4>
@@ -330,8 +333,8 @@
                     <h3>Industry 4.0 & Industrial IoT</h3>
                     <p>NPTEL Certification (Top 5% Nationally, Score: 88%)</p>
                     <div class="doc-actions">
-                        <a href="javascript:void(0)" onclick="openDocModal('assets/docs/NPTEL_Industry4.0_Certificate.pdf', 'NPTEL Certification')" title="View Certificate"><i class="fas fa-eye"></i></a>
-                        <a href="assets/docs/NPTEL_Industry4.0_Certificate.pdf" download title="Download Certificate"><i class="fas fa-download"></i></a>
+                        <button type="button" onclick="openDocModal('assets/docs/NPTEL_Industry4.0_Certificate.pdf', 'NPTEL Certification')" aria-label="View NPTEL Industry 4.0 certificate" title="View Certificate"><i class="fas fa-eye"></i></button>
+                        <a href="assets/docs/NPTEL_Industry4.0_Certificate.pdf" download aria-label="Download NPTEL Industry 4.0 certificate (PDF)" title="Download Certificate"><i class="fas fa-download"></i></a>
                     </div>
                 </div>
 
@@ -342,8 +345,8 @@
                     <h3>Industrial Environmental Pollution Management</h3>
                     <p>Terra-Green Technologies & Projects & Environment (Grade A)</p>
                     <div class="doc-actions">
-                        <a href="javascript:void(0)" onclick="openDocModal('assets/docs/TerraGreen_IEPM_Internship.pdf', 'Terra-Green Internship')" title="View Certificate"><i class="fas fa-eye"></i></a>
-                        <a href="assets/docs/TerraGreen_IEPM_Internship.pdf" download title="Download Certificate"><i class="fas fa-download"></i></a>
+                        <button type="button" onclick="openDocModal('assets/docs/TerraGreen_IEPM_Internship.pdf', 'Terra-Green Internship')" aria-label="View Terra-Green internship certificate" title="View Certificate"><i class="fas fa-eye"></i></button>
+                        <a href="assets/docs/TerraGreen_IEPM_Internship.pdf" download aria-label="Download Terra-Green internship certificate (PDF)" title="Download Certificate"><i class="fas fa-download"></i></a>
                     </div>
                 </div>
 
@@ -354,8 +357,8 @@
                     <h3>Petroleum Refiner Engineering (PRE)</h3>
                     <p>Indian Institute of Chemical Engineers (IICHE) (Grade A+)</p>
                     <div class="doc-actions">
-                        <a href="javascript:void(0)" onclick="openDocModal('assets/docs/IICHE_PRE_Internship_Certificate.pdf', 'IICHE Internship')" title="View Certificate"><i class="fas fa-eye"></i></a>
-                        <a href="assets/docs/IICHE_PRE_Internship_Certificate.pdf" download title="Download Certificate"><i class="fas fa-download"></i></a>
+                        <button type="button" onclick="openDocModal('assets/docs/IICHE_PRE_Internship_Certificate.pdf', 'IICHE Internship')" aria-label="View IICHE Petroleum Refiner Engineering certificate" title="View Certificate"><i class="fas fa-eye"></i></button>
+                        <a href="assets/docs/IICHE_PRE_Internship_Certificate.pdf" download aria-label="Download IICHE Petroleum Refiner Engineering certificate (PDF)" title="Download Certificate"><i class="fas fa-download"></i></a>
                     </div>
                 </div>
             </div>
@@ -382,8 +385,8 @@
                             <a href="mailto:thakursm11@gmail.com">thakursm11@gmail.com</a>
                         </div>
                         <div class="detail-item" style="display: flex; gap: 1.5rem; justify-content: flex-start; margin-top: 1rem; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 1.5rem;">
-                            <a href="https://www.linkedin.com/in/shreyasthakur11/" target="_blank" title="LinkedIn" style="color: var(--accent-color); font-size: 1.8rem; transition: transform 0.3s ease;"><i class="fab fa-linkedin"></i></a>
-                            <a href="https://github.com/ShreyasThakur11" target="_blank" title="GitHub" style="color: var(--accent-color); font-size: 1.8rem; transition: transform 0.3s ease;"><i class="fab fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/shreyasthakur11/" target="_blank" rel="noopener" aria-label="LinkedIn profile" title="LinkedIn" style="color: var(--accent-color); font-size: 1.8rem; transition: transform 0.3s ease;"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/ShreyasThakur11" target="_blank" rel="noopener" aria-label="GitHub profile" title="GitHub" style="color: var(--accent-color); font-size: 1.8rem; transition: transform 0.3s ease;"><i class="fab fa-github"></i></a>
                         </div>
                     </div>
                 </div>
@@ -416,13 +419,13 @@
     </footer>
 
     <!-- Digital Business Card Modal -->
-    <div id="biz-card-modal" class="modal">
+    <div id="biz-card-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="biz-card-name">
         <div class="biz-card-content card-glass">
-            <span class="close-biz-card">&times;</span>
+            <button type="button" class="close-biz-card" aria-label="Close">&times;</button>
             <div class="biz-card-photo">
                 <img src="assets/img/profile.jpg" alt="Shreyas Thakur">
             </div>
-            <h2 class="biz-card-name">Shreyas Thakur</h2>
+            <h2 class="biz-card-name" id="biz-card-name">Shreyas Thakur</h2>
             <p class="biz-card-title">Operations Strategist | IIM Mumbai</p>
             <p class="biz-card-pitch">Chemical Engineer turned business strategist. Driving enterprise growth through process optimization, financial modeling & data-driven decision making.</p>
             <div class="biz-card-actions">
@@ -440,12 +443,12 @@
     </div>
 
     <!-- Document Modal -->
-    <div id="doc-modal" class="modal">
+    <div id="doc-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal-content card-glass">
-            <span class="close-modal">&times;</span>
+            <button class="close-modal" aria-label="Close document preview">&times;</button>
             <h3 id="modal-title" class="mb-3">Document Preview</h3>
             <div class="modal-body">
-                <iframe id="modal-iframe" src="" width="100%" height="500px" style="border:none; border-radius: 8px;"></iframe>
+                <iframe id="modal-iframe" title="Document preview" src="" width="100%" height="500px" style="border:none; border-radius: 8px;"></iframe>
             </div>
             <div class="modal-footer mt-4 text-center">
                 <a id="modal-download-btn" href="#" download class="btn btn-primary"><i class="fas fa-download"></i> Download Document</a>

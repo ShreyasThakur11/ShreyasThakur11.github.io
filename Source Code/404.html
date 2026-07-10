@@ -1,18 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<head>
+    <!--
+    Author: Amey Thakur
+    GitHub: https://github.com/amey-thakur
+    Date: 2026-07-01
+    License: MIT
+    Description: Branded 404 page for Shreyas Thakur's Portfolio.
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 | Shreyas Thakur</title>
-    <link rel="stylesheet" href="/src/styles/global.css" />
-  </head>
-  <body>
-    <div id="root">
-      <main style="min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center;">
-        <h1 style="font-family: var(--font-display); font-size: 4rem; margin-bottom: 1rem;">404</h1>
-        <p style="margin-bottom: 2rem; color: var(--color-text-secondary);">The page you are looking for does not exist.</p>
-        <a href="/" style="padding: 0.5rem 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); color: var(--color-text-primary); text-decoration: none;">Return Home</a>
-      </main>
-    </div>
-  </body>
+    <meta name="robots" content="noindex">
+    <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+
+    <!-- Google Fonts (same pairing as the main site) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #f8f9fa;
+            --text: #2c3e50;
+            --muted: #64748b;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --accent-fill: #1d4ed8;
+            --underline: rgba(37, 99, 235, 0.18);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body.dark-theme {
+            --bg: #0f172a;
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --accent: #60a5fa;
+            --accent-light: #1e3a5f;
+            --accent-fill: #1d4ed8;
+            --underline: rgba(96, 165, 250, 0.25);
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(100, 116, 139, 0.3);
+            color-scheme: dark;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient glow, echoing the home hero */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 72% 28%, var(--accent-light) 0%, transparent 58%);
+            opacity: 0.7;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Brand mark, top-left like the navbar */
+        .brand {
+            position: fixed;
+            top: 2rem;
+            left: 2.5rem;
+            z-index: 2;
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .brand .dot {
+            color: var(--accent);
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 6rem 1.5rem 3rem;
+            max-width: 640px;
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .code {
+            font-family: var(--font-heading);
+            font-size: clamp(6rem, 22vw, 11rem);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            color: var(--text);
+            margin-bottom: 1.25rem;
+        }
+
+        .headline {
+            font-family: var(--font-heading);
+            font-size: clamp(1.6rem, 5vw, 2.4rem);
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 1.25rem;
+        }
+
+        .headline .highlight {
+            font-style: italic;
+            color: var(--accent);
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .headline .highlight::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 6px;
+            width: 100%;
+            height: 10px;
+            background-color: var(--underline);
+            z-index: -1;
+        }
+
+        .lead {
+            color: var(--muted);
+            font-size: 1.05rem;
+            max-width: 460px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-fill);
+            color: #ffffff;
+            border: 2px solid var(--accent-fill);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text);
+            border: 2px solid var(--text);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--text);
+            color: var(--bg);
+            transform: translateY(-2px);
+        }
+
+        .signoff {
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .signoff a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a:focus-visible,
+        .btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 600px) {
+            .brand {
+                top: 1.5rem;
+                left: 1.5rem;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before {
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Match the visitor's saved theme so the error page feels part of the site -->
+    <script>
+        (function () {
+            var saved = localStorage.getItem('theme');
+            var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (saved === 'dark' || (!saved && prefersDark)) {
+                document.body.classList.add('dark-theme');
+            }
+        })();
+    </script>
+
+    <a href="/" class="brand">Shreyas Thakur<span class="dot">.</span></a>
+
+    <main>
+        <p class="eyebrow">Page not found</p>
+        <p class="code">404</p>
+        <h1 class="headline">This route ran <span class="highlight">off-process</span>.</h1>
+        <p class="lead">
+            The page you are looking for is not part of the current workflow. Let me route you back to
+            the critical path.
+        </p>
+        <div class="actions">
+            <a href="/" class="btn btn-primary">Back to Home</a>
+            <a href="/#projects" class="btn btn-secondary">Explore Projects</a>
+        </div>
+        <p class="signoff">
+            Or reach out directly at <a href="mailto:thakursm11@gmail.com">thakursm11@gmail.com</a>
+        </p>
+    </main>
+</body>
+
 </html>
