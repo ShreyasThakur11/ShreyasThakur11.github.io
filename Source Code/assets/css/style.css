@@ -141,7 +141,7 @@ body.dark-theme .btn-nav {
     color: #ffffff !important;
 }
 
-body.dark-theme .btn-nav:hover {
+body.dark-theme .nav-links a.btn-nav:hover {
     background: #ffffff !important;
     color: #0f172a !important;
 }
@@ -677,6 +677,24 @@ img {
 
 .nav-links a.active::after {
     width: 100%;
+}
+
+/* Contact call-to-action button in the nav */
+.btn-nav {
+    padding: 0.5rem 1.25rem;
+    border: 1.5px solid var(--accent-color);
+    border-radius: 50px;
+    color: var(--accent-color);
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-nav::after {
+    display: none;
+}
+
+.btn-nav:hover {
+    background: var(--accent-color);
+    color: #ffffff;
 }
 
 .hamburger {
